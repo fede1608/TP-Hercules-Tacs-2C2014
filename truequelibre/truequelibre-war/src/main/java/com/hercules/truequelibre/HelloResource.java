@@ -29,24 +29,20 @@ public class HelloResource extends ServerResource {
 
 	@Override
 	protected Representation get() throws ResourceException {
-		String message = "Hello World!" + " \n\nTime of request is:"
+		String message = "Trueque Libre!" + " \n\nTime of request is:"
 				+ Calendar.getInstance().getTime().toString();
 		
 		Meli m = new Meli(7937694478293453L, "UUY3czo96JZDtnsFI2iMt0vIzMBukOtB");
 		FluentStringsMap params = new FluentStringsMap();
 		params.add("access_token", m.getAccessToken());
+		params.add("limit", "5");
+		params.add("category", "MLA1000");
 		com.ning.http.client.Response response = null;
 		try {
-			response = m.get("/sites/MLA/hot_items/search?limit=5&category=MLA1000", params);
-		} catch (MeliException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
+			response = m.get("/sites/MLA/hot_items/search", params);
 			message+=response.getResponseBody();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			message+=e.getMessage();
 		}
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
 	}
