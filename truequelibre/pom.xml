@@ -23,7 +23,7 @@
       </pluginManagement>
   </build>
   <modules>
-    <module>truequelibre-war</module>
     <module>truequelibre-ear</module>
+    <module>truequelibre-war</module>
   </modules>
 </project>
