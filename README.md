@@ -1,23 +1,28 @@
 ##TP-Hercules-Tacs-2C2014
-=======================
+
 
 Repositorio del trabajo práctico del Grupo Hércules para TACS 
 
-Para correr el sistema utilizar "mvn clean compile jetty:run" en truequelibre/truequelibre-war/
+Para correr el sistema:
+Utilizar "mvn clean compile jetty:run" en truequelibre/truequelibre-war/
+
+o
+ 
+Utilizar "mvn appengine:devserver" en truequelibre/truequelibre-ear/
 
 Guía basica de Restlet: http://numberformat.wordpress.com/2011/02/20/restlet-hello-world/
 
-=======================
+
 ##Trabajo práctico TACS 2014 - 2do Cuatrimestre
-=======================
+
 
 El objetivo del TP es desarrollar una aplicación social interactiva que permita a los usuarios y sus amigos crear items los cuales serán canjeados mediante trueque por items de otros usuarios.
 La forma de acceso a la misma será mediante una aplicación de facebook a la cual los usuarios deberán otorgar permisos.
 El TP constará de 5 entregas en las cuales de forma iterativa e incremental se irán agregando funcionalidades a la aplicación.
 
-=======================
+
 #Restricciones y consideraciones:
-=======================
+
 
 * ~~La aplicación debe funcionar en Google App Engine.~~
 * El login de usuario debe ser con Facebook a través de OAuth.
@@ -35,9 +40,9 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 * La aplicación debe ser capaz de correrse utilizando el comando mvn jetty:run o similar, a definir por el equipo y especificar en el documento howto.txt.
 * Todo retraso en una entrega que no haya sido correctamente comunicado y justificado tendrá como penalización el agregado de nuevos requisitos para la aprobación final del TP.
 
-=======================
+
 ##User Stories:
-=======================
+
 
 * Como usuario quiero poder registrarme con mi cuenta de Facebook.
 * Como usuario quiero poder publicar un item, buscando y seleccionando un artículo publicado en Mercado Libre a modo de referencia.
@@ -50,9 +55,9 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 * Como usuario quiero retirar de circulación un item que cree.
 * Como usuario quiero recibir una notificación en Facebook cuando alguien acepte un trueque que propuse.
 
-=======================
+
 ##Entregas:
-=======================
+
 
 #Entrega 1 - Basis
 

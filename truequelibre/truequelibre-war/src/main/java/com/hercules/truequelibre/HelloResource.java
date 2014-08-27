@@ -1,6 +1,5 @@
 package com.hercules.truequelibre;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 import org.restlet.Context;
@@ -14,7 +13,6 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 import com.mercadolibre.sdk.Meli;
-import com.mercadolibre.sdk.MeliException;
 import com.ning.http.client.FluentStringsMap;
 
 public class HelloResource extends ServerResource {
