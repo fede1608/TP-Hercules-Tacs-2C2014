@@ -8,6 +8,7 @@ import org.restlet.Restlet;
 import org.restlet.data.MediaType;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.routing.Router;
+import org.restlet.routing.Template;
 
 public class HelloApplication extends Application {
 
@@ -19,10 +20,14 @@ public class HelloApplication extends Application {
 		super(parentContext);
 	}
 
+	@SuppressWarnings("deprecation")
 	public Restlet createInboundRoot() {
 		Router router = new Router(getContext());
+		router.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
+		router.setRoutingMode(Router.BEST);
 
 		router.attach("/hello", HelloResource.class);
+		router.attach("/hello/{numItem}",HelloResource.class);
 
 		Restlet mainpage = new Restlet() {
 			@Override
