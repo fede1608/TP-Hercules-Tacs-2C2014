@@ -23,7 +23,7 @@ public class HelloApplication extends Application {
 		Router router = new Router(getContext());
 
 		router.attach("/hello", HelloResource.class);
-
+		router.attach("/parametersshower", ParametersShowerResource.class);
 		Restlet mainpage = new Restlet() {
 			@Override
 			public void handle(Request request, Response response) {
