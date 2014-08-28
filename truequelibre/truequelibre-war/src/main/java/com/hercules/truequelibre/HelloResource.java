@@ -28,11 +28,7 @@ public class HelloResource extends ServerResource {
 	@Override
 	protected Representation get() throws ResourceException {
 		String message = "Trueque Libre!" + " \n\nTime of request is:"
-				+ Calendar.getInstance().getTime().toString() + "\n la pagina que"
-						+ " ingreso es: " + this.getReference()
-						+ "\n con el recurso: " + this.getReference().getBaseRef()
-						+ "\n con el numero de item: " + (String) this.getRequest().getAttributes().get("numItem")
-						+ "\n";
+				+ Calendar.getInstance().getTime().toString();
 		
 		Meli m = new Meli(7937694478293453L, "UUY3czo96JZDtnsFI2iMt0vIzMBukOtB");
 		FluentStringsMap params = new FluentStringsMap();
