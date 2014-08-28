@@ -27,7 +27,7 @@ public class HelloApplication extends Application {
 		router.setRoutingMode(Router.BEST);
 
 		router.attach("/hello", HelloResource.class);
-		router.attach("/hello/{numItem}",HelloResource.class);
+		router.attach("/usuario/{userId}",UsuarioResource.class);
 
 		Restlet mainpage = new Restlet() {
 			@Override
