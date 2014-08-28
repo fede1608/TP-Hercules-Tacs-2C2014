@@ -8,7 +8,6 @@
 	<groupId>com.hercules.truequelibre</groupId>
 	<artifactId>truequelibre-war</artifactId>
 	<repositories>
-	
 		<repository>
 			<id>maven-restlet</id>
 			<name>Public online Restlet repository</name>
@@ -18,33 +17,7 @@
 			<id>mercadolibre-snapshots</id>
 			<url>https://github.com/mercadolibre/java-sdk-repo/raw/master/snapshots</url>
 		</repository>
-		<!--
-		<repository>
-		  <id>spring-maven-milestone</id>
-		  <name>Spring Maven Milestone Repository</name>
-		  <url>http://maven.springframework.org/milestone</url>
-		</repository>
-		<repository>
-		  <id>spring-snapshots</id>
-		  <name>Spring Snapshots</name>
-		  <url>http://repo.spring.io/snapshot</url>
-		</repository>
-		 
-		<repository>
-		  <id>org.springframework.maven.milestone</id>
-		  <name>Spring Maven Milestone Repository</name>
-		      <url>http://repo.spring.io/milestone</url>
-		</repository>
-		
-		<repository>
-		  <id>spring-milestones</id>
-		  <url>http://repo.springsource.org/libs-milestone/</url>
-		</repository>
-		-->
-
 	</repositories>
-	
-	
 	<parent>
 		<groupId>com.hercules.truequelibre</groupId>
 		<artifactId>truequelibre</artifactId>
@@ -54,13 +27,6 @@
 	<properties>
 		<appengine.app.version>1-war</appengine.app.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.0.0.RELEASE</spring.version>
-        <spring.data.jpa.version>1.4.3.RELEASE</spring.data.jpa.version>
-        <spring.security.version>3.2.0.RELEASE</spring.security.version>
-        <spring.social.version>1.1.0.RELEASE</spring.social.version>
-        <spring.social.facebook.version>1.1.0.RELEASE</spring.social.facebook.version>
-        <spring.social.twitter.version>1.1.0.RELEASE</spring.social.twitter.version>
-
 	</properties>
 
 	<dependencies>
@@ -99,9 +65,9 @@
 		
 		<dependency>
                 <groupId>com.mercadolibre</groupId>
-		  <artifactId>sdk</artifactId>
-		  <version>0.0.2-SNAPSHOT</version>
-		</dependency>
+                <artifactId>sdk</artifactId>
+                <version>0.0.2-SNAPSHOT</version>
+        </dependency>
 
 		<!-- Test Dependencies https://developers.google.com/appengine/docs/java/tools/maven#configuring_pomxml_settings -->
 		<dependency>
@@ -128,46 +94,6 @@
 			<version>${appengine.target.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
-		<!--Spring Dependencies -->
-		  <!-- Spring Social -->
-		<dependency>
-		    <groupId>org.springframework.social</groupId>
-		    <artifactId>spring-social-config</artifactId>
-		    <version>${spring.social.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.social</groupId>
-		    <artifactId>spring-social-core</artifactId>
-		    <version>${spring.social.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.social</groupId>
-		    <artifactId>spring-social-security</artifactId>
-		    <version>${spring.social.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.social</groupId>
-		    <artifactId>spring-social-web</artifactId>
-		    <version>${spring.social.version}</version>
-		</dependency>
-		<!-- Spring Social Facebook -->
-		<dependency>
-		    <groupId>org.springframework.social</groupId>
-		    <artifactId>spring-social-facebook</artifactId>
-		    <version>${spring.social.facebook.version}</version>
-		    <exclusions>
-			<exclusion>
-			    <artifactId>spring-social-core</artifactId>
-			    <groupId>org.springframework.social</groupId>
-			</exclusion>
-			<exclusion>
-			    <artifactId>spring-social-config</artifactId>
-			    <groupId>org.springframework.social</groupId>
-			</exclusion>
-		    </exclusions>
-		</dependency>
-
 	</dependencies>
 
 	<build>
