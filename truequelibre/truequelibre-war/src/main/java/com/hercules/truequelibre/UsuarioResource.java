@@ -26,7 +26,7 @@ public class UsuarioResource extends ServerResource {
 		String message = "Trueque Libre!"
 			+ "\n la pagina que ingreso es: " + this.getReference()
 			+ "\n con el recurso: " + this.getReference().getBaseRef()
-			+ "\n con el numero de : " + (String) this.getRequest().getAttributes().get("numItem")
+			+ "\n con el numero de usuario: " + (String) this.getRequest().getAttributes().get("userId")
 			+ "\n";
 		
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
