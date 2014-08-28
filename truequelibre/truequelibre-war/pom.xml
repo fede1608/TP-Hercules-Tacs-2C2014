@@ -18,7 +18,7 @@
 			<id>mercadolibre-snapshots</id>
 			<url>https://github.com/mercadolibre/java-sdk-repo/raw/master/snapshots</url>
 		</repository>
-		
+		<!--
 		<repository>
 		  <id>spring-maven-milestone</id>
 		  <name>Spring Maven Milestone Repository</name>
@@ -40,19 +40,9 @@
 		  <id>spring-milestones</id>
 		  <url>http://repo.springsource.org/libs-milestone/</url>
 		</repository>
-	
+		-->
+
 	</repositories>
-	
-	<pluginRepositories>
-	    <pluginRepository>
-		<id>spring-snapshots</id>
-		<name>Spring Snapshots</name>
-		<url>http://repo.spring.io/libs-milestone</url>
-		<snapshots>
-		    <enabled>false</enabled>
-		</snapshots>
-	    </pluginRepository>
-	</pluginRepositories>
 	
 	
 	<parent>
@@ -65,11 +55,11 @@
 		<appengine.app.version>1-war</appengine.app.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.0.0.RELEASE</spring.version>
-		<spring.data.jpa.version>1.4.3.RELEASE</spring.data.jpa.version>
-		<spring.security.version>3.2.0.RELEASE</spring.security.version>
-		<spring.social.version>1.1.0.RELEASE</spring.social.version>
-		<spring.social.facebook.version>1.1.0.RELEASE</spring.social.facebook.version>
-		<spring.social.twitter.version>1.1.0.RELEASE</spring.social.twitter.version>
+        <spring.data.jpa.version>1.4.3.RELEASE</spring.data.jpa.version>
+        <spring.security.version>3.2.0.RELEASE</spring.security.version>
+        <spring.social.version>1.1.0.RELEASE</spring.social.version>
+        <spring.social.facebook.version>1.1.0.RELEASE</spring.social.facebook.version>
+        <spring.social.twitter.version>1.1.0.RELEASE</spring.social.twitter.version>
 
 	</properties>
 
@@ -138,16 +128,46 @@
 			<version>${appengine.target.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- Spring -->
-		<!--<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-thymeleaf</artifactId>
-		    </dependency>-->
+		
+		<!--Spring Dependencies -->
+		  <!-- Spring Social -->
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-config</artifactId>
+		    <version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-core</artifactId>
+		    <version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-security</artifactId>
+		    <version>${spring.social.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-web</artifactId>
+		    <version>${spring.social.version}</version>
+		</dependency>
+		<!-- Spring Social Facebook -->
 		<dependency>
 		    <groupId>org.springframework.social</groupId>
 		    <artifactId>spring-social-facebook</artifactId>
-		    <version> ${spring.social.version}</version>
+		    <version>${spring.social.facebook.version}</version>
+		    <exclusions>
+			<exclusion>
+			    <artifactId>spring-social-core</artifactId>
+			    <groupId>org.springframework.social</groupId>
+			</exclusion>
+			<exclusion>
+			    <artifactId>spring-social-config</artifactId>
+			    <groupId>org.springframework.social</groupId>
+			</exclusion>
+		    </exclusions>
 		</dependency>
+
 	</dependencies>
 
 	<build>
