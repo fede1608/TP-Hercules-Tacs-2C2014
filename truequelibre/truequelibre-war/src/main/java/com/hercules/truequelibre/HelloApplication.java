@@ -30,7 +30,7 @@ public class HelloApplication extends Application {
 
 		router.attach("/parametersshower", ParametersShowerResource.class);
 
-		router.attach("/usuario/{userId}",UsuarioResource.class);
+		router.attach("/users/{userId}",UsuarioResource.class);
 
 		router.attach("/friends",FriendsResource.class);
 		Restlet mainpage = new Restlet() {
