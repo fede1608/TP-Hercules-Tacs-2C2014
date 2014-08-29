@@ -117,7 +117,7 @@
   the FB.login() function when clicked.
 -->
 
-<fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();">
+<fb:login-button scope="public_profile,email,user_friends,publish_actions,status_update,publish_stream" onlogin="checkLoginState();">
 </fb:login-button>
 
 <div id="status">

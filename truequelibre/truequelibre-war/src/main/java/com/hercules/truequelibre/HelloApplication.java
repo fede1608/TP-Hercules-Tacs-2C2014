@@ -32,6 +32,7 @@ public class HelloApplication extends Application {
 
 		router.attach("/usuario/{userId}",UsuarioResource.class);
 
+		router.attach("/friends",FriendsResource.class);
 		Restlet mainpage = new Restlet() {
 			@Override
 			public void handle(Request request, Response response) {

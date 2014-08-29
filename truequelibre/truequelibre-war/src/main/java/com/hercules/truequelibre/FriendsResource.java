@@ -86,7 +86,6 @@ public class FriendsResource extends ServerResource{
 		  return myFacebookFriendList;
 	}
 
-
 	
 	
 }
