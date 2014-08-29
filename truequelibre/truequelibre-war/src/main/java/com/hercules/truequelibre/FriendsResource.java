@@ -1,9 +1,6 @@
 package com.hercules.truequelibre;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.hercules.truequelibre.FbProperties;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -15,7 +12,6 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.util.Series;
-
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.DefaultJsonMapper;
@@ -55,11 +51,12 @@ public class FriendsResource extends ServerResource{
 	}
 	
 	public String findFacebookFriendsUsingRest(String facebookAccessToken){
-		 
-		  
+		 			  
 		  final FacebookClient facebookClient;
-		  String appId= "595790490538541";
-		  String appSecret= "ee3c67442fbbd654ed67bd7722cf26b9";
+		  FbProperties prop = FbProperties.getInstance();
+		  
+		  String appId= prop.getProperty("appId");
+		  String appSecret= prop.getProperty("appSecret");
 		//  String generatedAccessToken = new DefaultFacebookClient().obtainAppAccessToken(appId,appSecret).getAccessToken();
 		  LoggedInFacebookClient fb2= new LoggedInFacebookClient(appId,appSecret);
 		  facebookClient = new DefaultFacebookClient(facebookAccessToken);
