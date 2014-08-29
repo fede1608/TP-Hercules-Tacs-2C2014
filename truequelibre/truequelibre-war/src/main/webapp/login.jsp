@@ -81,8 +81,21 @@
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+        'Thanks for logging in, ' + response.name + '!'+ '<br> <a href="#" onClick="logout();">Logout</a>';
     });
+  }
+  
+  function logout() { 
+  	var id=0;
+  	var pageAccessToken='';
+    FB.getLoginStatus(function(response) {
+	  if (response.status === 'connected') {
+	    pageAccessToken = response.authResponse.accessToken;
+	    id = response.authResponse.userID; 
+	  } 
+ 	});
+ 	console.log('id: ' + id+ ' token:' + pageAccessToken);
+  	FB.api('/'+id+'/permissions', 'delete',{ access_token : pageAccessToken } ,function(){document.location.reload();})
   }
 </script>
 
@@ -97,7 +110,6 @@
 
 <div id="status">
 </div>
-<!--<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="true"></div>-->
 
 </body>
 </html>
