@@ -10,6 +10,11 @@
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
+    deleteCookie("accessToken");
+    deleteCookie("userID");
+    setCookie("accessToken",response.authResponse.accessToken);
+    setCookie("userID",response.authResponse.userID);
+    
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
@@ -81,11 +86,29 @@
     debugger;
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
+      console.log(response);
       debugger;
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!';
     });
   }
+  
+  function setCookie(cname, cvalue) {
+	  document.cookie = cname + "=" + cvalue;
+	}
+  function getCookie(cname) {
+	    var name = cname + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0; i<ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1);
+	        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+	    }
+	    return "";
+	}
+  function deleteCookie(name) {
+	    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	};
 </script>
 
 <!--
@@ -94,7 +117,7 @@
   the FB.login() function when clicked.
 -->
 
-<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+<fb:login-button scope="public_profile,email,user_friends" onlogin="checkLoginState();">
 </fb:login-button>
 
 <div id="status">

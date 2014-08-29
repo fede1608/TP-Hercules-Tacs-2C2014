@@ -24,6 +24,7 @@ public class HelloApplication extends Application {
 
 		router.attach("/hello", HelloResource.class);
 		router.attach("/parametersshower", ParametersShowerResource.class);
+		router.attach("/friends", FriendsResource.class);
 		Restlet mainpage = new Restlet() {
 			@Override
 			public void handle(Request request, Response response) {
