@@ -24,6 +24,15 @@ public class HelloResource extends ServerResource {
 	public HelloResource(Context context, Request request, Response response) {
 		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
 	}
+	
+	public String stackTraceToString(Throwable e) {
+	    StringBuilder sb = new StringBuilder();
+	    for (StackTraceElement element : e.getStackTrace()) {
+	        sb.append(element.toString());
+	        sb.append("\n");
+	    }
+	    return sb.toString();
+	}
 
 	@Override
 	protected Representation get() throws ResourceException {
@@ -40,7 +49,10 @@ public class HelloResource extends ServerResource {
 			response = m.get("/sites/MLA/hot_items/search", params);
 			message+=response.getResponseBody();
 		} catch (Exception e) {
+			message+="\n";
 			message+=e.getMessage();
+			message+="\n";
+			message+=stackTraceToString(e);
 		}
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
 	}
