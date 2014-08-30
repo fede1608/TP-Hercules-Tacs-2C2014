@@ -12,7 +12,7 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import com.mercadolibre.sdk.Meli;
+import com.hercules.truequelibre.Meli;
 import com.ning.http.client.FluentStringsMap;
 
 public class HelloResource extends ServerResource {
