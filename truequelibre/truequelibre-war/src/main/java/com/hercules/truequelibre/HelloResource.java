@@ -57,8 +57,8 @@ public class HelloResource extends ServerResource {
 	       JsonObject response= m.get("sites/MLA/hot_items/search", params);
 	       JsonArray results=response.getAsJsonArray("results");
 	       message+="<table><tr>";
-	       while(results.iterator().hasNext()){
-	    	   JsonObject item= results.iterator().next().getAsJsonObject();
+	       for(int i=0; i<results.size();i++){
+	    	   JsonObject item= results.get(i).getAsJsonObject();
 	    	   message+="<td>";
 	    	   message+="<img src='"+item.get("thumbnail").getAsString()+"'><b>$"+item.get("price").getAsString()+"</b> "+item.get("title").getAsString();
 	    	   message+="</td>";
@@ -70,7 +70,7 @@ public class HelloResource extends ServerResource {
 			message+="\n";
 			message+=stackTraceToString(e);
 		}
-		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
+		return new StringRepresentation(message, MediaType.TEXT_HTML);
 	}
 
 }
