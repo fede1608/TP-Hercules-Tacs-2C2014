@@ -13,6 +13,10 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 
+
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.hercules.truequelibre.mlsdk.Meli;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
@@ -50,7 +54,16 @@ public class HelloResource extends ServerResource {
 		params.add("category", "MLA1000");
 		
 		try {
-	       message+=m.get("sites/MLA/hot_items/search", params).toString();
+	       JsonObject response= m.get("sites/MLA/hot_items/search", params);
+	       JsonArray results=response.getAsJsonArray("results");
+	       message+="<table><tr>";
+	       while(results.iterator().hasNext()){
+	    	   JsonObject item= results.iterator().next().getAsJsonObject();
+	    	   message+="<td>";
+	    	   message+="<img src='"+item.get("thumbnail").getAsString()+"'><b>$"+item.get("price").getAsString()+"</b> "+item.get("title").getAsString();
+	    	   message+="</td>";
+	       }
+	       message+="</tr></table>";
 		} catch (Exception e) {
 			message+="\n";
 			message+=e.getMessage();
