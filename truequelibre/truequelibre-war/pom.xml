@@ -13,8 +13,6 @@
 			<name>Public online Restlet repository</name>
 			<url>http://maven.restlet.org</url>
 		</repository>
-		<!--<repository> <id>mercadolibre-snapshots</id> <url>https://github.com/mercadolibre/java-sdk-repo/raw/master/snapshots</url> 
-			</repository> -->
 	</repositories>
 	<parent>
 		<groupId>com.hercules.truequelibre</groupId>

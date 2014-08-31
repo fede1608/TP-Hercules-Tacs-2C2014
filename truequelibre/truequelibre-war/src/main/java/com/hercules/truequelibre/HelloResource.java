@@ -13,26 +13,10 @@ import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
 
-
-
-
-
-
-
-
-
 import com.hercules.truequelibre.mlsdk.Meli;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import java.io.IOException;
-
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.UriBuilder;
-
 
 
 
@@ -44,6 +28,15 @@ public class HelloResource extends ServerResource {
 
 	public HelloResource(Context context, Request request, Response response) {
 		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
+	}
+	
+	public String stackTraceToString(Throwable e) {
+	    StringBuilder sb = new StringBuilder();
+	    for (StackTraceElement element : e.getStackTrace()) {
+	        sb.append(element.toString());
+	        sb.append("\n");
+	    }
+	    return sb.toString();
 	}
 
 	@Override
@@ -64,7 +57,10 @@ public class HelloResource extends ServerResource {
 			message+=m.get("sites/MLA/hot_items/search", params).toString();
 			message+=m.getAccessToken();
 		} catch (Exception e) {
+			message+="\n";
 			message+=e.getMessage();
+			message+="\n";
+			message+=stackTraceToString(e);
 		}
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
 	}
