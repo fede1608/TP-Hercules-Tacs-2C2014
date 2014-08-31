@@ -35,7 +35,9 @@
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
+      
     });
+    document.location.reload();
   }
 
   window.fbAsyncInit = function() {
