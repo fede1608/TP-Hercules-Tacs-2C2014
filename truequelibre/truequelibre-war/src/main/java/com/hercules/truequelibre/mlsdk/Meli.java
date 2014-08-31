@@ -32,12 +32,6 @@ public class Meli {
 	public Meli(Long clientId, String clientSecret) {
 		this.clientId = clientId;
 		this.clientSecret = clientSecret;
-		try {
-			refreshAccessToken();
-		} catch (AuthorizationFailure e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public Meli(Long clientId, String clientSecret, String accessToken) {

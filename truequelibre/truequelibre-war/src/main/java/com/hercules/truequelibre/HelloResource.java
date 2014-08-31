@@ -46,16 +46,11 @@ public class HelloResource extends ServerResource {
 		
 		Meli m = new Meli(7937694478293453L, "UUY3czo96JZDtnsFI2iMt0vIzMBukOtB");
 		MultivaluedMap<String,String> params = new MultivaluedMapImpl();
-		//params.add("access_token", m.getAccessToken());
 		params.add("limit", "4");
 		params.add("category", "MLA1000");
 		
 		try {
-			
-	        //message+=(service.path("sites/MLA/hot_items/search").queryParams(params).accept(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class));
-			//JSONResource response = new Resty().json("https://api.mercadolibre.com/sites/MLA/hot_items/search?limit=5&category=MLA1000");
-			message+=m.get("sites/MLA/hot_items/search", params).toString();
-			message+=m.getAccessToken();
+	       message+=m.get("sites/MLA/hot_items/search", params).toString();
 		} catch (Exception e) {
 			message+="\n";
 			message+=e.getMessage();
