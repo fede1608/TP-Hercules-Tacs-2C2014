@@ -40,7 +40,9 @@
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
+      
     });
+    document.location.reload();
   }
 
   window.fbAsyncInit = function() {
@@ -89,7 +91,7 @@
       console.log(response);
       debugger;
       document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+        'Thanks for logging in, ' + response.name + '!'+ '<br> <a href="#" onClick="logout();">Logout</a>';
     });
   }
   
@@ -109,6 +111,19 @@
   function deleteCookie(name) {
 	    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 	};
+  function logout() { 
+  	var id=0;
+  	var pageAccessToken='';
+    FB.getLoginStatus(function(response) {
+	  if (response.status === 'connected') {
+	    pageAccessToken = response.authResponse.accessToken;
+	    id = response.authResponse.userID; 
+	  } 
+ 	});
+ 	console.log('id: ' + id+ ' token:' + pageAccessToken);
+  	FB.api('/'+id+'/permissions', 'delete',{ access_token : pageAccessToken } ,function(){document.location.reload();})
+  }
+
 </script>
 
 <!--
@@ -122,7 +137,6 @@
 
 <div id="status">
 </div>
-<!--<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="true"></div>-->
 
 </body>
 </html>

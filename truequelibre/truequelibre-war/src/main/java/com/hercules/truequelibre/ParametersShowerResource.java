@@ -1,5 +1,4 @@
 package com.hercules.truequelibre;
-import java.util.Calendar;
 import java.util.Map;
 
 import org.restlet.Context;
@@ -12,8 +11,6 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import com.mercadolibre.sdk.Meli;
-import com.ning.http.client.FluentStringsMap;
 
 public class ParametersShowerResource extends ServerResource {
 	
