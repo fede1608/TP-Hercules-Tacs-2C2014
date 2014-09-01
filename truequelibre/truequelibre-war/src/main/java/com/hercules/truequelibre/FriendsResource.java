@@ -1,6 +1,6 @@
 package com.hercules.truequelibre;
 
-import com.hercules.truequelibre.FbProperties;
+//import com.hercules.truequelibre.FbProperties;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -53,12 +53,12 @@ public class FriendsResource extends ServerResource{
 	public String findFacebookFriendsUsingRest(String facebookAccessToken){
 		 			  
 		  final FacebookClient facebookClient;
-		  FbProperties prop = FbProperties.getInstance();
+//		  FbProperties prop = FbProperties.getInstance();
 		  
-		  String appId= prop.getProperty("appId");
-		  String appSecret= prop.getProperty("appSecret");
+//		  String appId= prop.getProperty("appId");
+//		  String appSecret= prop.getProperty("appSecret");
 		//  String generatedAccessToken = new DefaultFacebookClient().obtainAppAccessToken(appId,appSecret).getAccessToken();
-		  LoggedInFacebookClient fb2= new LoggedInFacebookClient(appId,appSecret);
+//		  LoggedInFacebookClient fb2= new LoggedInFacebookClient(appId,appSecret);
 		  facebookClient = new DefaultFacebookClient(facebookAccessToken);
 		  User user = facebookClient.fetchObject("me", User.class);
 		  
