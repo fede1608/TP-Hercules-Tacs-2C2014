@@ -37,7 +37,7 @@ public class HelloApplication extends Application {
 			@Override
 			public void handle(Request request, Response response) {
 				StringBuilder stringBuilder = new StringBuilder();
-
+				
 				stringBuilder.append("<html>");
 				stringBuilder.append("<head><title>Hello Application "
 						+ "Servlet Page</title></head>");
@@ -47,9 +47,11 @@ public class HelloApplication extends Application {
 				stringBuilder.append("<td>");
 				stringBuilder.append("<h3>available REST calls</h3>");
 				stringBuilder
-						.append("<ol><li><a href=\"app/hello\">hello</a> --> returns hello world message "
-								+ "and date string</li>");
-
+						.append("<ol><form name=\"search\" "
+								+ "action=\"api/search\""
+								+ "method=\"get\">"
+								+ "<input type=\"text\" name=\"query\">"
+								+ "<input type=\"submit\" value=\"Search\"> </form></a> --> returns search results for input criteria");
 				stringBuilder.append("</ol>");
 				stringBuilder.append("</td>");
 				stringBuilder.append("</tr>");
