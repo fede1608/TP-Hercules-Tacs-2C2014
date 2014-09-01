@@ -1,5 +1,6 @@
 package com.hercules.truequelibre;
 
+//Se importa estaticamente para poder utilizar los metodos definidos en ofy sin instanciarlo
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import org.restlet.Context;
@@ -65,6 +66,7 @@ public class SearchResource extends ServerResource {
 	    	   searchItem.add("id", item.get("id"));
 	    	   searchItem.add("img", item.get("thumbnail"));
 	    	   searchItem.add("name", item.get("title"));
+	    	   //se crea el item a persistir y se almacena la entidad en la base de datos
 	    	   itemPersistido = new ArticuloDAO(item.get("id").toString(),item.get("title").toString());
 	    	   ofy().save().entity(itemPersistido).now();
 	    	   search.add(searchItem);
@@ -73,9 +75,9 @@ public class SearchResource extends ServerResource {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Key<ArticuloDAO> llave = Key.create(ArticuloDAO.class, itemPersistido.id);
-		Result<ArticuloDAO> result = ofy().load().key(llave);
-		ArticuloDAO fetched1 = result.now(); 
+		Key<ArticuloDAO> clave = Key.create(ArticuloDAO.class, itemPersistido.id); //se crea una clave para acceder al item
+		Result<ArticuloDAO> result = ofy().load().key(clave); //la clave era del ultimo item agregado y la carga es asincronica
+		ArticuloDAO fetched1 = result.now(); //cuando le mando now() recien ahi instancia el objeto
 		resultadoPersistido += fetched1.id+"\n";
 		resultadoPersistido += fetched1.nombre+"\n";
 		return new StringRepresentation(search.toString()+resultadoPersistido, MediaType.TEXT_PLAIN);
