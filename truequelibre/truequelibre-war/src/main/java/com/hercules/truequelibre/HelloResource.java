@@ -50,14 +50,18 @@ public class HelloResource extends ServerResource {
 		
 		Meli m = new Meli(7937694478293453L, "UUY3czo96JZDtnsFI2iMt0vIzMBukOtB");
 		MultivaluedMap<String,String> params = new MultivaluedMapImpl();
-		params.add("limit", "4");
+		params.add("limit", "50");
+		params.add("q", "celulares");
 		params.add("category", "MLA1000");
 		
 		try {
-	       JsonObject response= m.get("sites/MLA/hot_items/search", params);
+	       JsonObject response= m.get("sites/MLA/search", params);
 	       JsonArray results=response.getAsJsonArray("results");
 	       message+="<table><tr>";
 	       for(int i=0; i<results.size();i++){
+	    	   if (i % 4 == 0) {//numero es modulo de 4?
+	    		   message+="</tr><tr>";
+	    	   }
 	    	   JsonObject item= results.get(i).getAsJsonObject();
 	    	   message+="<td>";
 	    	   message+="<img src='"+item.get("thumbnail").getAsString()+"'><b>$"+item.get("price").getAsString()+"</b> "+item.get("title").getAsString();
