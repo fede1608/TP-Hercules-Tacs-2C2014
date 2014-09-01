@@ -10,6 +10,11 @@
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
+    deleteCookie("accessToken");
+    deleteCookie("userID");
+    setCookie("accessToken",response.authResponse.accessToken);
+    setCookie("userID",response.authResponse.userID);
+    
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
@@ -80,13 +85,32 @@
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
+    debugger;
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
+      console.log(response);
+      debugger;
       document.getElementById('status').innerHTML =
         'Thanks for logging in, ' + response.name + '!'+ '<br> <a href="#" onClick="logout();">Logout</a>';
     });
   }
   
+  function setCookie(cname, cvalue) {
+	  document.cookie = cname + "=" + cvalue;
+	}
+  function getCookie(cname) {
+	    var name = cname + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0; i<ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1);
+	        if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+	    }
+	    return "";
+	}
+  function deleteCookie(name) {
+	    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	};
   function logout() { 
   	var id=0;
   	var pageAccessToken='';
@@ -99,6 +123,7 @@
  	console.log('id: ' + id+ ' token:' + pageAccessToken);
   	FB.api('/'+id+'/permissions', 'delete',{ access_token : pageAccessToken } ,function(){document.location.reload();})
   }
+
 </script>
 
 <!--
