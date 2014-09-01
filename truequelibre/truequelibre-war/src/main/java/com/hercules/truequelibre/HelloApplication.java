@@ -48,7 +48,7 @@ public class HelloApplication extends Application {
 				stringBuilder.append("<h3>available REST calls</h3>");
 				stringBuilder
 						.append("<ol><form name=\"search\" "
-								+ "action=\"api/search\""
+								+ "action=\"/api/search\""
 								+ "method=\"get\">"
 								+ "<input type=\"text\" name=\"query\">"
 								+ "<input type=\"submit\" value=\"Search\"> </form></a> --> returns search results for input criteria");
