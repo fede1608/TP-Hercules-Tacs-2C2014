@@ -10,6 +10,14 @@ public class ArticuloDAO {
 	@Id String id;
 	@Index String nombre;
 	
+	public ArticuloDAO(){
+		
+	}
+	
+	public ArticuloDAO(String id){
+		this.id = id;
+	}
+	
 	public ArticuloDAO(String id, String nombre){
 		this.id = id;
 		this.nombre = nombre;

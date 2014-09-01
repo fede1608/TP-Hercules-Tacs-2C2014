@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Result;
+import com.googlecode.objectify.cmd.Query;
 import com.hercules.truequelibre.FbProperties;
 
 import org.restlet.Context;
@@ -85,15 +86,28 @@ public class FriendsResource extends ServerResource{
 		  for(User friend: myFriends.getData()){
 		  System.out.println("Friends id and name: "+friend.getId()+" , "+friend.getName());   
 		    myFacebookFriendList += friend.getName()+"\n";
+		    //persistencia de amigos
 		  usuario = new UsuarioDAO(friend.getId(), friend.getName());
 		  ofy().save().entity(usuario).now();
 		  }
+		  
+		  //recuperacion del ultimo amigo almacenado
 		  Key<UsuarioDAO> clave = Key.create(UsuarioDAO.class, usuario.id);
 		  Result<UsuarioDAO> result = ofy().load().key(clave);
 		  UsuarioDAO fetched1 = result.now();
 		  resultadoPersistido += "\nUltimo resultado persistido recuperado:\n"+fetched1.id+"\n";
 		  resultadoPersistido += fetched1.name+"\n";
 		  myFacebookFriendList += resultadoPersistido;
+		  
+		  //recuperacion de articulos obtenidos en api/search
+		  String resultadoPersistidoDeSearch = "\nResultados persistidos de api/search?query=criterio\n";
+		  Query<ArticuloDAO> q = ofy().load().type(ArticuloDAO.class);
+		  for(ArticuloDAO art: q){
+			  resultadoPersistidoDeSearch +="\n"+art.nombre;
+		  }
+		  if(q.count() == 0) resultadoPersistidoDeSearch += "Ingresa primero en algun api/search?query=criterioDeBusqueda";
+		  myFacebookFriendList += resultadoPersistidoDeSearch;
+		  
 		  return myFacebookFriendList;
 	}
 

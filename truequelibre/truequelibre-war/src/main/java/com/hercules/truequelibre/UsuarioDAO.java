@@ -9,6 +9,14 @@ public class UsuarioDAO {
 	@Id String id;
 	@Index String name;
 	
+	public UsuarioDAO(){
+		
+	}
+	
+	public UsuarioDAO(String id){
+		this.id = id;
+	}
+	
 	public UsuarioDAO(String id, String name){
 		this.id = id;
 		this.name = name;
