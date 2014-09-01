@@ -1,6 +1,11 @@
 package com.hercules.truequelibre;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Result;
 import com.hercules.truequelibre.FbProperties;
+
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -12,6 +17,7 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.util.Series;
+
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.DefaultJsonMapper;
@@ -53,10 +59,12 @@ public class FriendsResource extends ServerResource{
 	public String findFacebookFriendsUsingRest(String facebookAccessToken){
 		 			  
 		  final FacebookClient facebookClient;
-		  FbProperties prop = FbProperties.getInstance();
+		 // FbProperties prop = FbProperties.getInstance();
+		  UsuarioDAO usuario = null;
+		  String resultadoPersistido = "\n";
 		  
-		  String appId= prop.getProperty("appId");
-		  String appSecret= prop.getProperty("appSecret");
+		  String appId= "595790490538541";
+		  String appSecret= "ee3c67442fbbd654ed67bd7722cf26b9";
 		//  String generatedAccessToken = new DefaultFacebookClient().obtainAppAccessToken(appId,appSecret).getAccessToken();
 		  LoggedInFacebookClient fb2= new LoggedInFacebookClient(appId,appSecret);
 		  facebookClient = new DefaultFacebookClient(facebookAccessToken);
@@ -64,7 +72,7 @@ public class FriendsResource extends ServerResource{
 		  
 		  String userName =   user.getFirstName();
 		  if (userName == null){
-		  userName = user.getLastName();
+		  userName = user.getLastName(); 
 		  }
 		 
 		  Connection<User> myFriends = facebookClient.fetchConnection("me/friends", User.class,
@@ -77,9 +85,15 @@ public class FriendsResource extends ServerResource{
 		  for(User friend: myFriends.getData()){
 		  System.out.println("Friends id and name: "+friend.getId()+" , "+friend.getName());   
 		    myFacebookFriendList += friend.getName()+"\n";
-		  
+		  usuario = new UsuarioDAO(friend.getId(), friend.getName());
+		  ofy().save().entity(usuario).now();
 		  }
-		  
+		  Key<UsuarioDAO> clave = Key.create(UsuarioDAO.class, usuario.id);
+		  Result<UsuarioDAO> result = ofy().load().key(clave);
+		  UsuarioDAO fetched1 = result.now();
+		  resultadoPersistido += "\nUltimo resultado persistido recuperado:\n"+fetched1.id+"\n";
+		  resultadoPersistido += fetched1.name+"\n";
+		  myFacebookFriendList += resultadoPersistido;
 		  return myFacebookFriendList;
 	}
 
