@@ -31,6 +31,8 @@ public class HelloApplication extends Application {
 		router.attach("/parametersshower", ParametersShowerResource.class);
 
 		router.attach("/users/{userId}",UsuarioResource.class);
+		
+		router.attach("/users/{userId}/items/{itemId}",ItemsResource.class);
 
 		router.attach("/friends",FriendsResource.class);
 		Restlet mainpage = new Restlet() {

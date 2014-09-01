@@ -19,14 +19,15 @@ import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.hercules.truequelibre.FacebookDataCollector;
 
-public class UsuarioResource extends ServerResource {
+
+public class ItemsResource extends ServerResource {
 	
 	
-	public UsuarioResource() {
+	public ItemsResource() {
 		super();
 	}
 
-	public UsuarioResource(Context context, Request request, Response response) {
+	public ItemsResource(Context context, Request request, Response response) {
 		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
 	}
 
@@ -36,32 +37,32 @@ public class UsuarioResource extends ServerResource {
 			+ "\n la pagina que ingreso es: " + this.getReference()
 			+ "\n con el recurso: " + this.getReference().getBaseRef()
 			+ "\n con el numero de usuario: " + (String) this.getRequest().getAttributes().get("userId")
+			+ "\n con el item pedido" + this.requestedItem()
 			+ "\n";
 		Series<Cookie> cookies = getCookies();	
 		String token = cookies.getValues("accessToken");
-		User user = FacebookDataCollector.getInstance().findUserWithRest(token);
-		String userName =   user.getFirstName();
-		if (userName == null){
-		 userName = user.getLastName();
-		}else{
-			userName += " " + user.getLastName();
-		}
-		if(FacebookDataCollector.getInstance().isTheUser(user,this.requestedUser())){
-		message += "Bienvenido! Su usuario es " +userName + " y su id de facebook " + user.getId() + "\n";
-		}else{
-			if(FacebookDataCollector.getInstance().isAFriend(token, this.requestedUser())){
-				message += "siii est u amigoo! :D \n";
+		if (FacebookDataCollector.getInstance().informationCanBeShown(token, this.requestedUser())){
+			message += "te puedo mostrar la info del item que es: " + this.requestedItem();
+			if (this.itemExists()){
+				message+= "el item pedido existe entre los suyos!";
+			}else{
+				message += "no tiene el item entre sus items";
 			}
-		message += FacebookDataCollector.getInstance().getFriendData(token, this.requestedUser());
+		}else{
+			message += "la persona no es amigo suyo";
 		}
+		
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
 	}
-
-
 
 	private String requestedUser(){
 		return (String) this.getRequest().getAttributes().get("userId");
 	}
-
+	private String requestedItem(){
+		return (String) this.getRequest().getAttributes().get("itemId");
+	}
+	private boolean itemExists(){
+		return true; // hecho trivial para probar si anda
+	}
 	
 }
