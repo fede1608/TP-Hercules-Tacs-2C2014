@@ -26,7 +26,7 @@ public class HelloApplication extends Application {
 		router.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
 		router.setRoutingMode(Router.BEST);
 
-		router.attach("/hello", HelloResource.class);
+		router.attach("/search", SearchResource.class);
 
 		router.attach("/parametersshower", ParametersShowerResource.class);
 

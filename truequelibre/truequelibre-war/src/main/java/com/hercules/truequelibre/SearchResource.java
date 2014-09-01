@@ -1,7 +1,5 @@
 package com.hercules.truequelibre;
 
-import java.util.Calendar;
-
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -24,13 +22,13 @@ import javax.ws.rs.core.MultivaluedMap;
 
 
 
-public class HelloResource extends ServerResource {
+public class SearchResource extends ServerResource {
 
-	public HelloResource() {
+	public SearchResource() {
 		super();
 	}
 
-	public HelloResource(Context context, Request request, Response response) {
+	public SearchResource(Context context, Request request, Response response) {
 		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
 	}
 	
@@ -45,36 +43,30 @@ public class HelloResource extends ServerResource {
 
 	@Override
 	protected Representation get() throws ResourceException {
-		String message = "Trueque Libre!" + " \n\nTime of request is:"
-				+ Calendar.getInstance().getTime().toString();
 		
 		Meli m = new Meli(7937694478293453L, "UUY3czo96JZDtnsFI2iMt0vIzMBukOtB");
 		MultivaluedMap<String,String> params = new MultivaluedMapImpl();
 		params.add("limit", "50");
-		params.add("q", "celulares");
+		params.add("q", getQuery().getValues("query"));
 		params.add("category", "MLA1000");
-		
+		JsonArray search= new JsonArray();
 		try {
 	       JsonObject response= m.get("sites/MLA/search", params);
 	       JsonArray results=response.getAsJsonArray("results");
-	       message+="<table><tr>";
+	       
 	       for(int i=0; i<results.size();i++){
-	    	   if (i % 4 == 0) {//numero es modulo de 4?
-	    		   message+="</tr><tr>";
-	    	   }
 	    	   JsonObject item= results.get(i).getAsJsonObject();
-	    	   message+="<td>";
-	    	   message+="<img src='"+item.get("thumbnail").getAsString()+"'><b>$"+item.get("price").getAsString()+"</b> "+item.get("title").getAsString();
-	    	   message+="</td>";
+	    	   JsonObject searchItem= new JsonObject();
+	    	   searchItem.add("id", item.get("id"));
+	    	   searchItem.add("img", item.get("thumbnail"));
+	    	   searchItem.add("name", item.get("title"));
+	    	   search.add(searchItem);
 	       }
-	       message+="</tr></table>";
+
 		} catch (Exception e) {
-			message+="\n";
-			message+=e.getMessage();
-			message+="\n";
-			message+=stackTraceToString(e);
+			e.printStackTrace();
 		}
-		return new StringRepresentation(message, MediaType.TEXT_HTML);
+		return new StringRepresentation(search.toString(), MediaType.TEXT_PLAIN);
 	}
 
 }

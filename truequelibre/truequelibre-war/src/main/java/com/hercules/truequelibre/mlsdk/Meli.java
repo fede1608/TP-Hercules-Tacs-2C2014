@@ -28,6 +28,10 @@ public class Meli {
 		ClientConfig config = new DefaultClientConfig();
 		http = Client.create(config);
 	}
+	
+	public Meli() {
+
+	}
 
 	public Meli(Long clientId, String clientSecret) {
 		this.clientId = clientId;
