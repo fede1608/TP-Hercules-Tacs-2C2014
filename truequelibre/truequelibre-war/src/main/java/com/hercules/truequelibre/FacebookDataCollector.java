@@ -52,10 +52,7 @@ public class FacebookDataCollector {
 	}
 	
 	public String getFriendData(String facebookAccessToken, String friendId){
-		  FacebookClient facebookClient = new DefaultFacebookClient(facebookAccessToken);
-		  	 
-		  Connection<User> myFriends = facebookClient.fetchConnection("me/friends", User.class,
-				  Parameter.with("fields", "id,first_name,last_name,name,gender"));
+		  Connection<User> myFriends = this.getFriends(facebookAccessToken);
 		  String message="";
 		   for(User friend: myFriends.getData()){
 			  if (friend.getId().equals(friendId)){
@@ -68,4 +65,11 @@ public class FacebookDataCollector {
 		  
 		  return message + "el usuario pedido no esta entre sus amigos";
 	}
+	public Connection<User> getFriends(String facebookAccessToken){
+		final FacebookClient facebookClient = new DefaultFacebookClient(facebookAccessToken);		
+		return facebookClient.fetchConnection("me/friends", User.class,
+				Parameter.with("fields", "id,first_name,last_name,name,gender"));
+		//return myFriends;
+	}
 }
+	

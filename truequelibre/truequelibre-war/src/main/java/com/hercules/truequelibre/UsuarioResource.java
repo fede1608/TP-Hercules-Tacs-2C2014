@@ -18,8 +18,9 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.hercules.truequelibre.FacebookDataCollector;
+import com.hercules.truequelibre.ParameterGathererTemplateResource;
 
-public class UsuarioResource extends ServerResource {
+public class UsuarioResource extends ParameterGathererTemplateResource {
 	
 	
 	public UsuarioResource() {
@@ -56,12 +57,5 @@ public class UsuarioResource extends ServerResource {
 		}
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
 	}
-
-
-
-	private String requestedUser(){
-		return (String) this.getRequest().getAttributes().get("userId");
-	}
-
 	
 }

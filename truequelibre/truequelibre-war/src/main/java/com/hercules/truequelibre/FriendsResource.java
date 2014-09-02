@@ -34,6 +34,7 @@ import com.restfb.json.JsonObject;
 import com.restfb.types.Page;
 import com.restfb.types.Post;
 import com.restfb.types.User;
+import com.hercules.truequelibre.FacebookDataCollector;
 
 public class FriendsResource extends ServerResource{
 
@@ -72,8 +73,8 @@ public class FriendsResource extends ServerResource{
 		  UserTL usuario = null;
 		  String resultadoPersistido = "\n";
 		  
-		  String appId= "595790490538541";
-		  String appSecret= "ee3c67442fbbd654ed67bd7722cf26b9";
+//		  String appId= "595790490538541";
+//		  String appSecret= "ee3c67442fbbd654ed67bd7722cf26b9";
 
 		//  String generatedAccessToken = new DefaultFacebookClient().obtainAppAccessToken(appId,appSecret).getAccessToken();
 //		  LoggedInFacebookClient fb2= new LoggedInFacebookClient(appId,appSecret);
@@ -85,8 +86,7 @@ public class FriendsResource extends ServerResource{
 		  userName = user.getLastName(); 
 		  }
 		 
-		  Connection<User> myFriends = facebookClient.fetchConnection("me/friends", User.class,
-				  Parameter.with("fields", "id,first_name,last_name,name,gender"));
+		  Connection<User> myFriends = FacebookDataCollector.getInstance().getFriends(facebookAccessToken);
 		  System.out.println("Count of my friends: " + myFriends.getData().size());
 		  
 		  Connection<Post> myFeed = facebookClient.fetchConnection("me/feed", Post.class);
@@ -96,8 +96,8 @@ public class FriendsResource extends ServerResource{
 		  System.out.println("Friends id and name: "+friend.getId()+" , "+friend.getName());   
 		    myFacebookFriendList += friend.getName()+"\n";
 		    //persistencia de amigos
-		  usuario = new UserTL(friend.getId(), friend.getName());
-		  ofy().save().entity(usuario).now();
+			usuario = new UserTL(friend.getId(), friend.getName());
+			ofy().save().entity(usuario).now();
 		  }
 		  
 		  //recuperacion del ultimo amigo almacenado

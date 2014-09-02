@@ -13,11 +13,8 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
-
 import com.restfb.types.User;
-
 import org.restlet.util.Series;
-
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
@@ -27,11 +24,10 @@ import com.google.gson.JsonObject;
 import com.hercules.truequelibre.FacebookDataCollector;
 import com.hercules.truequelibre.mlsdk.Meli;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import javax.ws.rs.core.MultivaluedMap;
+import com.hercules.truequelibre.ParameterGathererTemplateResource;
 
-
-public class ItemsResource extends ServerResource {
+public class ItemsResource extends ParameterGathererTemplateResource {
 	
 	
 	public ItemsResource() {
@@ -56,7 +52,7 @@ public class ItemsResource extends ServerResource {
 		if (FacebookDataCollector.getInstance().informationCanBeShown(token, this.requestedUser())){
 			message += "te puedo mostrar la info del item que es: " + this.requestedItem();
 			if (this.itemExists()){
-				message+= "\n el item pedido existe entre los suyos!";
+				message+= "\n el item pedido existe entre los suyos! \n";
 				message+=this.itemInfo(this.requestedItem());
 			}else{
 				message += "\n no tiene el item entre sus items";
@@ -69,35 +65,20 @@ public class ItemsResource extends ServerResource {
 	}
 
 	public String itemInfo(String requestedItem) {
-		JsonArray search= new JsonArray();
-		JsonObject algo = null;
+		JsonObject searchItem= new JsonObject();
 		try {
-	       JsonObject response= new Meli().get("items/"+this.requestedItem());
-	       JsonArray results=response.getAsJsonArray("results");
-	       algo=response;
-	       for(int i=0; i<results.size();i++){
-	    	   JsonObject item= results.get(i).getAsJsonObject();
-	    	   JsonObject searchItem= new JsonObject();
-	    	   searchItem.add("id", item.get("id"));
-	    	   searchItem.add("img", item.get("thumbnail"));
-	    	   searchItem.add("name", item.get("title"));
-	    	   search.add(searchItem);
-	       }
-
+	       JsonObject item= new Meli().get("items/"+this.requestedItem());
+	       searchItem.add("id", item.get("id"));
+	       searchItem.add("img", item.get("thumbnail"));
+	       searchItem.add("name", item.get("title"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return algo.toString();
+		return searchItem.toString();
 		//return search.toString();
 	}
 
-	private String requestedUser(){
-		return (String) this.getRequest().getAttributes().get("userId");
-	}
-	private String requestedItem(){
-		return (String) this.getRequest().getAttributes().get("itemId");
-	}
 	private boolean itemExists(){
 		return true; // hecho trivial para probar si anda
 	}
