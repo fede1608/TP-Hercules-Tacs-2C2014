@@ -6,7 +6,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Result;
 import com.googlecode.objectify.cmd.Query;
 import com.hercules.truequelibre.FbProperties;
-
+import com.hercules.truequelibre.LoggedInFacebookClient;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -30,7 +30,6 @@ import com.restfb.json.JsonArray;
 import com.restfb.json.JsonObject;
 import com.restfb.types.Page;
 import com.restfb.types.Post;
-import com.restfb.types.Url;
 import com.restfb.types.User;
 
 public class FriendsResource extends ServerResource{
