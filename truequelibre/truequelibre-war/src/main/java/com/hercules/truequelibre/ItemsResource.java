@@ -72,7 +72,7 @@ public class ItemsResource extends ServerResource {
 		JsonArray search= new JsonArray();
 		JsonObject algo = null;
 		try {
-	       JsonObject response= new Meli().get("/items/"+this.requestedItem());
+	       JsonObject response= new Meli().get("items/"+this.requestedItem());
 	       JsonArray results=response.getAsJsonArray("results");
 	       algo=response;
 	       for(int i=0; i<results.size();i++){
