@@ -60,7 +60,7 @@ public class FriendsResource extends ServerResource{
 		 			  
 		  final FacebookClient facebookClient;
 		 // FbProperties prop = FbProperties.getInstance();
-		  UsuarioDAO usuario = null;
+		  UserTL usuario = null;
 		  String resultadoPersistido = "\n";
 		  
 		  String appId= "595790490538541";
@@ -86,22 +86,22 @@ public class FriendsResource extends ServerResource{
 		  System.out.println("Friends id and name: "+friend.getId()+" , "+friend.getName());   
 		    myFacebookFriendList += friend.getName()+"\n";
 		    //persistencia de amigos
-		  usuario = new UsuarioDAO(friend.getId(), friend.getName());
+		  usuario = new UserTL(friend.getId(), friend.getName());
 		  ofy().save().entity(usuario).now();
 		  }
 		  
 		  //recuperacion del ultimo amigo almacenado
-		  Key<UsuarioDAO> clave = Key.create(UsuarioDAO.class, usuario.id);
-		  Result<UsuarioDAO> result = ofy().load().key(clave);
-		  UsuarioDAO fetched1 = result.now();
+		  Key<UserTL> clave = Key.create(UserTL.class, usuario.id);
+		  Result<UserTL> result = ofy().load().key(clave);
+		  UserTL fetched1 = result.now();
 		  resultadoPersistido += "\nUltimo resultado persistido recuperado:\n"+fetched1.id+"\n";
 		  resultadoPersistido += fetched1.name+"\n";
 		  myFacebookFriendList += resultadoPersistido;
 		  
 		  //recuperacion de articulos obtenidos en api/search
 		  String resultadoPersistidoDeSearch = "\nResultados persistidos de api/search?query=criterio\n";
-		  Query<ArticuloDAO> q = ofy().load().type(ArticuloDAO.class);
-		  for(ArticuloDAO art: q){
+		  Query<ItemTL> q = ofy().load().type(ItemTL.class);
+		  for(ItemTL art: q){
 			  resultadoPersistidoDeSearch +="\n"+art.nombre;
 		  }
 		  if(q.count() == 0) resultadoPersistidoDeSearch += "Ingresa primero en algun api/search?query=criterioDeBusqueda";

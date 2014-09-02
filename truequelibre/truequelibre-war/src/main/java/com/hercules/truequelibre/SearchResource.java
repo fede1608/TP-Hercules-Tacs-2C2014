@@ -13,7 +13,7 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 
-import com.hercules.truequelibre.ArticuloDAO;
+import com.hercules.truequelibre.ItemTL;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.googlecode.objectify.Key;
@@ -55,7 +55,7 @@ public class SearchResource extends ServerResource {
 		params.add("category", "MLA1000");
 		JsonArray search= new JsonArray();
 		String resultadoPersistido ="\n";
-		ArticuloDAO itemPersistido = null;
+		ItemTL itemPersistido = null;
 		try {
 	       JsonObject response= m.get("sites/MLA/search", params);
 	       JsonArray results=response.getAsJsonArray("results");
@@ -67,7 +67,7 @@ public class SearchResource extends ServerResource {
 	    	   searchItem.add("img", item.get("thumbnail"));
 	    	   searchItem.add("name", item.get("title"));
 	    	   //se crea el item a persistir y se almacena la entidad en la base de datos
-	    	   itemPersistido = new ArticuloDAO(item.get("id").toString(),item.get("title").toString());
+	    	   itemPersistido = new ItemTL(item.get("id").toString(),item.get("title").toString());
 	    	   ofy().save().entity(itemPersistido).now();
 	    	   search.add(searchItem);
 	       }
@@ -75,9 +75,9 @@ public class SearchResource extends ServerResource {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Key<ArticuloDAO> clave = Key.create(ArticuloDAO.class, itemPersistido.id); //se crea una clave para acceder al item
-		Result<ArticuloDAO> result = ofy().load().key(clave); //la clave era del ultimo item agregado y la carga es asincronica
-		ArticuloDAO fetched1 = result.now(); //cuando le mando now() recien ahi instancia el objeto
+		Key<ItemTL> clave = Key.create(ItemTL.class, itemPersistido.id); //se crea una clave para acceder al item
+		Result<ItemTL> result = ofy().load().key(clave); //la clave era del ultimo item agregado y la carga es asincronica
+		ItemTL fetched1 = result.now(); //cuando le mando now() recien ahi instancia el objeto
 		resultadoPersistido += fetched1.id+"\n";
 		resultadoPersistido += fetched1.nombre+"\n";
 		return new StringRepresentation(search.toString()+resultadoPersistido, MediaType.TEXT_PLAIN);

@@ -6,19 +6,19 @@ import com.googlecode.objectify.annotation.Index;
 
 //Clase a persistir en la base de datos utilizando objectify
 @Entity
-public class ArticuloDAO {
+public class ItemTL {
 	@Id String id;
 	@Index String nombre;
 	
-	public ArticuloDAO(){
+	public ItemTL(){
 		
 	}
 	
-	public ArticuloDAO(String id){
+	public ItemTL(String id){
 		this.id = id;
 	}
 	
-	public ArticuloDAO(String id, String nombre){
+	public ItemTL(String id, String nombre){
 		this.id = id;
 		this.nombre = nombre;
 	}
