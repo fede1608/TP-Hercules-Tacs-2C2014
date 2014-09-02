@@ -30,7 +30,8 @@ public class Meli {
 	}
 	
 	public Meli() {
-
+		this.clientId = 7937694478293453L;
+		this.clientSecret = "UUY3czo96JZDtnsFI2iMt0vIzMBukOtB";
 	}
 
 	public Meli(Long clientId, String clientSecret) {

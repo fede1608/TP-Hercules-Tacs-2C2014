@@ -48,7 +48,7 @@ public class SearchResource extends ServerResource {
 
 	@Override
 	protected Representation get() throws ResourceException {
-		Meli m = new Meli(7937694478293453L, "UUY3czo96JZDtnsFI2iMt0vIzMBukOtB");
+		Meli m = new Meli();
 		MultivaluedMap<String,String> params = new MultivaluedMapImpl();
 		params.add("limit", "50");
 		params.add("q", getQuery().getValues("query"));
