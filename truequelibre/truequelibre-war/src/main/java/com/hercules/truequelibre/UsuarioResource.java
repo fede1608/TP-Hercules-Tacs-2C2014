@@ -17,7 +17,7 @@ import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
-
+import com.hercules.truequelibre.FacebookDataCollector;
 
 public class UsuarioResource extends ServerResource {
 	
@@ -39,62 +39,29 @@ public class UsuarioResource extends ServerResource {
 			+ "\n";
 		Series<Cookie> cookies = getCookies();	
 		String token = cookies.getValues("accessToken");
-		User user = this.findUserWithRest(token);
+		User user = FacebookDataCollector.getInstance().findUserWithRest(token);
 		String userName =   user.getFirstName();
 		if (userName == null){
 		 userName = user.getLastName();
 		}else{
 			userName += " " + user.getLastName();
 		}
-		if(this.isTheUser(user)){
+		if(FacebookDataCollector.getInstance().isTheUser(user,this.requestedUser())){
 		message += "Bienvenido! Su usuario es " +userName + " y su id de facebook " + user.getId() + "\n";
 		}else{
-			if(this.isAFriend(token, this.requestedUser())){
+			if(FacebookDataCollector.getInstance().isAFriend(token, this.requestedUser())){
 				message += "siii est u amigoo! :D \n";
 			}
-		message += this.getFriendData(token, this.requestedUser());
+		message += FacebookDataCollector.getInstance().getFriendData(token, this.requestedUser());
 		}
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
 	}
 
-	private boolean isTheUser(User user) {
-		return user.getId().equals(this.requestedUser());
-	}
 
-	private User findUserWithRest(String accessToken) {
-//		FbProperties fp = FbProperties.getInstance();
-		FacebookClient faceClient= new DefaultFacebookClient(accessToken);
-		
-		return faceClient.fetchObject("me",User.class);
-	}
-	public String getFriendData(String facebookAccessToken, String friendId){
-		  FacebookClient facebookClient = new DefaultFacebookClient(facebookAccessToken);
-		  	 
-		  Connection<User> myFriends = facebookClient.fetchConnection("me/friends", User.class,
-				  Parameter.with("fields", "id,first_name,last_name,name,gender"));
-		  String message="";
-		   for(User friend: myFriends.getData()){
-			  if (friend.getId().equals(friendId)){
-				  message += "Informacion de amigo encontrado, es: " + friend.getName();
-				  return message; 
-			  }else{
-				  message += "analizado el usuario " + friend.getId() + " " + friend.getFirstName() + "\n";
-			  }
-		  }
-		  
-		  return message + "el usuario pedido no esta entre sus amigos";
-	}
+
 	private String requestedUser(){
 		return (String) this.getRequest().getAttributes().get("userId");
 	}
-	public boolean isAFriend(String facebookAccessToken, String friendId){
-		  FacebookClient facebookClient = new DefaultFacebookClient(facebookAccessToken);
-		  	 
-		  Connection<User> myFriends = facebookClient.fetchConnection("me/friends", User.class,
-				  Parameter.with("fields", "id"));
-		  return myFriends.getData().contains(this.requestedUser());
-		  
-		  
-	}
+
 	
 }

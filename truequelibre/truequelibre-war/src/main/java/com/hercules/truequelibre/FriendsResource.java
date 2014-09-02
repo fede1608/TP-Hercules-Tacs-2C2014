@@ -1,5 +1,8 @@
 package com.hercules.truequelibre;
 
+
+//import com.hercules.truequelibre.FbProperties;
+
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import com.googlecode.objectify.Key;
@@ -59,14 +62,21 @@ public class FriendsResource extends ServerResource{
 	public String findFacebookFriendsUsingRest(String facebookAccessToken){
 		 			  
 		  final FacebookClient facebookClient;
+
+//		  FbProperties prop = FbProperties.getInstance();
+		  
+//		  String appId= prop.getProperty("appId");
+//		  String appSecret= prop.getProperty("appSecret");
+
 		 // FbProperties prop = FbProperties.getInstance();
 		  UserTL usuario = null;
 		  String resultadoPersistido = "\n";
 		  
 		  String appId= "595790490538541";
 		  String appSecret= "ee3c67442fbbd654ed67bd7722cf26b9";
+
 		//  String generatedAccessToken = new DefaultFacebookClient().obtainAppAccessToken(appId,appSecret).getAccessToken();
-		  LoggedInFacebookClient fb2= new LoggedInFacebookClient(appId,appSecret);
+//		  LoggedInFacebookClient fb2= new LoggedInFacebookClient(appId,appSecret);
 		  facebookClient = new DefaultFacebookClient(facebookAccessToken);
 		  User user = facebookClient.fetchObject("me", User.class);
 		  
