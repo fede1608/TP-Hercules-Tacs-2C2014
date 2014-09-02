@@ -10,8 +10,17 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.routing.Router;
 import org.restlet.routing.Template;
 
+import com.googlecode.objectify.ObjectifyFactory;
+import com.googlecode.objectify.ObjectifyService;
+
 public class HelloApplication extends Application {
 
+	//Las clases a persistir deben registrarse en el punto de inicio de la aplicacion
+	static{
+		ObjectifyService.register(ItemTL.class);
+		ObjectifyService.register(UserTL.class);
+	}
+	
 	public HelloApplication() {
 		super();
 	}
@@ -36,8 +45,12 @@ public class HelloApplication extends Application {
 
 		router.attach("/friends",FriendsResource.class);
 		Restlet mainpage = new Restlet() {
+			
+			
 			@Override
 			public void handle(Request request, Response response) {
+				
+
 				StringBuilder stringBuilder = new StringBuilder();
 				
 				stringBuilder.append("<html>");
