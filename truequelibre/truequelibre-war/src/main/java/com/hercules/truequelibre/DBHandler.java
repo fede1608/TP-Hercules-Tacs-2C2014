@@ -35,12 +35,14 @@ public class DBHandler {
 		}
 		
 	}
-	public UserTL getUser(String userId){
+	public UserTL getUser(String userId) throws InexistentUserException{
 		UserTL fetched=null;
 		try{
 			Query<UserTL> result= ofy().load().type(UserTL.class).filter("id",userId);
 			if(result.count()==0){
-				fetched = this.createUser(userId);
+				InexistentUserException ex= new InexistentUserException();
+				ex.setUser(userId);
+				throw ex;
 			}else{
 			fetched=result.first().now();
 			}
@@ -50,7 +52,7 @@ public class DBHandler {
 		
 		return fetched;
 	}
-	public void addItem(UserTL user, ItemTL item){
+	public void addItem(UserTL user, ItemTL item) throws Exception{
 		try{
 			UserTL fetched = this.getUser(user.id);
 			fetched.addItem(item);
@@ -59,11 +61,4 @@ public class DBHandler {
 			throw e;
 		}
 	}
-	public UserTL createUser(String userID){
-		//cuando tengamos para que el token se consiga desde cualquier 
-		//lado de la app habria que agarrar los datos y crear un usuario
-		
-		return null;
-	}
-	 
 }
