@@ -117,12 +117,17 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			return new StringRepresentation(message.toString(),
 					MediaType.TEXT_PLAIN);
 		}
-		UserTL usuario = UserTL.load(uid);
+		UserTL usuario;
+		try {
+			usuario = DBHandler.getInstance().getUser(uid);
+		} catch (InexistentUserException e) {
+			usuario = new UserTL(uid);
+		}
 		ItemTL item = new ItemTL(itemId);
 		if (!usuario.items.contains(item)) {
 			usuario.items.add(item);
 		}
-		usuario.save();
+		DBHandler.getInstance().saveUser(usuario);
 		message.addProperty("info", "El item se agrego correctamente");
 		return new StringRepresentation(message.toString(),
 				MediaType.TEXT_PLAIN);
