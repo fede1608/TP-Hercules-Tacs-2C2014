@@ -38,6 +38,7 @@ import com.restfb.types.Post;
 import com.restfb.types.User;
 import com.hercules.truequelibre.FacebookDataCollector;
 
+
 public class FriendsResource extends ServerResource{
 
 	public FriendsResource()

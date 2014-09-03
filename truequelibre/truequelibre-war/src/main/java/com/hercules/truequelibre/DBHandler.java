@@ -1,13 +1,6 @@
 package com.hercules.truequelibre;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.ObjectifyFactory;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Result;
 import com.googlecode.objectify.cmd.Query;
 
 public class DBHandler {
@@ -28,28 +21,18 @@ public class DBHandler {
         }
     }
 	public void saveUser(UserTL user){
-		try{
+
 		ofy().save().entity(user).now();
-		}catch (Exception e){
-			throw e;
-		}
+
 		
 	}
 	public UserTL getUser(String userId) throws InexistentUserException{
-		UserTL fetched=null;
-		try{
-			Query<UserTL> result= ofy().load().type(UserTL.class).filter("id",userId);
-			if(result.count()==0){
-				InexistentUserException ex= new InexistentUserException();
-				ex.setUser(userId);
-				throw ex;
-			}else{
-			fetched=result.first().now();
-			}
-		}catch(Exception e){
-			throw e;
+		UserTL fetched= ofy().load().type(UserTL.class).id(userId).now();
+		if(fetched==null){
+			InexistentUserException ex= new InexistentUserException();
+			ex.setUser(userId);
+			throw ex;
 		}
-		
 		return fetched;
 	}
 	public void addItem(UserTL user, ItemTL item) throws InexistentUserException,Exception{
