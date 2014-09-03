@@ -8,9 +8,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Result;
 import com.googlecode.objectify.cmd.Query;
-import com.hercules.truequelibre.FbProperties;
-import com.hercules.truequelibre.LoggedInFacebookClient;
-
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -25,15 +22,8 @@ import org.restlet.util.Series;
 
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
-import com.restfb.DefaultJsonMapper;
-import com.restfb.Facebook;
 import com.restfb.FacebookClient;
-import com.restfb.JsonMapper;
-import com.restfb.Parameter;
 import com.restfb.exception.FacebookOAuthException;
-import com.restfb.json.JsonArray;
-import com.restfb.json.JsonObject;
-import com.restfb.types.Page;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 import com.hercules.truequelibre.FacebookDataCollector;
