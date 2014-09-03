@@ -22,4 +22,8 @@ public class ItemTL {
 		this.id = id;
 		this.nombre = nombre;
 	}
+	@Override
+	public boolean equals(Object o){
+		return ((ItemTL)o).id==this.id;
+	}
 }

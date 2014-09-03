@@ -90,14 +90,27 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 	
     @Post
     public Representation post(Representation entity) {  
-		Representation result = null;  
         // Obtener los datos enviados por post
         Form form = new Form(entity); 
-        String uid = form.getFirstValue("userId");  
-        String tokenfb = form.getFirstValue("token");  
- 
+        String uid = (String) this.getRequest().getAttributes().get("userId");  
+        String itemId= form.getFirstValue("itemId");
+        String tokenfb = getCookies().getValues("accessToken");//form.getFirstValue("token");  
+        User userfb= FacebookDataCollector.getInstance().findUserWithRest(tokenfb);
+        
+        JsonObject message=new JsonObject();
+		if(!FacebookDataCollector.getInstance().isTheUser(userfb, uid)){//autenticar
+        	message.addProperty("error", "El usuario no corresponde con el token");
+        	return new StringRepresentation(message.toString(), MediaType.TEXT_PLAIN);
+        }
+		UserTL usuario = UserTL.load(uid);
+		ItemTL item=new ItemTL(itemId);
+		if(!usuario.items.contains(item)){
+			usuario.items.add(item);
+		}
+		usuario.save();
+		message.addProperty("info", "El item se agrego correctamente");
+        return new StringRepresentation(message.toString(), MediaType.TEXT_PLAIN);
         //todo autenticar, obtener user desde la db, agregar item y guardar
-        return result;  
     }
 	
 }

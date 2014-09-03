@@ -7,6 +7,11 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
+
+import com.googlecode.objectify.NotFoundException;
+
 @Entity
 public class UserTL {
 	@Id String id;
@@ -25,4 +30,20 @@ public class UserTL {
 		this.id = id;
 		this.name = name;
 	}
+	
+	
+	public void save(){
+		ofy().save().entity(this).now();
+	}
+	
+	public static UserTL load(String id){
+		try{
+			UserTL u = ofy().load().type(UserTL.class).id(id).safe();
+			return u;
+		}catch(NotFoundException e){
+			return new UserTL(id);
+		}
+		
+	}
+	
 }
