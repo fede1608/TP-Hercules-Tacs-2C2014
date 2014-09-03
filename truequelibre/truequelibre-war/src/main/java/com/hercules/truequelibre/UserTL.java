@@ -7,6 +7,11 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
+
+
+import com.googlecode.objectify.NotFoundException;
+
 @Entity
 public class UserTL {
 	@Id String id;
@@ -25,7 +30,9 @@ public class UserTL {
 		this.id = id;
 		this.name = name;
 	}
+
 	public void addItem(ItemTL item){
 		items.add(item);
 	}
+
 }

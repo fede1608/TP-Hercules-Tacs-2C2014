@@ -5,9 +5,12 @@ package com.hercules.truequelibre;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Result;
 import com.googlecode.objectify.cmd.Query;
+
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -51,7 +54,9 @@ public class FriendsResource extends ServerResource{
 			String friends = this.findFacebookFriendsUsingRest(token);
 			message += friends;
 		}catch(FacebookOAuthException e){
-			message = "el token esta desactualizado, por favor actualicelo";
+			JsonObject j = new JsonObject();
+			j.addProperty("error", "El token esta desactualizado, por favor actualicelo");
+			message = j.toString();
 		}
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
 	}
