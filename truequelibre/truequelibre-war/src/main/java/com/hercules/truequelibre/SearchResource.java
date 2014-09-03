@@ -56,21 +56,38 @@ public class SearchResource extends ServerResource {
 		JsonArray search= new JsonArray();
 		String resultadoPersistido ="\n";
 		ItemTL itemPersistido = null;
+		String Table="";
 		try {
 	       JsonObject response= m.get("sites/MLA/search", params);
 	       JsonArray results=response.getAsJsonArray("results");
-	       
+	       Table="<TABLE BORDER>"
+	       		+ "<TR>"
+	       		+ "<TH>ID"
+	       		+ "<TH>Name"
+	       		+ "<TH>Image"
+	       		+ "<TH>Add to my items"
+	       		+ "</TR>";
 	       for(int i=0; i<results.size();i++){   
 	    	   JsonObject item= results.get(i).getAsJsonObject();
 	    	   JsonObject searchItem= new JsonObject();
 	    	   searchItem.add("id", item.get("id"));
 	    	   searchItem.add("img", item.get("thumbnail"));
 	    	   searchItem.add("name", item.get("title"));
+	    	   Table+="<TR>"
+	    	   		+ "<TD>"+item.get("id")+
+	    			   "<TD>"+item.get("title")+
+	    			   "<TD>"+item.get("thumbnail")+
+	    			   "<TD>"+"<button type=\"submit\" "
+	    			   		+ "onclick= \"location.href='http://localhost:8080/api/friends'\" formmethod=\"post\">"
+	    			   		+ "Click Here"
+	    			   		+ "</button>";
+	    	   
 	    	   //se crea el item a persistir y se almacena la entidad en la base de datos
 	    	   itemPersistido = new ItemTL(item.get("id").toString(),item.get("title").toString());
 	    	   ofy().save().entity(itemPersistido).now();
 	    	   search.add(searchItem);
 	       }
+	       Table+="</TABLE>";
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,7 +97,7 @@ public class SearchResource extends ServerResource {
 		ItemTL fetched1 = result.now(); //cuando le mando now() recien ahi instancia el objeto
 		resultadoPersistido += fetched1.id+"\n";
 		resultadoPersistido += fetched1.nombre+"\n";
-		return new StringRepresentation(search.toString()+resultadoPersistido, MediaType.TEXT_PLAIN);
+		return new StringRepresentation(Table, MediaType.TEXT_HTML);
 	}
 
 }
