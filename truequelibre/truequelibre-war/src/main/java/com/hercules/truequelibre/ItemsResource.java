@@ -13,6 +13,7 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
+import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import org.restlet.util.Series;
 import com.restfb.Connection;
@@ -49,16 +50,20 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 		
 		Series<Cookie> cookies = getCookies();	
 		String token = cookies.getValues("accessToken");
-		if (FacebookDataCollector.getInstance().informationCanBeShown(token, this.requestedUser())){
-			message += "te puedo mostrar la info del item que es: " + this.requestedItem();
-			if (this.itemExists()){
-				message+= "\n el item pedido existe entre los suyos! \n";
-				message+=this.itemInfo(this.requestedItem());
+		try{
+			if (FacebookDataCollector.getInstance().informationCanBeShown(token, this.requestedUser())){
+				message += "te puedo mostrar la info del item que es: " + this.requestedItem();
+				if (this.itemExists()){
+					message+= "\n el item pedido existe entre los suyos! \n";
+					message+=this.itemInfo(this.requestedItem());
+				}else{
+					message += "\n no tiene el item entre sus items";
+				}
 			}else{
-				message += "\n no tiene el item entre sus items";
+				message += "la persona no es amigo suyo";
 			}
-		}else{
-			message += "la persona no es amigo suyo";
+		}catch(FacebookOAuthException e){
+			message = "el token esta desactualizado, por favor actualicelo";
 		}
 		
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);

@@ -4,6 +4,7 @@ import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
+import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 
 public class FacebookDataCollector {
@@ -66,10 +67,14 @@ public class FacebookDataCollector {
 		  return message + "el usuario pedido no esta entre sus amigos";
 	}
 	public Connection<User> getFriends(String facebookAccessToken){
+		Connection<User> myFriends= null;
+		
 		final FacebookClient facebookClient = new DefaultFacebookClient(facebookAccessToken);		
-		return facebookClient.fetchConnection("me/friends", User.class,
+		
+		myFriends = facebookClient.fetchConnection("me/friends", User.class,
 				Parameter.with("fields", "id,first_name,last_name,name,gender"));
-		//return myFriends;
+		
+		return myFriends;
 	}
 }
 	
