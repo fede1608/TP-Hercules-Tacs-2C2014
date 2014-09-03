@@ -25,4 +25,7 @@ public class UserTL {
 		this.id = id;
 		this.name = name;
 	}
+	public void addItem(ItemTL item){
+		items.add(item);
+	}
 }
