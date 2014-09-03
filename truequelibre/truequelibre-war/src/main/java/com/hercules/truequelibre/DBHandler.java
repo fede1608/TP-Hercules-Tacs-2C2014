@@ -52,11 +52,13 @@ public class DBHandler {
 		
 		return fetched;
 	}
-	public void addItem(UserTL user, ItemTL item) throws Exception{
+	public void addItem(UserTL user, ItemTL item) throws InexistentUserException,Exception{
 		try{
 			UserTL fetched = this.getUser(user.id);
 			fetched.addItem(item);
 			this.saveUser(fetched);
+		}catch(InexistentUserException ex){
+			throw ex;			
 		}catch(Exception e){
 			throw e;
 		}

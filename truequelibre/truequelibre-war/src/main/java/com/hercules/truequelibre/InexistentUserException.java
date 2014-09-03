@@ -12,4 +12,7 @@ public class InexistentUserException extends Exception{
 	public String getUser(){
 		return user;
 	}
+	public String getMessage(){
+		return "user not found "+user + "\n";
+	}
 }
