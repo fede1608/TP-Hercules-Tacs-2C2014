@@ -30,20 +30,9 @@ public class UserTL {
 		this.id = id;
 		this.name = name;
 	}
-	
-	
-	public void save(){
-		ofy().save().entity(this).now();
+
+	public void addItem(ItemTL item){
+		items.add(item);
 	}
-	
-	public static UserTL load(String id){
-		try{
-			UserTL u = ofy().load().type(UserTL.class).id(id).safe();
-			return u;
-		}catch(NotFoundException e){
-			return new UserTL(id);
-		}
-		
-	}
-	
+
 }

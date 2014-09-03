@@ -13,6 +13,7 @@ import org.restlet.routing.Template;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
+
 public class HelloApplication extends Application {
 
 	//Las clases a persistir deben registrarse en el punto de inicio de la aplicacion
