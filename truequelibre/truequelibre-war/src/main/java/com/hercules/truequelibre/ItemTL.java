@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -19,6 +18,9 @@ public class ItemTL {
 	@Index String nombre;
 	String idDuenio;
 	@Load List<Ref<ItemTL>> solicitudesDeIntercambio = new ArrayList<Ref<ItemTL>>();
+	
+	public ItemTL(){
+	}
 	
 	public ItemTL(String nombre){
 		this.nombre = nombre;
@@ -54,5 +56,9 @@ public class ItemTL {
 	@Override
 	public boolean equals(Object o){
 		return ((ItemTL)o).id==this.id;
+	}
+
+	public void setUser(String userId) {
+		this.idDuenio = userId;
 	}
 }

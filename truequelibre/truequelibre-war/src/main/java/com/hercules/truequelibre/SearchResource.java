@@ -2,11 +2,7 @@ package com.hercules.truequelibre;
 
 //Se importa estaticamente para poder utilizar los metodos definidos en ofy sin instanciarlo
 import static com.googlecode.objectify.ObjectifyService.ofy;
-
 import java.util.List;
-
-import com.googlecode.objectify.cmd.Query;
-
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -16,21 +12,14 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
-
 import com.hercules.truequelibre.ItemTL;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.ObjectifyFactory;
-import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
-import com.googlecode.objectify.Result;
 import com.hercules.truequelibre.mlsdk.Meli;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import javax.ws.rs.core.MultivaluedMap;
-
-
 
 public class SearchResource extends ServerResource {
     

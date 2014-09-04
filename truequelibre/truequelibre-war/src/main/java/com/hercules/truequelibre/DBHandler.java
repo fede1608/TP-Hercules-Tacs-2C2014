@@ -1,7 +1,7 @@
 package com.hercules.truequelibre;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
-import com.googlecode.objectify.cmd.Query;
+import com.googlecode.objectify.NotFoundException;
 
 public class DBHandler {
 	static DBHandler instance=null;
@@ -20,30 +20,30 @@ public class DBHandler {
             instance = new DBHandler();
         }
     }
-	public void saveUser(UserTL user){
+	public void saveItem(ItemTL item){
 
-		ofy().save().entity(user).now();
-
-		
+		ofy().save().entity(item).now();
 	}
-	public UserTL getUser(String userId) throws InexistentUserException{
-		UserTL fetched= ofy().load().type(UserTL.class).id(userId).now();
-		if(fetched==null){
-			InexistentUserException ex= new InexistentUserException();
-			ex.setUser(userId);
-			throw ex;
+	
+	public ItemTL getItem(Long itemId) throws InexistentItemException{
+		ItemTL fetched = null;
+		try {
+			fetched = ofy().load().type(ItemTL.class).id(itemId).safe();
+		} catch(NotFoundException ex){
+			InexistentItemException excepcion = (InexistentItemException) ex;
+			excepcion.setItem(itemId);
+			throw excepcion;
 		}
 		return fetched;
 	}
-	public void addItem(UserTL user, ItemTL item) throws InexistentUserException,Exception{
-		try{
-			UserTL fetched = this.getUser(user.id);
-			fetched.addItem(item);
-			this.saveUser(fetched);
-		}catch(InexistentUserException ex){
-			throw ex;			
-		}catch(Exception e){
-			throw e;
+
+	public void addUser(Long itemId, String userId) throws InexistentItemException {
+		try {
+			ItemTL fetched = this.getItem(itemId);
+			fetched.setUser(userId);
+			this.saveItem(fetched);
+		} catch (InexistentItemException ex) {
+			throw ex;
 		}
 	}
 }

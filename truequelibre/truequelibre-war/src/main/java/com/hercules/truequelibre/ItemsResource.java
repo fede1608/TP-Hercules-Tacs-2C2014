@@ -1,36 +1,20 @@
 package com.hercules.truequelibre;
 
-//import com.hercules.truequelibre.FbProperties;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
 import org.restlet.data.Cookie;
-import org.restlet.data.Form;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
-import org.restlet.resource.Post;
 import org.restlet.resource.ResourceException;
-import org.restlet.resource.ServerResource;
-
 import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
-
 import org.restlet.util.Series;
-
-import com.restfb.Connection;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
-import com.restfb.Parameter;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.FacebookDataCollector;
 import com.hercules.truequelibre.mlsdk.Meli;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-
-import javax.ws.rs.core.MultivaluedMap;
-
 import com.hercules.truequelibre.ParameterGathererTemplateResource;
 
 public class ItemsResource extends ParameterGathererTemplateResource {
@@ -103,9 +87,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 	@Override
 	public Representation post(Representation entity) {
 		// Obtener los datos enviados por post
-		Form form = new Form(entity);
 		String uid = (String) this.getRequest().getAttributes().get("userId");
-		String itemId = form.getFirstValue("itemId");
 		String tokenfb = getCookies().getValues("accessToken");// form.getFirstValue("token");
 		User userfb = FacebookDataCollector.getInstance().findUserWithRest(
 				tokenfb);
@@ -117,18 +99,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			return new StringRepresentation(message.toString(),
 					MediaType.TEXT_PLAIN);
 		}
-		UserTL usuario;
-		try {
-			usuario = DBHandler.getInstance().getUser(uid);
-		} catch (InexistentUserException e) {
-			usuario = new UserTL(uid);
-		}
-		ItemTL item = new ItemTL(itemId);
-		if (!usuario.items.contains(item)) {
-			usuario.items.add(item);
-		}
-		DBHandler.getInstance().saveUser(usuario);
-		message.addProperty("info", "El item se agrego correctamente");
+
 		return new StringRepresentation(message.toString(),
 				MediaType.TEXT_PLAIN);
 		// todo autenticar, obtener user desde la db, agregar item y guardar

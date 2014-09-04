@@ -10,13 +10,8 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
-import org.restlet.resource.ServerResource;
 import com.restfb.types.User;
 import org.restlet.util.Series;
-import com.restfb.Connection;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
-import com.restfb.Parameter;
 import com.hercules.truequelibre.FacebookDataCollector;
 import com.hercules.truequelibre.ParameterGathererTemplateResource;
 
