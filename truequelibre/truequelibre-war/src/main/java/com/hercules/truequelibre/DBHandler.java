@@ -20,29 +20,29 @@ public class DBHandler {
             instance = new DBHandler();
         }
     }
-	public void saveItem(ItemTL item){
+	public void save(Object obj){
 
-		ofy().save().entity(item).now();
+		ofy().save().entity(obj).now();
 	}
 	
-	public ItemTL getItem(Long itemId) throws InexistentItemException{
-		ItemTL fetched = null;
+	public Object get(Long objId) throws InexistentObjectException{
+		Object fetched = null;
 		try {
-			fetched = ofy().load().type(ItemTL.class).id(itemId).safe();
+			fetched = ofy().load().type(objId.getClass()).id(objId).safe();
 		} catch(NotFoundException ex){
-			InexistentItemException excepcion = (InexistentItemException) ex;
-			excepcion.setItem(itemId);
+			InexistentObjectException excepcion = (InexistentObjectException) ex;
+			excepcion.setId(objId);
 			throw excepcion;
 		}
 		return fetched;
 	}
 
-	public void addUser(Long itemId, String userId) throws InexistentItemException {
+	public void addUser(Long itemId, String userId) throws InexistentObjectException {
 		try {
-			ItemTL fetched = this.getItem(itemId);
+			ItemTL fetched = (ItemTL)this.get(itemId);
 			fetched.setUser(userId);
-			this.saveItem(fetched);
-		} catch (InexistentItemException ex) {
+			this.save(fetched);
+		} catch (InexistentObjectException ex) {
 			throw ex;
 		}
 	}
