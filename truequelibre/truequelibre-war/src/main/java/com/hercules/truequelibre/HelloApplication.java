@@ -43,6 +43,8 @@ public class HelloApplication extends Application {
 		
 		router.attach("/users/{userId}/items/{itemId}",ItemsResource.class);
 
+		router.attach("	api/users/{userId}/items/{itemId}/exchange",ExchangeResource.class);
+		
 		router.attach("/friends",FriendsResource.class);
 		Restlet mainpage = new Restlet() {
 			
