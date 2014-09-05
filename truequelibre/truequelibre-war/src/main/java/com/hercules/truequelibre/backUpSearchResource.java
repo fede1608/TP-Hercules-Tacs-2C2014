@@ -83,7 +83,7 @@ public class backUpSearchResource extends ServerResource {
 	    			   		+ "</button>";
 	    	   
 	    	   //se crea el item a persistir y se almacena la entidad en la base de datos
-	    	   itemPersistido = new ItemTL(item.get("title").toString());
+	    	   itemPersistido = new ItemTL(item.get("id").toString(),item.get("title").toString());
 	    	   ofy().save().entity(itemPersistido).now();
 	    	   search.add(searchItem);
 	       }
