@@ -5,6 +5,8 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.types.User;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class FacebookDataCollector {
 	static FacebookDataCollector instance = null;
@@ -78,6 +80,20 @@ public class FacebookDataCollector {
 				Parameter.with("fields", "id,first_name,last_name,name,gender"));
 		
 		return myFriends;
+	}
+	public String findFacebookFriendsUsingRest(String facebookAccessToken){
+		  JsonArray friends = new JsonArray();
+		  Connection<User> myFriends = FacebookDataCollector.getInstance().getFriends(facebookAccessToken);
+		  System.out.println("Count of my friends: " + myFriends.getData().size()); 
+		  for(User friend: myFriends.getData()){
+			  System.out.println("Friends id and name: "+friend.getId()+" , "+friend.getName());   
+			  JsonObject thisFriend = new JsonObject();
+			  thisFriend.addProperty("id", friend.getId());
+			  thisFriend.addProperty("name", friend.getName());
+			  friends.add(thisFriend);
+		  }
+		  //recuperacion de articulos obtenidos en api/search	  
+		  return friends.toString();
 	}
 }
 	
