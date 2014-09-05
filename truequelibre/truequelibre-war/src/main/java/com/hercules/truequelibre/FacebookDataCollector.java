@@ -30,7 +30,7 @@ public class FacebookDataCollector {
 		
 	}
 	public User findUserWithRest(String accessToken) {
-//		FbProperties fp = FbProperties.getInstance();
+
 		FacebookClient faceClient= new DefaultFacebookClient(accessToken);
 		
 		return faceClient.fetchObject("me",User.class);

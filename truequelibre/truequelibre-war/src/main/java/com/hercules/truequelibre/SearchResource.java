@@ -63,7 +63,7 @@ public class SearchResource extends ServerResource {
 	    	   searchItem.add("img", item.get("thumbnail"));
 	    	   searchItem.add("name", item.get("title"));
 	    	   //se crea el item a persistir y se almacena la entidad en la base de datos
-	    	   itemPersistido = new ItemTL(item.get("title").toString());
+	    	   itemPersistido = new ItemTL(item.get("id").toString(),item.get("title").toString(), item.get("thumbnail").toString());
 	    	   itemSolicitud = new ItemTL("unItemEjemploDeSolicitud");
 	    	   itemSolicitud2 = new ItemTL("unItemEjemploDeSolicitud2");
 	    	   ofy().save().entity(itemSolicitud).now(); //cuando persisto el objeto me autogenera un valor donde puse @Id

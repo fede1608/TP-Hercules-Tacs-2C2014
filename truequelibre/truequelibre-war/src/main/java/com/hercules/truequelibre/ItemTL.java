@@ -2,7 +2,6 @@ package com.hercules.truequelibre;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.googlecode.objectify.Ref;
@@ -14,16 +13,33 @@ import com.googlecode.objectify.annotation.Load;
 //Clase a persistir en la base de datos utilizando objectify
 @Entity
 public class ItemTL {
-	@Id Long id; //con autogenerado
+	@Id String id; //con autogenerado
 	@Index String nombre;
 	String idDuenio;
+	String imagen;
+	Ref<ItemTL> itemDeseado;
 	@Load List<Ref<ItemTL>> solicitudesDeIntercambio = new ArrayList<Ref<ItemTL>>();
 	
 	public ItemTL(){
+		this.id = this.toString();
+		this.imagen = "";
+		this.idDuenio = "";
+		this.nombre = "";
+		this.itemDeseado = null;
 	}
 	
 	public ItemTL(String nombre){
+		this.id = this.toString();
+		this.imagen = "";
+		this.idDuenio = "";
 		this.nombre = nombre;
+	}
+	
+	public ItemTL(String id, String nombre, String imagen){
+		this.id = id; 
+		this.nombre = nombre;
+		this.imagen = imagen;
+		this.idDuenio = "";
 	}
 	
 	public static class Deref {
@@ -51,6 +67,10 @@ public class ItemTL {
 	
 	public List<ItemTL> getSolicitudes() { 
 		return Deref.deref(solicitudesDeIntercambio); 
+	}
+	
+	public void setItemDeseado (ItemTL item){
+		this.itemDeseado = Ref.create(item);
 	}
 	
 	@Override
