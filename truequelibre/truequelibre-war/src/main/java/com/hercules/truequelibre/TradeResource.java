@@ -28,9 +28,11 @@ import com.restfb.exception.FacebookOAuthException;
 //import com.restfb.types.Post;
 import com.restfb.types.User;
 import com.hercules.truequelibre.FacebookDataCollector;
-public class ExchangeResource extends ParameterGathererTemplateResource {
+public class TradeResource extends ParameterGathererTemplateResource {
 	
 	
+	//	api/users/{userId}/items/{itemId}/exchange
+
 	@Override
 	protected Representation get() throws ResourceException {
 		String message = "Trueque Libre!"
@@ -94,13 +96,10 @@ public class ExchangeResource extends ParameterGathererTemplateResource {
 	        	return new StringRepresentation(message.toString(), MediaType.TEXT_PLAIN);
 	        }
 			UserTL usuario = UserTL.load(uid);
-			ItemTL item=new ItemTL(itemId);
-			if(!usuario.items.contains(item)){
-				usuario.items.add(item);
-			}
-			usuario.save();
-			message.addProperty("info", "El item se agrego correctamente");
+			TradeTL exchange = new TradeTL(usuario, usuario, null, null);
+			
 	        return new StringRepresentation(message.toString(), MediaType.TEXT_PLAIN);
 	        //todo autenticar, obtener user desde la db, agregar item y guardar
 	    }
+
 }

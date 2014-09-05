@@ -5,7 +5,7 @@ import com.googlecode.objectify.annotation.Id;
 
 @Entity
 
-public class ExchangeTL {
+public class TradeTL {
 	@Id public String id;
 	public UserTL requesterUser;
 	public UserTL requestedUser;
@@ -13,14 +13,19 @@ public class ExchangeTL {
 	public ItemTL wantedItem;
 	
 	
-	public void acceptExchange() {
+	public void acceptTrade() {
 		this.getRequesterUser().items.remove(offeredItem);
 		this.getRequestedUser().items.add(offeredItem);
 		this.getRequesterUser().items.add(wantedItem);
 		this.getRequestedUser().items.remove(wantedItem);
 	}
+	
+	public void declineTrade() {
+	
+		//Borrar de trades? Avisar que fue rechazado?
+	}
 
-	public ExchangeTL(UserTL requesterUser, UserTL requestedUser,
+	public TradeTL(UserTL requesterUser, UserTL requestedUser,
 			ItemTL offeredItem, ItemTL wantedItem) {
 		
 		this.requesterUser = requesterUser;
