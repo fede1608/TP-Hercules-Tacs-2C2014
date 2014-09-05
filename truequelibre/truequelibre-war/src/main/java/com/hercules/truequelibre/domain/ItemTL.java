@@ -82,7 +82,7 @@ public class ItemTL {
 		this.itemDeseado = Ref.create(item);
 	}
 	public ItemTL getItemDeseado (){
-		return this.itemDeseado.get();
+		return this.itemDeseado==null ? null : this.itemDeseado.get();
 	}
 	
 	@Override

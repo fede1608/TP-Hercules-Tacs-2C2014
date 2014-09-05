@@ -14,4 +14,10 @@ public class JsonTL {
 		json.addProperty("owner", item.owner);
 		return json;
 	}
+	
+	public static JsonObject jsonifyError(String error){
+		JsonObject json = new JsonObject();
+		json.addProperty("error", error);
+		return json;
+	}
 }

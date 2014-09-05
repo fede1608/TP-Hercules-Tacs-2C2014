@@ -60,37 +60,46 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 				}
 				json.add("items", itemsJson);
 			} else {
-				// crear json con error usuario no corresponde con el token
+				json = JsonTL
+						.jsonifyError("Usuario no corresponde con el token");
 			}
 		} else {
 			try {
 				if (FacebookDataCollector.getInstance().informationCanBeShown(
 						token, this.requestedUser())) {
-					
+
 					ItemTL item = ofy().load().type(ItemTL.class)
 							.id(this.requestedItem()).now();
-					if (item != null && item.owner == this.requestedUser()) {
-						json = JsonTL.jsonifyItem(item);
-						json.add("itemDeseado",
-								JsonTL.jsonifyItem(item.getItemDeseado()));
-						JsonArray listaSolicitudes = new JsonArray();
-						Iterator<ItemTL> iterator = item.getSolicitudes()
-								.iterator();
-						while (iterator.hasNext()) {
-							listaSolicitudes.add(JsonTL.jsonifyItem(iterator
-									.next()));
-						}
-						json.add("listaSolicitudes", listaSolicitudes);
+					if (item != null) {
+						if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 
+							json = JsonTL.jsonifyItem(item);
+							json.add("itemDeseado",
+									JsonTL.jsonifyItem(item.getItemDeseado()));
+							JsonArray listaSolicitudes = new JsonArray();
+							Iterator<ItemTL> iterator = item.getSolicitudes()
+									.iterator();
+							while (iterator.hasNext()) {
+								listaSolicitudes.add(JsonTL
+										.jsonifyItem(iterator.next()));
+							}
+							json.add("listaSolicitudes", listaSolicitudes);
+
+						} else {
+							json = JsonTL
+									.jsonifyError("Item pertenece a otro usuario.");
+						}
 					} else {
-						// show error item no existe o pertenece a otro usuario
+						json = JsonTL
+								.jsonifyError("Item no existe");
 					}
 				} else {
-					// show erorr no tengo permisos
+					json = JsonTL.jsonifyError("No tienes permisos necesarios");
 				}
 			} catch (FacebookOAuthException e) {
-				// message =
-				// "el token esta desactualizado, por favor actualicelo";
+
+				json = JsonTL
+						.jsonifyError("el token esta desactualizado, por favor actualicelo");
 			}
 		}
 
