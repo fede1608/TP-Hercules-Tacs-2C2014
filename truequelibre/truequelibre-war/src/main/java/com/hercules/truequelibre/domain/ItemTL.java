@@ -1,4 +1,4 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +16,18 @@ import com.hercules.truequelibre.mlsdk.Meli;
 //Clase a persistir en la base de datos utilizando objectify
 @Entity
 public class ItemTL {
-	@Id String id; 
-	String nombre;
-	@Index String owner;
-	String imagen;
-	@Index Ref<ItemTL> itemDeseado;
-	@Load List<Ref<ItemTL>> solicitudesDeIntercambio = new ArrayList<Ref<ItemTL>>();
-	@Index Boolean intercambiado = false;
+	@Id 
+	public String id; 
+	public String nombre;
+	@Index
+	public String owner;
+	public String imagen;
+	@Index 
+	Ref<ItemTL> itemDeseado;
+	@Load 
+	List<Ref<ItemTL>> solicitudesDeIntercambio = new ArrayList<Ref<ItemTL>>();
+	@Index 
+	Boolean intercambiado = false;
 
 	public ItemTL(){
 		

@@ -1,9 +1,8 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.resources;
 
-import com.hercules.truequelibre.FacebookDataCollector;
-import static com.googlecode.objectify.ObjectifyService.ofy;
+import com.hercules.truequelibre.helpers.FacebookDataCollector;
 import com.google.gson.JsonObject;
-import com.googlecode.objectify.cmd.Query;
+
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -15,12 +14,8 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.util.Series;
-import com.restfb.Connection;
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
+
 import com.restfb.exception.FacebookOAuthException;
-import com.restfb.types.Post;
-import com.restfb.types.User;
 
 public class FriendsResource extends ServerResource{
 

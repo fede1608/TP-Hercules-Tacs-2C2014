@@ -1,31 +1,26 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.resources;
 
+import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.util.Iterator;
 import java.util.List;
-
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
-import org.restlet.data.Cookie;
 import org.restlet.data.Form;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
-import org.restlet.util.Series;
-
 import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.googlecode.objectify.Key;
-import com.hercules.truequelibre.FacebookDataCollector;
+import com.hercules.truequelibre.domain.ItemTL;
+import com.hercules.truequelibre.helpers.DBHandler;
+import com.hercules.truequelibre.helpers.FacebookDataCollector;
 import com.hercules.truequelibre.mlsdk.Meli;
-import com.hercules.truequelibre.ParameterGathererTemplateResource;
-
-import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class ItemsResource extends ParameterGathererTemplateResource {
 

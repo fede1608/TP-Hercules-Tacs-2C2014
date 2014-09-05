@@ -1,4 +1,4 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.application;
 
 import org.restlet.Application;
 import org.restlet.Context;
@@ -9,21 +9,27 @@ import org.restlet.data.MediaType;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.routing.Router;
 import org.restlet.routing.Template;
+import com.hercules.truequelibre.domain.ItemTL;
 import com.googlecode.objectify.ObjectifyService;
+import com.hercules.truequelibre.resources.FriendsResource;
+import com.hercules.truequelibre.resources.ItemsResource;
+import com.hercules.truequelibre.resources.ParametersShowerResource;
+import com.hercules.truequelibre.resources.SearchResource;
+import com.hercules.truequelibre.resources.UsuarioResource;
 
 
-public class HelloApplication extends Application {
+public class MainApplication extends Application {
 
 	//Las clases a persistir deben registrarse en el punto de inicio de la aplicacion
 	static{
 		ObjectifyService.register(ItemTL.class);
 	}
 	
-	public HelloApplication() {
+	public MainApplication() {
 		super();
 	}
 
-	public HelloApplication(Context parentContext) {
+	public MainApplication(Context parentContext) {
 		super(parentContext);
 	}
 

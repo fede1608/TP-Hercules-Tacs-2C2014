@@ -1,4 +1,4 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.resources;
 
 //import com.hercules.truequelibre.FbProperties;
 import org.restlet.Context;
@@ -10,10 +10,12 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
+
 import com.restfb.types.User;
+
 import org.restlet.util.Series;
-import com.hercules.truequelibre.FacebookDataCollector;
-import com.hercules.truequelibre.ParameterGathererTemplateResource;
+
+import com.hercules.truequelibre.helpers.FacebookDataCollector;
 
 public class UsuarioResource extends ParameterGathererTemplateResource {
 	

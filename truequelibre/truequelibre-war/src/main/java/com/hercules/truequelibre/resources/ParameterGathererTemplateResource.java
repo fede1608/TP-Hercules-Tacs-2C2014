@@ -1,4 +1,4 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.resources;
 
 //import com.hercules.truequelibre.FbProperties;
 import org.restlet.Context;

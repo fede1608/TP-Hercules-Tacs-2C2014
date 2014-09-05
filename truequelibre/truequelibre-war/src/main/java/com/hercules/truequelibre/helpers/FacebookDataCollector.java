@@ -1,4 +1,4 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.helpers;
 
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
