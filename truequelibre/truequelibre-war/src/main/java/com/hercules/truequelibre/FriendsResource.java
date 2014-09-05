@@ -34,63 +34,21 @@ public class FriendsResource extends ServerResource{
 
 	@Override
 	protected Representation get() throws ResourceException {
-		
-		String message = "El token de acceso guardado en la cookie es: \n";
-
 		Series<Cookie> cookies = getCookies();	
 		String token = cookies.getValues("accessToken");
-		message+= token +"\n \n";
+		String message="";
 		try{
-			String friends = this.findFacebookFriendsUsingRest(token);
+			String friends = FacebookDataCollector.getInstance().findFacebookFriendsUsingRest(token);
 			message += friends;
 		}catch(FacebookOAuthException e){
 			JsonObject j = new JsonObject();
 			j.addProperty("error", "El token esta desactualizado, por favor actualicelo");
 			message = j.toString();
 		}
-		return new StringRepresentation(message, MediaType.TEXT_HTML);
+		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
 	}
 	
-	public String findFacebookFriendsUsingRest(String facebookAccessToken){
-		 			  
-		  final FacebookClient facebookClient;
-		  facebookClient = new DefaultFacebookClient(facebookAccessToken);
-		  User user = facebookClient.fetchObject("me", User.class);
-		  String userName =   user.getFirstName();
-		  if (userName == null){
-		  userName = user.getLastName(); 
-		  }
-		  
-		  String myFacebookFriendList = " ";
-		  Connection<User> myFriends = FacebookDataCollector.getInstance().getFriends(facebookAccessToken);
-		  System.out.println("Count of my friends: " + myFriends.getData().size()); 
-		  myFacebookFriendList = "Los amigos de " + userName + " " + user.getLastName()+ "\ncon Id: "+ user.getId()+ "\nson:\n";
-		  Connection<Post> myFeed = facebookClient.fetchConnection("me/feed", Post.class);
-		  for(User friend: myFriends.getData()){
-			  System.out.println("Friends id and name: "+friend.getId()+" , "+friend.getName());   
-			  myFacebookFriendList += friend.getName()+"\n";
-		  }
-		  //recuperacion de articulos obtenidos en api/search
-		  String resultadoPersistidoDeSearch = "\nResultados persistidos de api/search?query=criterio\n";
-		  Query<ItemTL> q = ofy().load().type(ItemTL.class);
-		  resultadoPersistidoDeSearch += "<head></head><body>\n";
-		  resultadoPersistidoDeSearch += "<table> \n";
-		  for(ItemTL art: q.list()){
-			  resultadoPersistidoDeSearch += "<div>\n";
-			  if(art.imagen != null && art.imagen != "") {
-				  resultadoPersistidoDeSearch += "\n <img src=" + art.imagen  + "/>\n\n";
-				  if(art.nombre != null) resultadoPersistidoDeSearch +="\n"+ art.nombre +"\n\n\n";
-				  else resultadoPersistidoDeSearch += "/n el nombre dio null!\n";
-			  }
-			  resultadoPersistidoDeSearch += "</div> \n";
-		  }
-		  resultadoPersistidoDeSearch += "</table> \n";
-		  resultadoPersistidoDeSearch += "</body>";
-		  if(q.count() == 0) resultadoPersistidoDeSearch += "Ingresa primero en algun api/search?query=criterioDeBusqueda";
-		  myFacebookFriendList += resultadoPersistidoDeSearch;
-		  
-		  return myFacebookFriendList;
-	}
+	
 
 	
 	
