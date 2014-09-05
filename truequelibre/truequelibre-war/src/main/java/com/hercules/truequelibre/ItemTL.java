@@ -76,6 +76,9 @@ public class ItemTL {
 	public void setItemDeseado (ItemTL item){
 		this.itemDeseado = Ref.create(item);
 	}
+	public ItemTL getItemDeseado (){
+		return this.itemDeseado.get();
+	}
 	
 	@Override
 	public boolean equals(Object o){

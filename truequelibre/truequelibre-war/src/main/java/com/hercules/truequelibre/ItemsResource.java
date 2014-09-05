@@ -41,15 +41,18 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 	protected Representation get() throws ResourceException {
 		String message = null;
 		String token = getCookies().getValues("accessToken");
-		if (this.requestedItem() == null) {
-			if(FacebookDataCollector.getInstance().isTheUser(token, this.requestedUser())){
-				List<ItemTL> items = ofy().load().type(ItemTL.class).filter("owner", this.requestedUser()).filter("intercambiado",false).list();
-				JsonObject json=new JsonObject();
-				JsonArray itemsJson =  new JsonArray();
+		if (this.requestedItem() == null) {// request a api/users/{userid}/items
+			if (FacebookDataCollector.getInstance().isTheUser(token,
+					this.requestedUser())) {
+				List<ItemTL> items = ofy().load().type(ItemTL.class)
+						.filter("owner", this.requestedUser())
+						.filter("intercambiado", false).list();
+				JsonObject json = new JsonObject();
+				JsonArray itemsJson = new JsonArray();
 				Iterator<ItemTL> iterator = items.iterator();
-				while(iterator.hasNext()){
-					JsonObject item =  new JsonObject();
-					ItemTL i=iterator.next();
+				while (iterator.hasNext()) {
+					JsonObject item = new JsonObject();
+					ItemTL i = iterator.next();
 					item.addProperty("id", i.id);
 					item.addProperty("name", i.nombre);
 					item.addProperty("img", i.imagen);
@@ -57,37 +60,51 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					itemsJson.add(item);
 				}
 				json.add("items", itemsJson);
-				message= json.toString();
-			}else{
-				//crear json con error usuario no corresponde con el token
+				message = json.toString();
+			} else {
+				// crear json con error usuario no corresponde con el token
 			}
 		} else {
+			List<ItemTL> items = ofy().load().type(ItemTL.class)
+					.filter("owner", this.requestedUser())
+					.filter("id", this.requestedItem()).list();
 
-			message = "Trueque Libre!" + "\n la pagina que ingreso es: "
-					+ this.getReference() + "\n con el recurso: "
-					+ this.getReference().getBaseRef()
-					+ "\n con el numero de usuario: " + this.requestedUser()
-					+ "\n con el item pedido: " + this.requestedItem() + "\n";
+			if (!items.isEmpty()) {
+				ItemTL item= items.get(0);
+				JsonObject json = new JsonObject();
+				json.addProperty("itemId", item.id);
+				json.addProperty("name", item.nombre);
+				json.addProperty("img", item.imagen);
+				json.addProperty("owner", item.owner);
+				
 
-			 
-			
-			try {
-				if (FacebookDataCollector.getInstance().informationCanBeShown(
-						token, this.requestedUser())) {
-					message += "te puedo mostrar la info del item que es: "
-							+ this.requestedItem();
-					if (this.itemExists(this.requestedItem())) {
-						message += "\n el item pedido existe entre los suyos! \n";
-						message += this.itemInfo(this.requestedItem());
+				message = "Trueque Libre!" + "\n la pagina que ingreso es: "
+						+ this.getReference() + "\n con el recurso: "
+						+ this.getReference().getBaseRef()
+						+ "\n con el numero de usuario: "
+						+ this.requestedUser() + "\n con el item pedido: "
+						+ this.requestedItem() + "\n";
+
+				try {
+					if (FacebookDataCollector.getInstance()
+							.informationCanBeShown(token, this.requestedUser())) {
+						message += "te puedo mostrar la info del item que es: "
+								+ this.requestedItem();
+						if (this.itemExists(this.requestedItem())) {
+							message += "\n el item pedido existe entre los suyos! \n";
+							message += this.itemInfo(this.requestedItem());
+						} else {
+							message += "\n no tiene el item entre sus items";
+						}
 					} else {
-						message += "\n no tiene el item entre sus items";
+						message += "la persona no es amigo suyo";
 					}
-				} else {
-					message += "la persona no es amigo suyo";
+				} catch (FacebookOAuthException e) {
+					message = "el token esta desactualizado, por favor actualicelo";
 				}
-			} catch (FacebookOAuthException e) {
-				message = "el token esta desactualizado, por favor actualicelo";
 			}
+		}else{
+			//show error item no existe o pertenece a otro usuario
 		}
 
 		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
@@ -130,7 +147,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 				ItemTL item = new ItemTL(itemId, uid);
 				DBHandler.getInstance().save(item);
 				message.addProperty("info", "El item se agrego correctamente");
-			}else
+			} else
 				message.addProperty("error",
 						"El item que quiere ingresar ya esta registrado.");
 		}
