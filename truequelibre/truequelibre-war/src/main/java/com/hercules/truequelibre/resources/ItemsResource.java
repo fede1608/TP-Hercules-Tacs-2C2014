@@ -1,10 +1,8 @@
 package com.hercules.truequelibre.resources;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
-
 import java.util.Iterator;
 import java.util.List;
-
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -14,12 +12,12 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
-
 import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.googlecode.objectify.Key;
+import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
@@ -140,9 +138,13 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					"El usuario no corresponde con el token.");
 		} else {
 			if (itemExists(itemId)) {
-				ItemTL item = new ItemTL(itemId, uid);
-				DBHandler.getInstance().save(item);
-				message.addProperty("info", "El item se agrego correctamente");
+				try { 
+					ItemTL item = new ItemTL(itemId, uid);
+					DBHandler.getInstance().save(item);
+					message.addProperty("info", "El item se agrego correctamente");
+				} catch(ItemNotExistsException ex){
+					message.addProperty("info", ex.getMessage());
+				}
 			} else
 				message.addProperty("error",
 						"El item que quiere ingresar ya esta registrado.");
