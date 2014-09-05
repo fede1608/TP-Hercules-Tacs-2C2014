@@ -83,6 +83,7 @@ public class FacebookDataCollector {
 	}
 	public String findFacebookFriendsUsingRest(String facebookAccessToken){
 		  JsonArray friends = new JsonArray();
+		  User u =  FacebookDataCollector.getInstance().findUserWithRest(facebookAccessToken);
 		  Connection<User> myFriends = FacebookDataCollector.getInstance().getFriends(facebookAccessToken);
 		  System.out.println("Count of my friends: " + myFriends.getData().size()); 
 		  for(User friend: myFriends.getData()){
@@ -93,7 +94,11 @@ public class FacebookDataCollector {
 			  friends.add(thisFriend);
 		  }
 		  //recuperacion de articulos obtenidos en api/search	  
-		  return friends.toString();
+		  JsonObject json = new JsonObject();
+		  json.addProperty("userId", u.getId());
+		  json.addProperty("friendsCount", myFriends.getData().size());
+		  json.add("friends", friends);
+		  return json.toString();
 	}
 }
 	
