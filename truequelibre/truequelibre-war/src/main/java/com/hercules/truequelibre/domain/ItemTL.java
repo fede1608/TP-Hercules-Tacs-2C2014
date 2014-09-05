@@ -32,14 +32,13 @@ public class ItemTL {
 	public ItemTL(){
 		
 	}
-	public ItemTL(String id, String owner){
+	public ItemTL(String id, String owner) throws ItemNotExistsException{
 		this.id = id; 
 		this.owner = owner;
 		this.cacheNameImage();
-		
 	}
 	
-	private void cacheNameImage() {
+	private void cacheNameImage() throws ItemNotExistsException {
 		try {
 			JsonObject item = new Meli().get("items/" + this.id);
 			this.imagen=item.get("thumbnail").getAsString();
@@ -47,7 +46,7 @@ public class ItemTL {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		if(this.nombre == null) throw new ItemNotExistsException(this.id);
 	}
 
 	public static class Deref {
