@@ -2,46 +2,49 @@ package com.hercules.truequelibre;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
+import com.google.gson.JsonObject;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
+import com.hercules.truequelibre.mlsdk.Meli;
 
 //Clase a persistir en la base de datos utilizando objectify
 @Entity
 public class ItemTL {
-	@Id String id; //con autogenerado
-	@Index String nombre;
-	String idDuenio;
+	@Id String id; 
+	String nombre;
+	@Index String owner;
 	String imagen;
-	Ref<ItemTL> itemDeseado;
+	@Index Ref<ItemTL> itemDeseado;
 	@Load List<Ref<ItemTL>> solicitudesDeIntercambio = new ArrayList<Ref<ItemTL>>();
-	
+	@Index Boolean intercambiado = false;
+
 	public ItemTL(){
-		this.id = this.toString();
-		this.imagen = "";
-		this.idDuenio = "";
-		this.nombre = "";
-		this.itemDeseado = null;
+		
 	}
-	
-	public ItemTL(String nombre){
-		this.id = this.toString();
-		this.imagen = "";
-		this.idDuenio = "";
-		this.nombre = nombre;
-	}
-	
-	public ItemTL(String id, String nombre, String imagen){
+	public ItemTL(String id, String owner){
 		this.id = id; 
-		this.nombre = nombre;
-		this.imagen = imagen;
-		this.idDuenio = "";
+		this.owner = owner;
+		this.cacheNameImage();
+		
 	}
 	
+	private void cacheNameImage() {
+		try {
+			JsonObject item = new Meli().get("items/" + this.id);
+			this.imagen=item.get("thumbnail").getAsString();
+			this.nombre= item.get("title").getAsString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	public static class Deref {
 	    public static class Func<T> implements Function<Ref<T>, T> {
 	        public static Func<Object> INSTANCE = new Func<Object>();
@@ -61,8 +64,9 @@ public class ItemTL {
 	    }
 	}
 	
-	public void agregarSolicitud (Ref<ItemTL> item){
-		this.solicitudesDeIntercambio.add(item);
+	public void agregarSolicitud (ItemTL item){
+		Ref<ItemTL> r= Ref.create(item);
+		this.solicitudesDeIntercambio.add(r);
 	}
 	
 	public List<ItemTL> getSolicitudes() { 
@@ -79,6 +83,6 @@ public class ItemTL {
 	}
 
 	public void setUser(String userId) {
-		this.idDuenio = userId;
+		this.owner = userId;
 	}
 }

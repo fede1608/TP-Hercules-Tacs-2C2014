@@ -48,10 +48,10 @@ public class SearchResource extends ServerResource {
 		params.add("q", getQuery().getValues("query"));
 		params.add("category", "MLA1000");
 		JsonArray search= new JsonArray();
-		String resultadoPersistido ="\n";
-		ItemTL itemPersistido = null;
-		ItemTL itemSolicitud = null;
-		ItemTL itemSolicitud2 = null;
+//		String resultadoPersistido ="\n";
+//		ItemTL itemPersistido = null;
+//		ItemTL itemSolicitud = null;
+//		ItemTL itemSolicitud2 = null;
 		try {
 	       JsonObject response= m.get("sites/MLA/search", params);
 	       JsonArray results=response.getAsJsonArray("results");
@@ -62,41 +62,41 @@ public class SearchResource extends ServerResource {
 	    	   searchItem.add("id", item.get("id"));
 	    	   searchItem.add("img", item.get("thumbnail"));
 	    	   searchItem.add("name", item.get("title"));
-	    	   //se crea el item a persistir y se almacena la entidad en la base de datos
-	    	   itemPersistido = new ItemTL(item.get("id").toString(),item.get("title").toString(), item.get("thumbnail").toString());
-	    	   itemSolicitud = new ItemTL("unItemEjemploDeSolicitud");
-	    	   itemSolicitud2 = new ItemTL("unItemEjemploDeSolicitud2");
-	    	   ofy().save().entity(itemSolicitud).now(); //cuando persisto el objeto me autogenera un valor donde puse @Id
-	    	   ofy().save().entity(itemSolicitud2).now();
-	    	   Ref<ItemTL> ref1 = Ref.create(Key.create(ItemTL.class,itemSolicitud.id)); //armo unas Refs para que se pueda aplicar get() directamente
-	    	   Ref<ItemTL> ref2 = Ref.create(Key.create(ItemTL.class,itemSolicitud2.id));
-	    	   itemPersistido.agregarSolicitud(ref1);
-	    	   itemPersistido.agregarSolicitud(ref2);
-	    	   ofy().save().entity(itemPersistido).now();
+//	    	   //se crea el item a persistir y se almacena la entidad en la base de datos
+//	    	   itemPersistido = new ItemTL(item.get("id").toString(),item.get("title").toString(), item.get("thumbnail").toString());
+//	    	   itemSolicitud = new ItemTL("unItemEjemploDeSolicitud");
+//	    	   itemSolicitud2 = new ItemTL("unItemEjemploDeSolicitud2");
+//	    	   ofy().save().entity(itemSolicitud).now(); //cuando persisto el objeto me autogenera un valor donde puse @Id
+//	    	   ofy().save().entity(itemSolicitud2).now();
+//	    	   Ref<ItemTL> ref1 = Ref.create(Key.create(ItemTL.class,itemSolicitud.id)); //armo unas Refs para que se pueda aplicar get() directamente
+//	    	   Ref<ItemTL> ref2 = Ref.create(Key.create(ItemTL.class,itemSolicitud2.id));
+//	    	   itemPersistido.agregarSolicitud(ref1);
+//	    	   itemPersistido.agregarSolicitud(ref2);
+//	    	   ofy().save().entity(itemPersistido).now();
 	    	   search.add(searchItem);
 	       }
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Key<ItemTL> clave = Key.create(ItemTL.class, itemPersistido.id); //se crea una clave para acceder al item
-		ItemTL fetched1 = ofy().load().key(clave).safe(); //la clave era del ultimo item agregado, safe() me
-		resultadoPersistido += fetched1.id+"\n";
-		resultadoPersistido += fetched1.nombre+"\n";
-		resultadoPersistido += "Lista de solicitudes:\n";
-		resultadoPersistido += "Primer item de las solicitudes:\n";
-		if(fetched1.solicitudesDeIntercambio.isEmpty()){
-			resultadoPersistido += "solicitudesDeIntercambio esta vacio";
-		}
-		else{
-			List<ItemTL> listaSolicitudes =  fetched1.getSolicitudes();
-			ItemTL itemRecuperado = listaSolicitudes.get(0);
-			resultadoPersistido	+= itemRecuperado.nombre + "\n";
-			resultadoPersistido += "Segundo item de las solicitudes:\n";
-			itemRecuperado = listaSolicitudes.get(1);
-			resultadoPersistido	+= itemRecuperado.nombre + "\n";
-		}
-		return new StringRepresentation(search.toString()+resultadoPersistido, MediaType.TEXT_PLAIN);
+//		Key<ItemTL> clave = Key.create(ItemTL.class, itemPersistido.id); //se crea una clave para acceder al item
+//		ItemTL fetched1 = ofy().load().key(clave).safe(); //la clave era del ultimo item agregado, safe() me
+//		resultadoPersistido += fetched1.id+"\n";
+//		resultadoPersistido += fetched1.nombre+"\n";
+//		resultadoPersistido += "Lista de solicitudes:\n";
+//		resultadoPersistido += "Primer item de las solicitudes:\n";
+//		if(fetched1.solicitudesDeIntercambio.isEmpty()){
+//			resultadoPersistido += "solicitudesDeIntercambio esta vacio";
+//		}
+//		else{
+//			List<ItemTL> listaSolicitudes =  fetched1.getSolicitudes();
+//			ItemTL itemRecuperado = listaSolicitudes.get(0);
+//			resultadoPersistido	+= itemRecuperado.nombre + "\n";
+//			resultadoPersistido += "Segundo item de las solicitudes:\n";
+//			itemRecuperado = listaSolicitudes.get(1);
+//			resultadoPersistido	+= itemRecuperado.nombre + "\n";
+//		}
+		return new StringRepresentation(search.toString(), MediaType.TEXT_PLAIN);
 	}
 
 }

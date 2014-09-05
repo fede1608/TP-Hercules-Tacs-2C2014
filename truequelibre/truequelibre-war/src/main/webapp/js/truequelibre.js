@@ -90,6 +90,7 @@ var token="";
       document.getElementById('status').innerHTML =
         '' + response.name + '!'+ '<br> <a href="#" onClick="logout();">Logout</a>';
       document.getElementById('form').setAttribute('action', '/api/users/'+userId+'/items');
+      document.getElementById('items').setAttribute('href', '/api/users/'+userId+'/items');
     });
   }
   

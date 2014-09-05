@@ -38,6 +38,10 @@ public class FacebookDataCollector {
 	public boolean isTheUser(User user, String requestedUser) {
 		return user.getId().equals(requestedUser);
 	}
+	
+	public boolean isTheUser(String token, String requestedUser) {
+		return findUserWithRest(token).getId().equals(requestedUser);
+	}
 	public boolean isAFriend(String facebookAccessToken, String friendId){
 		  FacebookClient facebookClient = new DefaultFacebookClient(facebookAccessToken);
 		  	 
