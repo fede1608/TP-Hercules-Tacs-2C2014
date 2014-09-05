@@ -1,8 +1,10 @@
 package com.hercules.truequelibre.resources;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.util.Iterator;
 import java.util.List;
+
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -12,6 +14,7 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
+
 import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.google.gson.JsonArray;
@@ -20,6 +23,7 @@ import com.googlecode.objectify.Key;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
+import com.hercules.truequelibre.helpers.JsonTL;
 import com.hercules.truequelibre.mlsdk.Meli;
 
 public class ItemsResource extends ParameterGathererTemplateResource {
@@ -34,15 +38,15 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 
 	@Override
 	protected Representation get() throws ResourceException {
-		String message = null;
 		String token = getCookies().getValues("accessToken");
+		JsonObject json = new JsonObject();
 		if (this.requestedItem() == null) {// request a api/users/{userid}/items
 			if (FacebookDataCollector.getInstance().isTheUser(token,
 					this.requestedUser())) {
 				List<ItemTL> items = ofy().load().type(ItemTL.class)
 						.filter("owner", this.requestedUser())
 						.filter("intercambiado", false).list();
-				JsonObject json = new JsonObject();
+				json = new JsonObject();
 				JsonArray itemsJson = new JsonArray();
 				Iterator<ItemTL> iterator = items.iterator();
 				while (iterator.hasNext()) {
@@ -55,54 +59,42 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					itemsJson.add(item);
 				}
 				json.add("items", itemsJson);
-				message = json.toString();
 			} else {
 				// crear json con error usuario no corresponde con el token
 			}
 		} else {
-			List<ItemTL> items = ofy().load().type(ItemTL.class)
-					.filter("owner", this.requestedUser())
-					.filter("id", this.requestedItem()).list();
-
-			if (!items.isEmpty()) {
-				ItemTL item= items.get(0);
-				JsonObject json = new JsonObject();
-				json.addProperty("itemId", item.id);
-				json.addProperty("name", item.nombre);
-				json.addProperty("img", item.imagen);
-				json.addProperty("owner", item.owner);
-				
-
-				message = "Trueque Libre!" + "\n la pagina que ingreso es: "
-						+ this.getReference() + "\n con el recurso: "
-						+ this.getReference().getBaseRef()
-						+ "\n con el numero de usuario: "
-						+ this.requestedUser() + "\n con el item pedido: "
-						+ this.requestedItem() + "\n";
-
-				try {
-					if (FacebookDataCollector.getInstance()
-							.informationCanBeShown(token, this.requestedUser())) {
-						message += "te puedo mostrar la info del item que es: "
-								+ this.requestedItem();
-						if (this.itemExists(this.requestedItem())) {
-							message += "\n el item pedido existe entre los suyos! \n";
-							message += this.itemInfo(this.requestedItem());
-						} else {
-							message += "\n no tiene el item entre sus items";
+			try {
+				if (FacebookDataCollector.getInstance().informationCanBeShown(
+						token, this.requestedUser())) {
+					
+					ItemTL item = ofy().load().type(ItemTL.class)
+							.id(this.requestedItem()).now();
+					if (item != null && item.owner == this.requestedUser()) {
+						json = JsonTL.jsonifyItem(item);
+						json.add("itemDeseado",
+								JsonTL.jsonifyItem(item.getItemDeseado()));
+						JsonArray listaSolicitudes = new JsonArray();
+						Iterator<ItemTL> iterator = item.getSolicitudes()
+								.iterator();
+						while (iterator.hasNext()) {
+							listaSolicitudes.add(JsonTL.jsonifyItem(iterator
+									.next()));
 						}
+						json.add("listaSolicitudes", listaSolicitudes);
+
 					} else {
-						message += "la persona no es amigo suyo";
+						// show error item no existe o pertenece a otro usuario
 					}
-				} catch (FacebookOAuthException e) {
-					message = "el token esta desactualizado, por favor actualicelo";
+				} else {
+					// show erorr no tengo permisos
 				}
+			} catch (FacebookOAuthException e) {
+				// message =
+				// "el token esta desactualizado, por favor actualicelo";
 			}
-		}else{
-			//show error item no existe o pertenece a otro usuario
 		}
 
-		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
+		return new StringRepresentation(json.toString(), MediaType.TEXT_PLAIN);
 	}
 
 	public String itemInfo(String requestedItem) {
