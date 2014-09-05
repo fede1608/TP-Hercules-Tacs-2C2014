@@ -121,6 +121,45 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 	private boolean itemExists(String itemId) {
 		return ofy().load().filterKey(Key.create(ItemTL.class, itemId)).count() == 0;
 	}
+	
+	@Override
+	protected Representation delete() throws ResourceException {
+		String token = getCookies().getValues("accessToken");
+		JsonObject json = new JsonObject();
+		if (this.requestedItem() == null) {// request a api/users/{userid}/items
+			json= JsonTL.jsonifyError("No se ha seleccionado un item.");
+		} else {
+			try {
+				if (FacebookDataCollector.getInstance().isTheUser(
+						token, this.requestedUser())) {
+
+					ItemTL item = ofy().load().type(ItemTL.class)
+							.id(this.requestedItem()).now();
+					if (item != null) {
+						if (item.owner.equalsIgnoreCase(this.requestedUser())) {
+
+							ofy().delete().key(Key.create(ItemTL.class,item.id)).now();
+
+						} else {
+							json = JsonTL
+									.jsonifyError("Item pertenece a otro usuario.");
+						}
+					} else {
+						json = JsonTL
+								.jsonifyError("Item no existe");
+					}
+				} else {
+					json = JsonTL.jsonifyError("No tienes permisos necesarios");
+				}
+			} catch (FacebookOAuthException e) {
+
+				json = JsonTL
+						.jsonifyError("el token esta desactualizado, por favor actualicelo");
+			}
+		}
+		
+		return new StringRepresentation(json.toString(), MediaType.TEXT_PLAIN);
+	}
 
 	@Override
 	public Representation post(Representation entity) {
