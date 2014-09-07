@@ -9,12 +9,14 @@ import org.restlet.data.MediaType;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.routing.Router;
 import org.restlet.routing.Template;
+
 import com.hercules.truequelibre.domain.ItemTL;
 import com.googlecode.objectify.ObjectifyService;
 import com.hercules.truequelibre.resources.FriendsResource;
 import com.hercules.truequelibre.resources.ItemsResource;
 import com.hercules.truequelibre.resources.ParametersShowerResource;
 import com.hercules.truequelibre.resources.SearchResource;
+import com.hercules.truequelibre.resources.TradeRequestsResource;
 import com.hercules.truequelibre.resources.UsersResource;
 
 
@@ -49,6 +51,7 @@ public class MainApplication extends Application {
 		router.attach("/users/{userId}/items/{itemId}",ItemsResource.class);
 
 		router.attach("/friends",FriendsResource.class);
+		router.attach("/tradeRequests",TradeRequestsResource.class);
 		Restlet mainpage = new Restlet() {
 			
 			
