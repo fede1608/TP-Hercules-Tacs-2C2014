@@ -25,7 +25,7 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 
 
 * ~~La aplicación debe funcionar en Google App Engine.~~
-* El login de usuario debe ser con Facebook a través de OAuth.
+* ~~El login de usuario debe ser con Facebook a través de OAuth.~~
 * ~~Todos los items creados deberán referenciar a un artículo de Mercado Libre. Para eso la aplicación debe integrarse con la API del sitio.~~
 * Todas las llamadas al servidor deben ser asincrónicas.
 * Si bien se espera algo sencillo. La aplicación debe tener un frontend amigable a los usuarios.
@@ -44,42 +44,42 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 ##User Stories:
 
 
-* Como usuario quiero poder registrarme con mi cuenta de Facebook.
-* Como usuario quiero poder publicar un item, buscando y seleccionando un artículo publicado en Mercado Libre a modo de referencia.
-* Como usuario quiero ver los items publicados por mis amigos con su descripción e imagen correspondiente.
-* Como usuario quiero enviar a un amigo una solicitud de trueque indicando un item publicado por él y uno publicado por mi.
-* Como usuario quiero poder aceptar o rechazar una solicitud de trueque que me haya sido enviada.
-* Como usuario quiero compartir la creación de un ítem en Facebook
+* ~~Como usuario quiero poder registrarme con mi cuenta de Facebook.~~
+* Como usuario quiero poder publicar un item, buscando y seleccionando un artículo publicado en Mercado Libre a modo de referencia. [API]
+* Como usuario quiero ver los items publicados por mis amigos con su descripción e imagen correspondiente. [API]
+* Como usuario quiero enviar a un amigo una solicitud de trueque indicando un item publicado por él y uno publicado por mi. 
+* Como usuario quiero poder aceptar o rechazar una solicitud de trueque que me haya sido enviada. 
+* Como usuario quiero compartir la creación de un ítem en Facebook 
 * Como usuario quiero compartir un trueque aceptado en mi muro de Facebook.
 * Como usuario quiero ver las solicitudes de trueque que me fueron enviadas.
-* Como usuario quiero retirar de circulación un item que cree.
+* Como usuario quiero retirar de circulación un item que cree. [API]
 * Como usuario quiero recibir una notificación en Facebook cuando alguien acepte un trueque que propuse.
 
 
 ##Entregas:
 
 
-#Entrega 1 - Basis
+#Entrega 1 - Basis (2 semanas)
 
-* Esqueleto de la aplicación WEB (2 semanas).
+* Esqueleto de la aplicación WEB.
 * Se debe definir un primer approach hacia los recursos y URLs REST que se utilizarán para cumplir con las historias propuestas. Para esta entrega no es necesario que las historias funcionen sino que los recursos devuelvan respuestas ficticias estáticas.
 
-#Entrega 2 - App volátil
+#Entrega 2 - App volátil (3 semanas)
 
-* Funcionalidad principal sin diferenciar usuarios y persistiendo en memoria (3 semanas).
+* Funcionalidad principal sin diferenciar usuarios y persistiendo en memoria.
 * Se debe definir el comportamiento de los principales servicios relacionados al dominio (no sociales) y cumplir con la funcionalidad persistiendo en memoria. La integración principal con la API de Mercado Libre debe estar disponible en esta entrega
 
-#Entrega 3 - Social
+#Entrega 3 - Social (2 semanas)
 
-* Integración principal con Facebook. (2 semanas).
+* Integración principal con Facebook..
 * Se debe realizar la primera integración con facebook. Login e interacción con amigos.
 
-#Entrega 4 - GAE
+#Entrega 4 - GAE (3 semanas)
 
-* Persistencia utilizado Google App Engine (3 semanas)
+* Persistencia utilizado Google App Engine
 * Se debe modificar la aplicación para que en vez de almacenar los datos en memoria, la misma lo haga utilizando Google App Engine.
 
-#Entrega 5 - Final
+#Entrega 5 - Final (2 semanas)
 
-* Entrega final del TP. Cerrar historias que no hayan sido atacadas + bonus (2 semanas).
+* Entrega final del TP. Cerrar historias que no hayan sido atacadas + bonus.
 * Se deben implementar todas las historias propuestas en el backlog. A su vez se coordinará con el ayudante la inclusión de una o más historias extra.
