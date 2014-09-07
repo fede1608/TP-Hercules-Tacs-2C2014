@@ -15,7 +15,7 @@ import com.hercules.truequelibre.resources.FriendsResource;
 import com.hercules.truequelibre.resources.ItemsResource;
 import com.hercules.truequelibre.resources.ParametersShowerResource;
 import com.hercules.truequelibre.resources.SearchResource;
-import com.hercules.truequelibre.resources.UsuarioResource;
+import com.hercules.truequelibre.resources.UsersResource;
 
 
 public class MainApplication extends Application {
@@ -43,7 +43,7 @@ public class MainApplication extends Application {
 
 		router.attach("/parametersshower", ParametersShowerResource.class);
 
-		router.attach("/users/{userId}",UsuarioResource.class);
+		router.attach("/users/{userId}",UsersResource.class);
 		
 		router.attach("/users/{userId}/items",ItemsResource.class);
 		router.attach("/users/{userId}/items/{itemId}",ItemsResource.class);
