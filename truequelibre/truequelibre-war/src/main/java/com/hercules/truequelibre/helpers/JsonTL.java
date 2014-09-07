@@ -9,6 +9,7 @@ public class JsonTL {
 		JsonObject json = new JsonObject();
 		if(item==null) return json;//devuelve json vacio si el item pasado es null
 		json.addProperty("itemId", item.id);
+		json.addProperty("idRefML", item.idRefML);
 		json.addProperty("name", item.nombre);
 		json.addProperty("img", item.imagen);
 		json.addProperty("owner", item.owner);
@@ -20,4 +21,5 @@ public class JsonTL {
 		json.addProperty("error", error);
 		return json;
 	}
+	
 }

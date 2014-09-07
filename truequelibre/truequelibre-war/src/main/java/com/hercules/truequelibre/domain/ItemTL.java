@@ -17,13 +17,14 @@ import com.hercules.truequelibre.mlsdk.Meli;
 @Entity
 public class ItemTL {
 	@Id 
-	public String id; 
+	public Long id; 
+	public String idRefML;
 	public String nombre;
 	@Index
 	public String owner;
 	public String imagen;
 	@Index 
-	Ref<ItemTL> itemDeseado;
+	Ref<ItemTL> itemDeseado = null;
 	@Load 
 	List<Ref<ItemTL>> solicitudesDeIntercambio = new ArrayList<Ref<ItemTL>>();
 	@Index 
@@ -33,20 +34,20 @@ public class ItemTL {
 		
 	}
 	public ItemTL(String id, String owner) throws ItemNotExistsException{
-		this.id = id; 
+		this.idRefML = id; 
 		this.owner = owner;
 		this.cacheNameImage();
 	}
 	
 	private void cacheNameImage() throws ItemNotExistsException {
 		try {
-			JsonObject item = new Meli().get("items/" + this.id);
+			JsonObject item = new Meli().get("items/" + this.idRefML);
 			this.imagen=item.get("thumbnail").getAsString();
 			this.nombre= item.get("title").getAsString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(this.nombre == null) throw new ItemNotExistsException(this.id);
+		if(this.nombre == null) throw new ItemNotExistsException(this.idRefML);
 	}
 
 	public static class Deref {

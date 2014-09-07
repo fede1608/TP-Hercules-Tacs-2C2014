@@ -17,14 +17,14 @@ import org.restlet.util.Series;
 
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
 
-public class UsuarioResource extends ParameterGathererTemplateResource {
+public class UsersResource extends ParameterGathererTemplateResource {
 	
 	
-	public UsuarioResource() {
+	public UsersResource() {
 		super();
 	}
 
-	public UsuarioResource(Context context, Request request, Response response) {
+	public UsersResource(Context context, Request request, Response response) {
 		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
 	}
 

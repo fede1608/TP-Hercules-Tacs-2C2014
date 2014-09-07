@@ -51,6 +51,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					JsonObject item = new JsonObject();
 					ItemTL i = iterator.next();
 					item.addProperty("id", i.id);
+					item.addProperty("idRefML", i.idRefML);
 					item.addProperty("name", i.nombre);
 					item.addProperty("img", i.imagen);
 					item.addProperty("owner", i.owner);
@@ -108,7 +109,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 		JsonObject searchItem = new JsonObject();
 		try {
 			JsonObject item = new Meli().get("items/" + this.requestedItem());
-			searchItem.add("id", item.get("id"));
+			searchItem.add("idRefML", item.get("id"));
 			searchItem.add("img", item.get("thumbnail"));
 			searchItem.add("name", item.get("title"));
 		} catch (Exception e) {
@@ -116,10 +117,6 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 		}
 
 		return searchItem.toString();
-	}
-
-	private boolean itemExists(String itemId) {
-		return ofy().load().filterKey(Key.create(ItemTL.class, itemId)).count() == 0;
 	}
 	
 	@Override
@@ -176,17 +173,13 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			message.addProperty("error",
 					"El usuario no corresponde con el token.");
 		} else {
-			if (itemExists(itemId)) {
-				try { 
-					ItemTL item = new ItemTL(itemId, uid);
-					DBHandler.getInstance().save(item);
-					message.addProperty("info", "El item se agrego correctamente");
-				} catch(ItemNotExistsException ex){
-					message.addProperty("info", ex.getMessage());
-				}
-			} else
-				message.addProperty("error",
-						"El item que quiere ingresar ya esta registrado.");
+			try { 
+				ItemTL item = new ItemTL(itemId, uid);
+				DBHandler.getInstance().save(item);
+				message.addProperty("info", "El item se agrego correctamente");
+			} catch(ItemNotExistsException ex){
+				message.addProperty("info", ex.getMessage());
+			}
 		}
 
 		return new StringRepresentation(message.toString(),
