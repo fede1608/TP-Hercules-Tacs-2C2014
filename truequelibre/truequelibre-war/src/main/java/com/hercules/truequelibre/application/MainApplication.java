@@ -16,7 +16,7 @@ import com.hercules.truequelibre.resources.FriendsResource;
 import com.hercules.truequelibre.resources.ItemsResource;
 import com.hercules.truequelibre.resources.ParametersShowerResource;
 import com.hercules.truequelibre.resources.SearchResource;
-import com.hercules.truequelibre.resources.TradeRequestsResource;
+import com.hercules.truequelibre.resources.PendingTradesResource;
 import com.hercules.truequelibre.resources.UsersResource;
 
 
@@ -51,7 +51,7 @@ public class MainApplication extends Application {
 		router.attach("/users/{userId}/items/{itemId}",ItemsResource.class);
 
 		router.attach("/friends",FriendsResource.class);
-		router.attach("/tradeRequests",TradeRequestsResource.class);
+		router.attach("/pendingTrades",PendingTradesResource.class);
 		Restlet mainpage = new Restlet() {
 			
 			

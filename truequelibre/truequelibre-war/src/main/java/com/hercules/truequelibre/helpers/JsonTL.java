@@ -1,5 +1,9 @@
 package com.hercules.truequelibre.helpers;
 
+import java.util.Iterator;
+import java.util.List;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.domain.ItemTL;
 
@@ -20,6 +24,22 @@ public class JsonTL {
 		JsonObject json = new JsonObject();
 		json.addProperty("error", error);
 		return json;
+	}
+	public static JsonArray jsonifyItemList(List<ItemTL> items){
+		Iterator<ItemTL> iterator = items
+				.iterator();
+		JsonArray requestList=new JsonArray();
+		while (iterator.hasNext()) {
+			requestList.add(JsonTL
+					.jsonifyItem(iterator.next()));
+		}
+		return requestList;
+	}
+	public static JsonObject jsonifyItemWithRequests(ItemTL item){
+		JsonObject jsonItem=JsonTL.jsonifyItem(item);
+		jsonItem.add("SentTradeRequests", JsonTL.jsonifyItemList(item.getWishlist())); //no se si se puede usar this en la misma clase
+		jsonItem.add("RecievedTradeRequests", JsonTL.jsonifyItemList(item.getTradeRequests()));
+		return jsonItem;
 	}
 	
 }

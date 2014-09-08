@@ -24,7 +24,7 @@ public class ItemTL {
 	public String owner;
 	public String image;
 	@Index 
-	Ref<ItemTL> wishlist = null;
+	List<Ref<ItemTL>> wishlist = null;
 	@Load 
 	List<Ref<ItemTL>> exchangeRequests = new ArrayList<Ref<ItemTL>>();
 	@Index 
@@ -74,15 +74,15 @@ public class ItemTL {
 		this.exchangeRequests.add(r);
 	}
 	
-	public List<ItemTL> getSolicitudes() { 
+	public List<ItemTL> getTradeRequests() { 
 		return Deref.deref(exchangeRequests); 
 	}
 	
-	public void setItemDeseado (ItemTL item){
-		this.wishlist = Ref.create(item);
+	public void addWishedItem (ItemTL item){
+		wishlist.add(Ref.create(item));
 	}
-	public ItemTL getItemDeseado (){
-		return this.wishlist==null ? null : this.wishlist.get();
+	public List<ItemTL> getWishlist (){
+		return Deref.deref(wishlist);
 	}
 	
 	@Override
