@@ -26,7 +26,7 @@ public class SearchResource extends ServerResource {
 	}
 
 	public SearchResource(Context context, Request request, Response response) {
-		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
+		getVariants().add(new Variant(MediaType.APPLICATION_JSON));
 	}
 	
 	public String stackTraceToString(Throwable e) {
@@ -64,7 +64,7 @@ public class SearchResource extends ServerResource {
 		} catch (Exception e) {
 			json=JsonTL.jsonifyError(e.getMessage());
 		}
-		return new StringRepresentation(json.toString(), MediaType.TEXT_PLAIN);
+		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 
 }

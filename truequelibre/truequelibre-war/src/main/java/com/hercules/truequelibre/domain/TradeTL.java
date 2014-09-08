@@ -12,6 +12,7 @@ public class TradeTL {
 	public ItemTL offeredItem;
 	public ItemTL wantedItem;
 	public boolean active;
+	public String date;
 	
 	
 	public void acceptTrade() {

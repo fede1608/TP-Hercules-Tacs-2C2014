@@ -24,7 +24,7 @@ public class FriendsResource extends ServerResource{
 		super();
 	}	
 	public FriendsResource(Context context, Request request, Response response) {
-		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
+		getVariants().add(new Variant(MediaType.APPLICATION_JSON));
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class FriendsResource extends ServerResource{
 			j.addProperty("error", "El token esta desactualizado, por favor actualicelo");
 			message = j.toString();
 		}
-		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
+		return new StringRepresentation(message, MediaType.APPLICATION_JSON);
 	}
 	
 	

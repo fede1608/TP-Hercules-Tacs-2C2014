@@ -15,7 +15,9 @@ import com.restfb.types.User;
 
 import org.restlet.util.Series;
 
+import com.google.gson.JsonObject;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
+import com.hercules.truequelibre.helpers.JsonTL;
 
 public class UsersResource extends ParameterGathererTemplateResource {
 	
@@ -25,34 +27,29 @@ public class UsersResource extends ParameterGathererTemplateResource {
 	}
 
 	public UsersResource(Context context, Request request, Response response) {
-		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
+		getVariants().add(new Variant(MediaType.APPLICATION_JSON));
 	}
 
 	@Override
 	protected Representation get() throws ResourceException {
-		String message = "Trueque Libre!"
-			+ "\n la pagina que ingreso es: " + this.getReference()
-			+ "\n con el recurso: " + this.getReference().getBaseRef()
-			+ "\n con el numero de usuario: " + (String) this.getRequest().getAttributes().get("userId")
-			+ "\n";
-		Series<Cookie> cookies = getCookies();	
-		String token = cookies.getValues("accessToken");
+		JsonObject json=new JsonObject();
+		String token = getCookies().getValues("accessToken");
 		User user = FacebookDataCollector.getInstance().findUserWithRest(token);
-		String userName =   user.getFirstName();
-		if (userName == null){
-		 userName = user.getLastName();
-		}else{
-			userName += " " + user.getLastName();
-		}
+		String userName =   user.getName();
 		if(FacebookDataCollector.getInstance().isTheUser(user,this.requestedUser())){
-		message += "Bienvenido! Su usuario es " +userName + " y su id de facebook " + user.getId() + "\n";
+			
 		}else{
 			if(FacebookDataCollector.getInstance().isAFriend(token, this.requestedUser())){
-				message += "siii est u amigoo! :D \n";
+				user = FacebookDataCollector.getInstance().getFriendData(token, this.requestedUser());
+			}else{
+				json = JsonTL.jsonifyError("No tienes permisos para ver este usuario");
+				return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 			}
-		message += FacebookDataCollector.getInstance().getFriendData(token, this.requestedUser());
 		}
-		return new StringRepresentation(message, MediaType.TEXT_PLAIN);
+		json.addProperty("id", this.requestedUser());
+		json.addProperty("name", userName);
+		json.addProperty("profilePic", "imagenHarcodeada.png");
+		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 	
 }

@@ -30,7 +30,7 @@ public class PendingTradesResource extends ServerResource{
 		super();
 	}	
 	public PendingTradesResource(Context context, Request request, Response response) {
-		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
+		getVariants().add(new Variant(MediaType.APPLICATION_JSON));
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class PendingTradesResource extends ServerResource{
 			jsonItems.add(JsonTL.jsonifyItemWithRequests(item));
 		}
 		message.add("itemsForRequest", jsonItems);
-		return new StringRepresentation(message.toString(), MediaType.TEXT_PLAIN);
+		return new StringRepresentation(message.toString(), MediaType.APPLICATION_JSON);
 	}
 	
 	
