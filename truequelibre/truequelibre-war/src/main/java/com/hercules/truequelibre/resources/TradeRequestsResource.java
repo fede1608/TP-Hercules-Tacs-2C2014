@@ -67,26 +67,7 @@ public class TradeRequestsResource extends ServerResource{
 		return new StringRepresentation(message.toString(), MediaType.TEXT_PLAIN);
 	}
 	
-	@Post
-    public Representation post(Representation entity) {  
-        // Obtener los datos enviados por post
-        Form form = new Form(entity); 
-        String uid = "";//this.requestedUser();
-        String itemId= form.getFirstValue("itemId");
-        String tokenfb = getCookies().getValues("accessToken");//form.getFirstValue("token");  
-        User userfb= FacebookDataCollector.getInstance().findUserWithRest(tokenfb);
-        
-        JsonObject message=new JsonObject();
-		if(!FacebookDataCollector.getInstance().isTheUser(userfb, uid)){//autenticar
-        	message.addProperty("error", "El usuario no corresponde con el token");
-        	return new StringRepresentation(message.toString(), MediaType.TEXT_PLAIN);
-        }
-		//UserTL usuario = UserTL.load(uid);
-		//TradeTL exchange = new TradeTL(usuario, usuario, null, null);
-		
-        return new StringRepresentation(message.toString(), MediaType.TEXT_PLAIN);
-        //todo autenticar, obtener user desde la db, agregar item y guardar
-    }
+	
 	
 	
 

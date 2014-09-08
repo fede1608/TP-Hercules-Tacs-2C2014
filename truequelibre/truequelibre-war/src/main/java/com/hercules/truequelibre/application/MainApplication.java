@@ -50,7 +50,6 @@ public class MainApplication extends Application {
 		router.attach("/users/{userId}/items",ItemsResource.class);
 		router.attach("/users/{userId}/items/{itemId}",ItemsResource.class);
 
-		//router.attach("	api/users/{userId}/items/{itemId}/exchange",TradeResource.class);
 		
 		router.attach("/friends",FriendsResource.class);
 		router.attach("/tradeRequests",TradeRequestsResource.class);
@@ -79,6 +78,17 @@ public class MainApplication extends Application {
 								+ "<input type=\"submit\" value=\"Search\"> </form></a> --> returns search results for input criteria");
 				stringBuilder.append("</ol>");
 				stringBuilder.append("</td>");
+				
+				stringBuilder
+				.append("<ol><form name=\"tradeproposal\" "
+						+ "action=\"REPLACED BY JAVASCRIPT"
+						+ "method=\"post\">"
+						+ "User <input type=\"text\" name=\"userId\">"
+						+ "Item <input type=\"text\" name=\"itemId\">"
+						+ "<input type=\"button\" value=\"Propose trade\"> </form></a> --> Proposes a trade");
+				stringBuilder.append("</ol>");
+		
+				
 				stringBuilder.append("</tr>");
 				stringBuilder.append("</table>");
 				stringBuilder.append("</body>");

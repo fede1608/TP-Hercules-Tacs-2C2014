@@ -2,6 +2,8 @@ package com.hercules.truequelibre.helpers;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.lang.reflect.ParameterizedType;
+
 import com.googlecode.objectify.NotFoundException;
 import com.hercules.truequelibre.domain.InexistentObjectException;
 import com.hercules.truequelibre.domain.ItemTL;
@@ -28,10 +30,14 @@ public class DBHandler {
 		ofy().save().entity(obj).now();
 	}
 	
-	public Object get(Long objId) throws InexistentObjectException{
-		Object fetched = null;
+	public <T> T get(Long objId) throws InexistentObjectException{
+		
+		T fetched = null;
+		@SuppressWarnings("unchecked")
+		Class<T> objectType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
 		try {
-			fetched = ofy().load().type(objId.getClass()).id(objId).safe();
+			 fetched = (T) ofy().load().type(objectType).id(objId).safe();
 		} catch(NotFoundException ex){
 			InexistentObjectException excepcion = (InexistentObjectException) ex;
 			excepcion.setId(objId);
@@ -39,6 +45,7 @@ public class DBHandler {
 		}
 		return fetched;
 	}
+
 
 	public void addUser(Long itemId, String userId) throws InexistentObjectException {
 		try {

@@ -1,8 +1,10 @@
 package com.hercules.truequelibre.resources;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.util.Iterator;
 import java.util.List;
+
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -12,6 +14,7 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
+
 import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.google.gson.JsonArray;
@@ -19,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.googlecode.objectify.Key;
 import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
+import com.hercules.truequelibre.domain.TradeTL;
 import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
 import com.hercules.truequelibre.helpers.JsonTL;
@@ -89,8 +93,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 									.jsonifyError("Item pertenece a otro usuario.");
 						}
 					} else {
-						json = JsonTL
-								.jsonifyError("Item no existe");
+						json = JsonTL.jsonifyError("Item no existe");
 					}
 				} else {
 					json = JsonTL.jsonifyError("No tienes permisos necesarios");
@@ -118,32 +121,33 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 
 		return searchItem.toString();
 	}
-	
+
 	@Override
 	protected Representation delete() throws ResourceException {
 		String token = getCookies().getValues("accessToken");
 		JsonObject json = new JsonObject();
 		if (this.requestedItem() == null) {// request a api/users/{userid}/items
-			json= JsonTL.jsonifyError("No se ha seleccionado un item.");
+			json = JsonTL.jsonifyError("No se ha seleccionado un item.");
 		} else {
 			try {
-				if (FacebookDataCollector.getInstance().isTheUser(
-						token, this.requestedUser())) {
+				if (FacebookDataCollector.getInstance().isTheUser(token,
+						this.requestedUser())) {
 
 					ItemTL item = ofy().load().type(ItemTL.class)
 							.id(this.requestedItem()).now();
 					if (item != null) {
 						if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 
-							ofy().delete().key(Key.create(ItemTL.class,item.id)).now();
+							ofy().delete()
+									.key(Key.create(ItemTL.class, item.id))
+									.now();
 
 						} else {
 							json = JsonTL
 									.jsonifyError("Item pertenece a otro usuario.");
 						}
 					} else {
-						json = JsonTL
-								.jsonifyError("Item no existe");
+						json = JsonTL.jsonifyError("Item no existe");
 					}
 				} else {
 					json = JsonTL.jsonifyError("No tienes permisos necesarios");
@@ -154,7 +158,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 						.jsonifyError("el token esta desactualizado, por favor actualicelo");
 			}
 		}
-		
+
 		return new StringRepresentation(json.toString(), MediaType.TEXT_PLAIN);
 	}
 
@@ -169,15 +173,33 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 				tokenfb);
 
 		JsonObject message = new JsonObject();
-		if (!FacebookDataCollector.getInstance().isTheUser(userfb, uid)) {// autenticar
+		if (creatingItemInOtherUser(uid, userfb)) {// autenticar
 			message.addProperty("error",
-					"El usuario no corresponde con el token.");
+					"Un usuario no puede crear un item para otro usuario.");
+
+		} else if (requestingTrade(uid, userfb)) {
+			ItemTL wantedItem = (ItemTL) DBHandler.getInstance().get(
+					Long.parseLong(this.requestedItem(), 10));
+			String offeredItemId = form.getFirstValue("offeredItemId");
+
+			ItemTL offeredItem = (ItemTL) DBHandler.getInstance().get(
+					Long.parseLong(offeredItemId, 10));
+
+			TradeTL trade = new TradeTL(offeredItem, wantedItem);
+			//message.addProperty("error","algo salio mal");
+			
+			message.addProperty("itemid",itemId);
+			message.addProperty("offeredItemId",offeredItemId);
+			message.addProperty("offeredItem",offeredItem.name);
+			message.addProperty("wantedItem",wantedItem.name);
+			// DBHandler.getInstance().save(trade);
+
 		} else {
-			try { 
+			try {
 				ItemTL item = new ItemTL(itemId, uid);
 				DBHandler.getInstance().save(item);
 				message.addProperty("info", "El item se agrego correctamente");
-			} catch(ItemNotExistsException ex){
+			} catch (ItemNotExistsException ex) {
 				message.addProperty("info", ex.getMessage());
 			}
 		}
@@ -185,6 +207,18 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 		return new StringRepresentation(message.toString(),
 				MediaType.TEXT_PLAIN);
 
+	}
+
+	private boolean requestingTrade(String uid, User userfb) {
+		return !this.isTheUser(uid, userfb) && this.requestedItem() != null && !this.requestedItem().isEmpty();
+	}
+
+	private boolean creatingItemInOtherUser(String uid, User userfb) {
+		return !this.isTheUser(uid, userfb) && (this.requestedItem() == null || this.requestedItem().isEmpty()) ;
+	}
+
+	private boolean isTheUser(String uid, User userfb) {
+		return FacebookDataCollector.getInstance().isTheUser(userfb, uid);
 	}
 
 }

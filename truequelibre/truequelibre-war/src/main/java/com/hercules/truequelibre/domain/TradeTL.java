@@ -1,5 +1,7 @@
 package com.hercules.truequelibre.domain;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -12,15 +14,14 @@ public class TradeTL {
 	public ItemTL wantedItem;
 	
 	
-	/*public void acceptTrade() {
-		Long auxId = wantedItem.id;
-		wantedItem.setUser(offeredItem.owner);
-		offeredItem.setUser(auxId);
+	public void acceptTrade() {
+	
+		throw new NotImplementedException();
 	}
-	*/
+	
 	public void declineTrade() {
 	
-		//Borrar de trades? Avisar que fue rechazado?
+		throw new NotImplementedException();
 	}
 
 	public TradeTL(	ItemTL offeredItem, ItemTL wantedItem) {
