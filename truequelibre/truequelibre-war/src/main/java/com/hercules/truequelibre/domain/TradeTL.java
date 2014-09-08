@@ -1,24 +1,23 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.domain;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.hercules.truequelibre.domain.ItemTL;
 
 @Entity
 
 public class TradeTL {
-	@Id public String id;
+	@Id public Long id;
 
 	public ItemTL offeredItem;
 	public ItemTL wantedItem;
 	
 	
-	public void acceptTrade() {
-		String auxId = wantedItem.id;
+	/*public void acceptTrade() {
+		Long auxId = wantedItem.id;
 		wantedItem.setUser(offeredItem.owner);
 		offeredItem.setUser(auxId);
 	}
-	
+	*/
 	public void declineTrade() {
 	
 		//Borrar de trades? Avisar que fue rechazado?
