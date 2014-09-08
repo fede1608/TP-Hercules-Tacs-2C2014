@@ -178,11 +178,11 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					"Un usuario no puede crear un item para otro usuario.");
 
 		} else if (requestingTrade(uid, userfb)) {
-			ItemTL wantedItem = (ItemTL) DBHandler.getInstance().get(
+			ItemTL wantedItem = DBHandler.getInstance().get(ItemTL.class,
 					Long.parseLong(this.requestedItem(), 10));
 			String offeredItemId = form.getFirstValue("offeredItemId");
 
-			ItemTL offeredItem = (ItemTL) DBHandler.getInstance().get(
+			ItemTL offeredItem = (ItemTL) DBHandler.getInstance().get(ItemTL.class,
 					Long.parseLong(offeredItemId, 10));
 
 			TradeTL trade = new TradeTL(offeredItem, wantedItem);
@@ -192,7 +192,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			message.addProperty("offeredItemId",offeredItemId);
 			message.addProperty("offeredItem",offeredItem.name);
 			message.addProperty("wantedItem",wantedItem.name);
-			// DBHandler.getInstance().save(trade);
+			DBHandler.getInstance().save(trade);
 
 		} else {
 			try {

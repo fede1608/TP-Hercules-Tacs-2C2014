@@ -30,7 +30,7 @@ public class DBHandler {
 		ofy().save().entity(obj).now();
 	}
 	
-	public <T> T get(Long objId) throws InexistentObjectException{
+	public <T> T get(Class<T> clazz, Long objId) throws InexistentObjectException{
 		
 		T fetched = null;
 		@SuppressWarnings("unchecked")
@@ -49,7 +49,7 @@ public class DBHandler {
 
 	public void addUser(Long itemId, String userId) throws InexistentObjectException {
 		try {
-			ItemTL fetched = (ItemTL)this.get(itemId);
+			ItemTL fetched = this.get(ItemTL.class, itemId);
 			fetched.setUser(userId);
 			this.save(fetched);
 		} catch (InexistentObjectException ex) {
