@@ -19,16 +19,16 @@ public class ItemTL {
 	@Id 
 	public Long id; 
 	public String idRefML;
-	public String nombre;
+	public String name;
 	@Index
 	public String owner;
-	public String imagen;
+	public String image;
 	@Index 
-	Ref<ItemTL> itemDeseado = null;
+	Ref<ItemTL> wishlist = null;
 	@Load 
-	List<Ref<ItemTL>> solicitudesDeIntercambio = new ArrayList<Ref<ItemTL>>();
+	List<Ref<ItemTL>> exchangeRequests = new ArrayList<Ref<ItemTL>>();
 	@Index 
-	Boolean intercambiado = false;
+	Boolean exchanged = false;
 
 	public ItemTL(){
 		
@@ -42,12 +42,12 @@ public class ItemTL {
 	private void cacheNameImage() throws ItemNotExistsException {
 		try {
 			JsonObject item = new Meli().get("items/" + this.idRefML);
-			this.imagen=item.get("thumbnail").getAsString();
-			this.nombre= item.get("title").getAsString();
+			this.image=item.get("thumbnail").getAsString();
+			this.name= item.get("title").getAsString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(this.nombre == null) throw new ItemNotExistsException(this.idRefML);
+		if(this.name == null) throw new ItemNotExistsException(this.idRefML);
 	}
 
 	public static class Deref {
@@ -71,18 +71,18 @@ public class ItemTL {
 	
 	public void agregarSolicitud (ItemTL item){
 		Ref<ItemTL> r= Ref.create(item);
-		this.solicitudesDeIntercambio.add(r);
+		this.exchangeRequests.add(r);
 	}
 	
 	public List<ItemTL> getSolicitudes() { 
-		return Deref.deref(solicitudesDeIntercambio); 
+		return Deref.deref(exchangeRequests); 
 	}
 	
 	public void setItemDeseado (ItemTL item){
-		this.itemDeseado = Ref.create(item);
+		this.wishlist = Ref.create(item);
 	}
 	public ItemTL getItemDeseado (){
-		return this.itemDeseado==null ? null : this.itemDeseado.get();
+		return this.wishlist==null ? null : this.wishlist.get();
 	}
 	
 	@Override

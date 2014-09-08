@@ -52,8 +52,8 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					ItemTL i = iterator.next();
 					item.addProperty("id", i.id);
 					item.addProperty("idRefML", i.idRefML);
-					item.addProperty("name", i.nombre);
-					item.addProperty("img", i.imagen);
+					item.addProperty("name", i.name);
+					item.addProperty("img", i.image);
 					item.addProperty("owner", i.owner);
 					itemsJson.add(item);
 				}

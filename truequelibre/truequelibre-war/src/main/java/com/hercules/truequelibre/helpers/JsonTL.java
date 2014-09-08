@@ -10,8 +10,8 @@ public class JsonTL {
 		if(item==null) return json;//devuelve json vacio si el item pasado es null
 		json.addProperty("itemId", item.id);
 		json.addProperty("idRefML", item.idRefML);
-		json.addProperty("name", item.nombre);
-		json.addProperty("img", item.imagen);
+		json.addProperty("name", item.name);
+		json.addProperty("img", item.image);
 		json.addProperty("owner", item.owner);
 		return json;
 	}
