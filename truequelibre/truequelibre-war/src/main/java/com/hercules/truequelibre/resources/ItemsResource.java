@@ -50,7 +50,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					this.requestedUser())) {
 				List<ItemTL> items = ofy().load().type(ItemTL.class)
 						.filter("owner", this.requestedUser())
-						.filter("intercambiado", false).list();
+						.filter("exchanged", false).list();
 				json = new JsonObject();
 				JsonArray itemsJson = new JsonArray();
 				Iterator<ItemTL> iterator = items.iterator();
@@ -78,19 +78,8 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 							.id(this.requestedItem()).now();
 					if (item != null) {
 						if (item.owner.equalsIgnoreCase(this.requestedUser())) {
-
-							json = JsonTL.jsonifyItem(item);
-							json.add("itemDeseado",
-									JsonTL.jsonifyItem(item.getItemDeseado()));
-							JsonArray listaSolicitudes = new JsonArray();
-							Iterator<ItemTL> iterator = item.getSolicitudes()
-									.iterator();
-							while (iterator.hasNext()) {
-								listaSolicitudes.add(JsonTL
-										.jsonifyItem(iterator.next()));
-							}
-							json.add("listaSolicitudes", listaSolicitudes);
-
+							json = JsonTL.jsonifyItemWithRequests(item);
+							
 						} else {
 							json = JsonTL
 									.jsonifyError("Item pertenece a otro usuario.");
