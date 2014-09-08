@@ -1,10 +1,8 @@
 package com.hercules.truequelibre.resources;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
-
 import java.util.Iterator;
 import java.util.List;
-
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -14,12 +12,12 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
-
 import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.googlecode.objectify.Key;
+import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
@@ -53,44 +51,54 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					JsonObject item = new JsonObject();
 					ItemTL i = iterator.next();
 					item.addProperty("id", i.id);
-					item.addProperty("name", i.nombre);
-					item.addProperty("img", i.imagen);
+					item.addProperty("idRefML", i.idRefML);
+					item.addProperty("name", i.name);
+					item.addProperty("img", i.image);
 					item.addProperty("owner", i.owner);
 					itemsJson.add(item);
 				}
 				json.add("items", itemsJson);
 			} else {
-				// crear json con error usuario no corresponde con el token
+				json = JsonTL
+						.jsonifyError("Usuario no corresponde con el token");
 			}
 		} else {
 			try {
 				if (FacebookDataCollector.getInstance().informationCanBeShown(
 						token, this.requestedUser())) {
-					
+
 					ItemTL item = ofy().load().type(ItemTL.class)
 							.id(this.requestedItem()).now();
-					if (item != null && item.owner == this.requestedUser()) {
-						json = JsonTL.jsonifyItem(item);
-						json.add("itemDeseado",
-								JsonTL.jsonifyItem(item.getItemDeseado()));
-						JsonArray listaSolicitudes = new JsonArray();
-						Iterator<ItemTL> iterator = item.getSolicitudes()
-								.iterator();
-						while (iterator.hasNext()) {
-							listaSolicitudes.add(JsonTL.jsonifyItem(iterator
-									.next()));
-						}
-						json.add("listaSolicitudes", listaSolicitudes);
+					if (item != null) {
+						if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 
+							json = JsonTL.jsonifyItem(item);
+							json.add("itemDeseado",
+									JsonTL.jsonifyItem(item.getItemDeseado()));
+							JsonArray listaSolicitudes = new JsonArray();
+							Iterator<ItemTL> iterator = item.getSolicitudes()
+									.iterator();
+							while (iterator.hasNext()) {
+								listaSolicitudes.add(JsonTL
+										.jsonifyItem(iterator.next()));
+							}
+							json.add("listaSolicitudes", listaSolicitudes);
+
+						} else {
+							json = JsonTL
+									.jsonifyError("Item pertenece a otro usuario.");
+						}
 					} else {
-						// show error item no existe o pertenece a otro usuario
+						json = JsonTL
+								.jsonifyError("Item no existe");
 					}
 				} else {
-					// show erorr no tengo permisos
+					json = JsonTL.jsonifyError("No tienes permisos necesarios");
 				}
 			} catch (FacebookOAuthException e) {
-				// message =
-				// "el token esta desactualizado, por favor actualicelo";
+
+				json = JsonTL
+						.jsonifyError("el token esta desactualizado, por favor actualicelo");
 			}
 		}
 
@@ -101,7 +109,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 		JsonObject searchItem = new JsonObject();
 		try {
 			JsonObject item = new Meli().get("items/" + this.requestedItem());
-			searchItem.add("id", item.get("id"));
+			searchItem.add("idRefML", item.get("id"));
 			searchItem.add("img", item.get("thumbnail"));
 			searchItem.add("name", item.get("title"));
 		} catch (Exception e) {
@@ -110,9 +118,44 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 
 		return searchItem.toString();
 	}
+	
+	@Override
+	protected Representation delete() throws ResourceException {
+		String token = getCookies().getValues("accessToken");
+		JsonObject json = new JsonObject();
+		if (this.requestedItem() == null) {// request a api/users/{userid}/items
+			json= JsonTL.jsonifyError("No se ha seleccionado un item.");
+		} else {
+			try {
+				if (FacebookDataCollector.getInstance().isTheUser(
+						token, this.requestedUser())) {
 
-	private boolean itemExists(String itemId) {
-		return ofy().load().filterKey(Key.create(ItemTL.class, itemId)).count() == 0;
+					ItemTL item = ofy().load().type(ItemTL.class)
+							.id(this.requestedItem()).now();
+					if (item != null) {
+						if (item.owner.equalsIgnoreCase(this.requestedUser())) {
+
+							ofy().delete().key(Key.create(ItemTL.class,item.id)).now();
+
+						} else {
+							json = JsonTL
+									.jsonifyError("Item pertenece a otro usuario.");
+						}
+					} else {
+						json = JsonTL
+								.jsonifyError("Item no existe");
+					}
+				} else {
+					json = JsonTL.jsonifyError("No tienes permisos necesarios");
+				}
+			} catch (FacebookOAuthException e) {
+
+				json = JsonTL
+						.jsonifyError("el token esta desactualizado, por favor actualicelo");
+			}
+		}
+		
+		return new StringRepresentation(json.toString(), MediaType.TEXT_PLAIN);
 	}
 
 	@Override
@@ -130,13 +173,13 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			message.addProperty("error",
 					"El usuario no corresponde con el token.");
 		} else {
-			if (itemExists(itemId)) {
+			try { 
 				ItemTL item = new ItemTL(itemId, uid);
 				DBHandler.getInstance().save(item);
 				message.addProperty("info", "El item se agrego correctamente");
-			} else
-				message.addProperty("error",
-						"El item que quiere ingresar ya esta registrado.");
+			} catch(ItemNotExistsException ex){
+				message.addProperty("info", ex.getMessage());
+			}
 		}
 
 		return new StringRepresentation(message.toString(),

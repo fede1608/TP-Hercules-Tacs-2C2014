@@ -3,7 +3,7 @@
 <head>
 <title>Facebook Login JavaScript Example</title>
 <meta charset="UTF-8">
-<script src="js/truequelibre.js" type="text/javascript"></script>  
+<script src="js/truequelibre/truequelibre.js" type="text/javascript"></script>  
 </head>
 <body>
 
