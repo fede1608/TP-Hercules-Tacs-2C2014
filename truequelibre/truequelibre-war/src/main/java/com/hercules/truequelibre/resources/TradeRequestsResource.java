@@ -41,7 +41,7 @@ public class TradeRequestsResource extends ServerResource{
 		
 		List<ItemTL> items = ofy().load().type(ItemTL.class)
 		.filter("owner", user.getId())
-		.filter("intercambiado", false).list();
+		.filter("exchanged", false).list();
 		JsonObject message= new JsonObject();
 		message.addProperty("id", user.getId()); 
 		message.addProperty("name", user.getName());

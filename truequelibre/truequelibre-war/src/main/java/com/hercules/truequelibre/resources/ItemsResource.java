@@ -43,7 +43,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					this.requestedUser())) {
 				List<ItemTL> items = ofy().load().type(ItemTL.class)
 						.filter("owner", this.requestedUser())
-						.filter("intercambiado", false).list();
+						.filter("exchanged", false).list();
 				json = new JsonObject();
 				JsonArray itemsJson = new JsonArray();
 				Iterator<ItemTL> iterator = items.iterator();
