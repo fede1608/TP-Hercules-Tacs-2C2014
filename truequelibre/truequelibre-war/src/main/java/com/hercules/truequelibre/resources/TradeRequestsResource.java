@@ -38,9 +38,10 @@ public class TradeRequestsResource extends ServerResource{
 		Series<Cookie> cookies = getCookies();	
 		String token = cookies.getValues("accessToken");
 		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
-		@SuppressWarnings("unchecked")
-		List<ItemTL> items = (List<ItemTL>) ofy().load().type(ItemTL.class)
-							.filter("owner", user.getId());
+		
+		List<ItemTL> items = ofy().load().type(ItemTL.class)
+		.filter("owner", user.getId())
+		.filter("intercambiado", false).list();
 		JsonObject message= new JsonObject();
 		message.addProperty("id", user.getId()); 
 		message.addProperty("name", user.getName());
