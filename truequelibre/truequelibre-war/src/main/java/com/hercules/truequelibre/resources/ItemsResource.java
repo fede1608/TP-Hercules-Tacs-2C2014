@@ -25,6 +25,8 @@ import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
 import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
+import com.hercules.truequelibre.helpers.GenDBHandler;
+import com.hercules.truequelibre.helpers.ItemDBHandler;
 import com.hercules.truequelibre.helpers.JsonTL;
 import com.hercules.truequelibre.mlsdk.Meli;
 
@@ -132,6 +134,14 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			try {
 				if (FacebookDataCollector.getInstance().isTheUser(token,
 						this.requestedUser())) {
+					/*
+					 * else if (no es el user pero hay req )
+					 * trade = ofy().load() trade con wantedItem.id = item.id
+					 * 
+					 * ofy().delete()
+									.key(Key.create(TradeTL.class, trade.id))
+									.now();
+					 * */
 
 					ItemTL item = ofy().load().type(ItemTL.class)
 							.id(this.requestedItem()).now();
@@ -178,11 +188,13 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					"Un usuario no puede crear un item para otro usuario.");
 
 		} else if (requestingTrade(uid, userfb)) {
-			ItemTL wantedItem = DBHandler.getInstance().get(ItemTL.class,
+			
+			ItemDBHandler itemDBHandler = new ItemDBHandler();
+			ItemTL wantedItem = itemDBHandler.get(
 					Long.parseLong(this.requestedItem(), 10));
 			String offeredItemId = form.getFirstValue("offeredItemId");
 
-			ItemTL offeredItem = (ItemTL) DBHandler.getInstance().get(ItemTL.class,
+			ItemTL offeredItem = itemDBHandler.get(
 					Long.parseLong(offeredItemId, 10));
 
 			TradeTL trade = new TradeTL(offeredItem, wantedItem);
