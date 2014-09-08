@@ -190,27 +190,27 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			
 			ItemTL wantedItem = ofy().load().type(ItemTL.class)
 					.filter("owner", uid)
-					.filter("intercambiado", false)
+					.filter("exchanged",false)
 					.filter("idRefML",this.requestedItem()).first().now();
 			
 			String offeredItemId = form.getFirstValue("offeredItemId");
 
 			ItemTL offeredItem = ofy().load().type(ItemTL.class)
 					.filter("owner", userfb.getId())
-					.filter("intercambiado", false)
+					.filter("exchanged",false)
 					.filter("idRefML",offeredItemId).first().now();
 			
-			
 			TradeTL trade = new TradeTL(offeredItem, wantedItem);
-			/* pedro 317280481786050 MLA519532991 
-			 * juan 281991468665901 MLA517671331 */
+			
 			message.addProperty("wantedItemId",this.requestedItem());
 			message.addProperty("offeredItemId",offeredItemId);
 			message.addProperty("offeredItem",offeredItem != null? offeredItem.name:"null");
 			message.addProperty("wantedItem",wantedItem != null? wantedItem.name:"null");
 			if(wantedItem!=null && offeredItem != null)
+			{
 				DBHandler.getInstance().save(trade);
-
+				message.addProperty("success","El pedido de trueque se ha registrado con éxito");
+			}
 		} else {
 			try {
 				ItemTL item = new ItemTL(itemId, uid);

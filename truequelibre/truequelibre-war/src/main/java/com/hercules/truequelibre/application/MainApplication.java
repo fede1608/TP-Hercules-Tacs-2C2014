@@ -11,6 +11,7 @@ import org.restlet.routing.Router;
 import org.restlet.routing.Template;
 
 import com.hercules.truequelibre.domain.ItemTL;
+import com.hercules.truequelibre.domain.TradeTL;
 import com.googlecode.objectify.ObjectifyService;
 import com.hercules.truequelibre.resources.FriendsResource;
 import com.hercules.truequelibre.resources.ItemsResource;
@@ -25,6 +26,7 @@ public class MainApplication extends Application {
 	//Las clases a persistir deben registrarse en el punto de inicio de la aplicacion
 	static{
 		ObjectifyService.register(ItemTL.class);
+		ObjectifyService.register(TradeTL.class);
 	}
 	
 	public MainApplication() {

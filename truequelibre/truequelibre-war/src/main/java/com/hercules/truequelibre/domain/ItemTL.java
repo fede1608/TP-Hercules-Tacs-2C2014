@@ -18,6 +18,8 @@ import com.hercules.truequelibre.mlsdk.Meli;
 public class ItemTL {
 	@Id 
 	public Long id; 
+	
+	@Index
 	public String idRefML;
 	public String name;
 	@Index
