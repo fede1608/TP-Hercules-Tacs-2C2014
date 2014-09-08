@@ -1,4 +1,4 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.resources;
 import java.util.Map;
 
 import org.restlet.Context;

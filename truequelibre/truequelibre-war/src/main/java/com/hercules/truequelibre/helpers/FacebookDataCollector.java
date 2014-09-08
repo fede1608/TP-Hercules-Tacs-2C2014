@@ -1,11 +1,12 @@
-package com.hercules.truequelibre;
+package com.hercules.truequelibre.helpers;
 
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
-import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class FacebookDataCollector {
 	static FacebookDataCollector instance = null;
@@ -31,13 +32,17 @@ public class FacebookDataCollector {
 		
 	}
 	public User findUserWithRest(String accessToken) {
-//		FbProperties fp = FbProperties.getInstance();
+
 		FacebookClient faceClient= new DefaultFacebookClient(accessToken);
 		
 		return faceClient.fetchObject("me",User.class);
 	}
 	public boolean isTheUser(User user, String requestedUser) {
 		return user.getId().equals(requestedUser);
+	}
+	
+	public boolean isTheUser(String token, String requestedUser) {
+		return findUserWithRest(token).getId().equals(requestedUser);
 	}
 	public boolean isAFriend(String facebookAccessToken, String friendId){
 		  FacebookClient facebookClient = new DefaultFacebookClient(facebookAccessToken);
@@ -75,6 +80,25 @@ public class FacebookDataCollector {
 				Parameter.with("fields", "id,first_name,last_name,name,gender"));
 		
 		return myFriends;
+	}
+	public String findFacebookFriendsUsingRest(String facebookAccessToken){
+		  JsonArray friends = new JsonArray();
+		  User u =  FacebookDataCollector.getInstance().findUserWithRest(facebookAccessToken);
+		  Connection<User> myFriends = FacebookDataCollector.getInstance().getFriends(facebookAccessToken);
+		  System.out.println("Count of my friends: " + myFriends.getData().size()); 
+		  for(User friend: myFriends.getData()){
+			  System.out.println("Friends id and name: "+friend.getId()+" , "+friend.getName());   
+			  JsonObject thisFriend = new JsonObject();
+			  thisFriend.addProperty("id", friend.getId());
+			  thisFriend.addProperty("name", friend.getName());
+			  friends.add(thisFriend);
+		  }
+		  //recuperacion de articulos obtenidos en api/search	  
+		  JsonObject json = new JsonObject();
+		  json.addProperty("userId", u.getId());
+		  json.addProperty("friendsCount", myFriends.getData().size());
+		  json.add("friends", friends);
+		  return json.toString();
 	}
 }
 	
