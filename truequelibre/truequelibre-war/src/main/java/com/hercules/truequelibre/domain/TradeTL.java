@@ -12,6 +12,7 @@ public class TradeTL {
 
 	public ItemTL offeredItem;
 	public ItemTL wantedItem;
+	public boolean active;
 	
 	
 	public void acceptTrade() {
@@ -28,6 +29,7 @@ public class TradeTL {
 
 		this.offeredItem = offeredItem;
 		this.wantedItem = wantedItem;
+		this.active = true;
 	}
 
 
@@ -45,6 +47,13 @@ public class TradeTL {
 
 	public void setWantedItem(ItemTL wantedItem) {
 		this.wantedItem = wantedItem;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return "wanted: " + wantedItem.id.toString() + " - offered: " + offeredItem.id.toString() + " - active: " + active;
+				
 	}
 
 

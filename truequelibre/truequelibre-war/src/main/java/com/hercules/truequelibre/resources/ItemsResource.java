@@ -28,6 +28,7 @@ import com.hercules.truequelibre.helpers.FacebookDataCollector;
 import com.hercules.truequelibre.helpers.GenDBHandler;
 import com.hercules.truequelibre.helpers.ItemDBHandler;
 import com.hercules.truequelibre.helpers.JsonTL;
+import com.hercules.truequelibre.helpers.TradeDBHandler;
 import com.hercules.truequelibre.mlsdk.Meli;
 
 public class ItemsResource extends ParameterGathererTemplateResource {
@@ -134,16 +135,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			try {
 				if (FacebookDataCollector.getInstance().isTheUser(token,
 						this.requestedUser())) {
-					/*
-					 * else if (no es el user pero hay req )
-					 * trade = ofy().load() trade con wantedItem.id = item.id
-					 * 
-					 * ofy().delete()
-									.key(Key.create(TradeTL.class, trade.id))
-									.now();
-					 * */
-
-					ItemTL item = ofy().load().type(ItemTL.class)
+							ItemTL item = ofy().load().type(ItemTL.class)
 							.id(this.requestedItem()).now();
 					if (item != null) {
 						if (item.owner.equalsIgnoreCase(this.requestedUser())) {
@@ -160,7 +152,23 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 						json = JsonTL.jsonifyError("Item no existe");
 					}
 				} else {
-					json = JsonTL.jsonifyError("No tienes permisos necesarios");
+					
+					TradeTL trade = ofy().load().type(TradeTL.class).filter("wantedItem.id",this.requestedItem()).first().now();
+							  /*
+							  ofy().delete()
+											.key(Key.create(TradeTL.class, trade.id))
+											.now();*/
+					if(trade != null)
+					{
+						trade.active =  false;
+						json.addProperty("message",trade.toString());
+						DBHandler.getInstance().save(trade);
+					}
+					else
+					{
+						json = JsonTL.jsonifyError("No hay una solicitud de trueque a eliminar para este item");
+					}
+					//
 				}
 			} catch (FacebookOAuthException e) {
 
@@ -189,22 +197,30 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 
 		} else if (requestingTrade(uid, userfb)) {
 			
-			ItemDBHandler itemDBHandler = new ItemDBHandler();
-			ItemTL wantedItem = itemDBHandler.get(
-					Long.parseLong(this.requestedItem(), 10));
+		//	ItemDBHandler itemDBHandler = new ItemDBHandler();
+			
+			ItemTL wantedItem = ofy().load().type(ItemTL.class)
+					.filter("owner", uid)
+					.filter("intercambiado", false)
+					.filter("idRefML",this.requestedItem()).first().now();
+			
 			String offeredItemId = form.getFirstValue("offeredItemId");
 
-			ItemTL offeredItem = itemDBHandler.get(
-					Long.parseLong(offeredItemId, 10));
-
-			TradeTL trade = new TradeTL(offeredItem, wantedItem);
-			//message.addProperty("error","algo salio mal");
+			ItemTL offeredItem = ofy().load().type(ItemTL.class)
+					.filter("owner", userfb.getId())
+					.filter("intercambiado", false)
+					.filter("idRefML",offeredItemId).first().now();
 			
-			message.addProperty("itemid",itemId);
+			
+			TradeTL trade = new TradeTL(offeredItem, wantedItem);
+			/* pedro 317280481786050 MLA519532991 
+			 * juan 281991468665901 MLA517671331 */
+			message.addProperty("wantedItemId",this.requestedItem());
 			message.addProperty("offeredItemId",offeredItemId);
-			message.addProperty("offeredItem",offeredItem.name);
-			message.addProperty("wantedItem",wantedItem.name);
-			DBHandler.getInstance().save(trade);
+			message.addProperty("offeredItem",offeredItem != null? offeredItem.name:"null");
+			message.addProperty("wantedItem",wantedItem != null? wantedItem.name:"null");
+			if(wantedItem!=null && offeredItem != null)
+				DBHandler.getInstance().save(trade);
 
 		} else {
 			try {
