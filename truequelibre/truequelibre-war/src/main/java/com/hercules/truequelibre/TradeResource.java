@@ -28,8 +28,18 @@ import com.restfb.exception.FacebookOAuthException;
 //import com.restfb.types.Post;
 import com.restfb.types.User;
 import com.hercules.truequelibre.FacebookDataCollector;
+import com.hercules.truequelibre.resources.ParameterGathererTemplateResource;
+
 public class TradeResource extends ParameterGathererTemplateResource {
 	
+	public TradeResource() {
+		super();
+	}
+
+	public TradeResource(Context context, Request request, Response response) {
+		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
+	}
+
 	
 	//	api/users/{userId}/items/{itemId}/exchange
 

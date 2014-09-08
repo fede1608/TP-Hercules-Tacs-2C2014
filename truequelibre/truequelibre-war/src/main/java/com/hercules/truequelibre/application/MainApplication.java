@@ -9,6 +9,8 @@ import org.restlet.data.MediaType;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.routing.Router;
 import org.restlet.routing.Template;
+
+import com.hercules.truequelibre.TradeResource;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.googlecode.objectify.ObjectifyService;
 import com.hercules.truequelibre.resources.FriendsResource;

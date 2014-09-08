@@ -2,22 +2,21 @@ package com.hercules.truequelibre;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.hercules.truequelibre.domain.ItemTL;
 
 @Entity
 
 public class TradeTL {
 	@Id public String id;
-	public UserTL requesterUser;
-	public UserTL requestedUser;
+
 	public ItemTL offeredItem;
 	public ItemTL wantedItem;
 	
 	
 	public void acceptTrade() {
-		this.getRequesterUser().items.remove(offeredItem);
-		this.getRequestedUser().items.add(offeredItem);
-		this.getRequesterUser().items.add(wantedItem);
-		this.getRequestedUser().items.remove(wantedItem);
+		String auxId = wantedItem.id;
+		wantedItem.setUser(offeredItem.owner);
+		offeredItem.setUser(auxId);
 	}
 	
 	public void declineTrade() {
@@ -25,30 +24,12 @@ public class TradeTL {
 		//Borrar de trades? Avisar que fue rechazado?
 	}
 
-	public TradeTL(UserTL requesterUser, UserTL requestedUser,
-			ItemTL offeredItem, ItemTL wantedItem) {
-		
-		this.requesterUser = requesterUser;
-		this.requestedUser = requestedUser;
+	public TradeTL(	ItemTL offeredItem, ItemTL wantedItem) {
+
 		this.offeredItem = offeredItem;
 		this.wantedItem = wantedItem;
 	}
 
-	public UserTL getRequesterUser() {
-		return requesterUser;
-	}
-
-	public void setRequesterUser(UserTL requesterUser) {
-		this.requesterUser = requesterUser;
-	}
-
-	public UserTL getRequestedUser() {
-		return requestedUser;
-	}
-
-	public void setRequestedUser(UserTL requestedUser) {
-		this.requestedUser = requestedUser;
-	}
 
 	public ItemTL getOfferedItem() {
 		return offeredItem;
