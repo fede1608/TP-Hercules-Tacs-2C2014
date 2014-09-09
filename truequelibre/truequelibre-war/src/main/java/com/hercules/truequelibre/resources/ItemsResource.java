@@ -28,7 +28,6 @@ import com.hercules.truequelibre.helpers.FacebookDataCollector;
 import com.hercules.truequelibre.helpers.GenDBHandler;
 import com.hercules.truequelibre.helpers.ItemDBHandler;
 import com.hercules.truequelibre.helpers.JsonTL;
-import com.hercules.truequelibre.helpers.TradeDBHandler;
 import com.hercules.truequelibre.mlsdk.Meli;
 
 public class ItemsResource extends ParameterGathererTemplateResource {
@@ -38,7 +37,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 	}
 
 	public ItemsResource(Context context, Request request, Response response) {
-		getVariants().add(new Variant(MediaType.TEXT_PLAIN));
+		getVariants().add(new Variant(MediaType.APPLICATION_JSON));
 	}
 
 	@Override
@@ -97,7 +96,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			}
 		}
 
-		return new StringRepresentation(json.toString(), MediaType.TEXT_PLAIN);
+		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 
 	public String itemInfo(String requestedItem) {
@@ -166,7 +165,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 			}
 		}
 
-		return new StringRepresentation(json.toString(), MediaType.TEXT_PLAIN);
+		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 
 	@Override
@@ -222,7 +221,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 		}
 
 		return new StringRepresentation(message.toString(),
-				MediaType.TEXT_PLAIN);
+				MediaType.APPLICATION_JSON);
 
 	}
 

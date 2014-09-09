@@ -18,6 +18,8 @@ public class TradeTL {
 	public boolean pending;//HACER STATE? pending, accepted, rejected, cancelled
 	
 	public boolean active;
+	public String date;
+	
 	
 	public void acceptTrade() {
 	
