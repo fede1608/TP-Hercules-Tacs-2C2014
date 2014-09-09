@@ -4,8 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.domain.ItemTL;
+import com.hercules.truequelibre.domain.TradeTL;
 
 public class JsonTL {
 
@@ -40,6 +42,19 @@ public class JsonTL {
 		jsonItem.add("SentTradeRequests", JsonTL.jsonifyItemList(item.getWishlist())); //no se si se puede usar this en la misma clase
 		jsonItem.add("RecievedTradeRequests", JsonTL.jsonifyItemList(item.getTradeRequests()));
 		return jsonItem;
+	}
+
+	public static JsonObject jsonifyTrade(TradeTL trade) {
+		
+		JsonObject json = new JsonObject();
+		JsonObject jsonWantedItem = JsonTL.jsonifyItem(trade.wantedItem);
+		JsonObject jsonOfferedItem = JsonTL.jsonifyItem(trade.offeredItem);
+		json.addProperty("id", trade.id);
+		json.addProperty("wantedItem", jsonWantedItem.getAsString());
+		json.addProperty("offeredItem", jsonOfferedItem.getAsString());
+		json.addProperty("wantedItemOwner", trade.wantedItem.owner);
+		json.addProperty("offeredItemOwner", trade.offeredItem.owner);
+		return json;
 	}
 	
 }

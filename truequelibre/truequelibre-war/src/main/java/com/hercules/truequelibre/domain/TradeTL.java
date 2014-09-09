@@ -4,24 +4,31 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class TradeTL {
 	@Id public Long id;
 
+	@Index
 	public ItemTL offeredItem;
+	@Index
 	public ItemTL wantedItem;
-	public boolean active;
+	@Index
+	public boolean pending;//HACER STATE? pending, accepted, rejected, cancelled
 	
+	public boolean active;
 	
 	public void acceptTrade() {
 	
-		throw new NotImplementedException();
+		this.pending = false;
+		//logica de aceptar
 	}
 	
 	public void declineTrade() {
 	
-		throw new NotImplementedException();
+		this.pending = false;
+		//logica de cancelar
 	}
 
 	public TradeTL(	ItemTL offeredItem, ItemTL wantedItem) {
