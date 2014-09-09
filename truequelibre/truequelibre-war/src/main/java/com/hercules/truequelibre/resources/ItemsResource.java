@@ -141,22 +141,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 					}
 				} else {
 					
-					TradeTL trade = ofy().load().type(TradeTL.class).filter("wantedItem.id",this.requestedItem()).first().now();
-							  /*
-							  ofy().delete()
-											.key(Key.create(TradeTL.class, trade.id))
-											.now();*/
-					if(trade != null)
-					{
-						trade.active =  false;
-						json.addProperty("message",trade.toString());
-						DBHandler.getInstance().save(trade);
-					}
-					else
-					{
-						json = JsonTL.jsonifyError("No hay una solicitud de trueque a eliminar para este item");
-					}
-					//
+					json = JsonTL.jsonifyError("DELETE DE TRADE REQUEST EN PROCESO");
 				}
 			} catch (FacebookOAuthException e) {
 

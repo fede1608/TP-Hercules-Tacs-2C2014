@@ -1,66 +1,79 @@
 package com.hercules.truequelibre.domain;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.hercules.truequelibre.domain.ItemTL.Deref;
 
 @Entity
 public class TradeTL {
 	@Id public Long id;
 
+	public Ref<ItemTL> offeredItem;
+	public Ref<ItemTL> wantedItem;
 	@Index
-	public ItemTL offeredItem;
-	@Index
-	public ItemTL wantedItem;
-	@Index
-	public boolean pending;//HACER STATE? pending, accepted, rejected, cancelled
-	
-	public boolean active;
+	int state; //Pensar mejor solución?   0: pending, 1: accepted, 2: declined, 3: cancelled
 	public String date;
+	@Index	
+	public String offeringUserId;
+	@Index
+	public String requestedUserId;
+	
+	public TradeTL(){
+		
+	}
+	public TradeTL(	ItemTL offeredItem, ItemTL wantedItem) {
+
+		this.offeredItem = Ref.create(offeredItem);
+		this.wantedItem = Ref.create(wantedItem);
+		this.state = 0;
+		//Ver si se pueden sacar estos IDs de acá
+		this.offeringUserId = offeredItem.owner;
+		this.requestedUserId = wantedItem.owner;
+	}
 	
 	
-	public void acceptTrade() {
+/*  pensar toda esta parte bien*/
+	public void accept() {
 	
-		this.pending = false;
+		this.state = 1;
 		//logica de aceptar
 	}
 	
-	public void declineTrade() {
+	public void decline() {
 	
-		this.pending = false;
+		this.state = 2; 
 		//logica de cancelar
 	}
-
-	public TradeTL(	ItemTL offeredItem, ItemTL wantedItem) {
-
-		this.offeredItem = offeredItem;
-		this.wantedItem = wantedItem;
-		this.active = true;
+	public void cancel() {
+		this.state = 3;
 	}
+	
+/****************************************/
+
+	
 
 
 	public ItemTL getOfferedItem() {
-		return offeredItem;
+		return Deref.deref(offeredItem);
 	}
 
-	public void setOfferedItem(ItemTL offeredItem) {
-		this.offeredItem = offeredItem;
-	}
-
+	
 	public ItemTL getWantedItem() {
-		return wantedItem;
+		return Deref.deref(wantedItem);
 	}
 
-	public void setWantedItem(ItemTL wantedItem) {
-		this.wantedItem = wantedItem;
-	}
+	
 	
 	@Override
 	public String toString()
 	{
-		return "wanted: " + wantedItem.id.toString() + " - offered: " + offeredItem.id.toString() + " - active: " + active;
+		String estado = this.state==0 ? "pending" : this.state ==1? "accepted" : this.state == 2? "declined" : "cancelled"; 
+		return "wanted: " + this.getWantedItem().id.toString() + " - offered: " + this.getOfferedItem().id.toString() + " state: " 
+				+ estado;
 				
 	}
 

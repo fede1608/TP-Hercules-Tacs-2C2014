@@ -47,14 +47,24 @@ public class JsonTL {
 	public static JsonObject jsonifyTrade(TradeTL trade) {
 		
 		JsonObject json = new JsonObject();
-		JsonObject jsonWantedItem = JsonTL.jsonifyItem(trade.wantedItem);
-		JsonObject jsonOfferedItem = JsonTL.jsonifyItem(trade.offeredItem);
+		JsonObject jsonWantedItem = JsonTL.jsonifyItem(trade.getWantedItem());
+		JsonObject jsonOfferedItem = JsonTL.jsonifyItem(trade.getOfferedItem());
 		json.addProperty("id", trade.id);
-		json.addProperty("wantedItem", jsonWantedItem.getAsString());
-		json.addProperty("offeredItem", jsonOfferedItem.getAsString());
-		json.addProperty("wantedItemOwner", trade.wantedItem.owner);
-		json.addProperty("offeredItemOwner", trade.offeredItem.owner);
+		json.addProperty("wantedItem", jsonWantedItem.toString());
+		json.addProperty("offeredItem", jsonOfferedItem.toString());
+		json.addProperty("wantedItemOwner", trade.getWantedItem().owner);
+		json.addProperty("offeredItemOwner", trade.getOfferedItem().owner);
 		return json;
+	}
+	
+	public static JsonArray tradesToJsonArray(List<TradeTL> list){
+		JsonArray jsonTrades = new JsonArray();
+		
+		for(TradeTL trade : list)
+		{
+			jsonTrades.add(JsonTL.jsonifyTrade(trade));
+		}
+		return jsonTrades;
 	}
 	
 }

@@ -52,19 +52,23 @@ public class PendingTradesResource extends ServerResource{
 			jsonItems.add(JsonTL.jsonifyItemWithRequests(item));
 		}*/
 		JsonObject message= new JsonObject();
-		JsonArray jsonItems = new JsonArray();
-
-		List<TradeTL> pendingTrades = ofy().load().type(TradeTL.class)
-				.filter("wantedItem.owner",user.getId())
-				.filter("pending",true).list();
 		
-		for(TradeTL trade : pendingTrades)
-		{
-			jsonItems.add(JsonTL.jsonifyTrade(trade));
-		}
-		message.add("itemsForRequest", jsonItems);
+
+		
+		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
+				.filter("offeringUserId",user.getId())
+				.filter("state",0).list();
+		
+		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
+				.filter("requestedUserId",user.getId())
+				.filter("state",0).list();
+		
+		message.add("receivedTradeRequests", JsonTL.tradesToJsonArray(pendingReceivedTrades));
+		message.add("sentTradeRequests", JsonTL.tradesToJsonArray(pendingOfferedTrades));
 		return new StringRepresentation(message.toString(), MediaType.APPLICATION_JSON);
 	}
+	
+	
 	
 	
 	
