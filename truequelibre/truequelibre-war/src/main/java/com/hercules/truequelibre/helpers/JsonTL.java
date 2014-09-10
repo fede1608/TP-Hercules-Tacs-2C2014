@@ -68,7 +68,7 @@ public class JsonTL {
 		JsonObject jsonDate = new JsonObject();
 		jsonDate.addProperty("day", date.getDate());
 		jsonDate.addProperty("month",date.getMonth());
-		jsonDate.addProperty("year", date.getYear());
+		jsonDate.addProperty("year", date.getYear()+1900); //por alguna razon el date le resta 1900
 		jsonDate.addProperty("hours", date.getHours());
 		jsonDate.addProperty("minutes", date.getMinutes());
 		jsonDate.addProperty("seconds", date.getSeconds());

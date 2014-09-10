@@ -54,14 +54,9 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 				JsonArray itemsJson = new JsonArray();
 				Iterator<ItemTL> iterator = items.iterator();
 				while (iterator.hasNext()) {
-					JsonObject item = new JsonObject();
+					
 					ItemTL i = iterator.next();
-					item.addProperty("id", i.id);
-					item.addProperty("idRefML", i.idRefML);
-					item.addProperty("name", i.name);
-					item.addProperty("img", i.image);
-					item.addProperty("owner", i.owner);
-					itemsJson.add(item);
+					itemsJson.add(JsonTL.jsonifyItem(i));
 				}
 				json.add("items", itemsJson);
 			} else {
