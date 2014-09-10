@@ -50,10 +50,9 @@ public class JsonTL {
 		JsonObject jsonWantedItem = JsonTL.jsonifyItem(trade.getWantedItem());
 		JsonObject jsonOfferedItem = JsonTL.jsonifyItem(trade.getOfferedItem());
 		json.addProperty("id", trade.id);
-		json.addProperty("wantedItem", jsonWantedItem.toString());
-		json.addProperty("offeredItem", jsonOfferedItem.toString());
-		json.addProperty("wantedItemOwner", trade.getWantedItem().owner);
-		json.addProperty("offeredItemOwner", trade.getOfferedItem().owner);
+		json.add("wantedItem", jsonWantedItem);
+		json.add("offeredItem", jsonOfferedItem);
+		json.addProperty("state",trade.getState());
 		return json;
 	}
 	

@@ -6,36 +6,34 @@ import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Unindex;
 import com.hercules.truequelibre.domain.ItemTL.Deref;
 
 @Entity
 public class TradeTL {
 	@Id public Long id;
 
-	public Ref<ItemTL> offeredItem;
-	public Ref<ItemTL> wantedItem;
+	@Unindex
+	public ItemTL offeredItem;
+	@Unindex
+	public ItemTL wantedItem;
 	@Index
 	int state; //Pensar mejor solución?   0: pending, 1: accepted, 2: declined, 3: cancelled
 	public String date;
-	@Index	
-	public String offeringUserId;
-	@Index
-	public String requestedUserId;
 	
 	public TradeTL(){
 		
 	}
 	public TradeTL(	ItemTL offeredItem, ItemTL wantedItem) {
 
-		this.offeredItem = Ref.create(offeredItem);
-		this.wantedItem = Ref.create(wantedItem);
+		this.offeredItem = offeredItem;
+		this.wantedItem = wantedItem;
 		this.state = 0;
-		//Ver si se pueden sacar estos IDs de acá
-		this.offeringUserId = offeredItem.owner;
-		this.requestedUserId = wantedItem.owner;
 	}
 	
-	
+	public int getState(){
+		return this.state;
+	}
 /*  pensar toda esta parte bien*/
 	public void accept() {
 	
@@ -58,12 +56,12 @@ public class TradeTL {
 
 
 	public ItemTL getOfferedItem() {
-		return Deref.deref(offeredItem);
+		return offeredItem;
 	}
 
 	
 	public ItemTL getWantedItem() {
-		return Deref.deref(wantedItem);
+		return wantedItem;
 	}
 
 	

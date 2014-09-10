@@ -56,11 +56,13 @@ public class PendingTradesResource extends ServerResource{
 
 		
 		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
-				.filter("offeringUserId",user.getId())
+				//.filter("offeringUserId",user.getId())
+				.filter("offeredItem.owner",user.getId())
 				.filter("state",0).list();
 		
 		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
-				.filter("requestedUserId",user.getId())
+				//.filter("requestedUserId",user.getId())
+				.filter("wantedItem.owner",user.getId())
 				.filter("state",0).list();
 		
 		message.add("receivedTradeRequests", JsonTL.tradesToJsonArray(pendingReceivedTrades));
