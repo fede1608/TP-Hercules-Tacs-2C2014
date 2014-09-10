@@ -1,9 +1,5 @@
 package com.hercules.truequelibre.resources;
 
-//Se importa estaticamente para poder utilizar los metodos definidos en ofy sin instanciarlo
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -61,6 +57,11 @@ public class SearchResource extends ServerResource {
 				JsonObject item = results.get(i).getAsJsonObject();
 				JsonObject searchItem = new JsonObject();
 				searchItem.add("id", item.get("id"));
+				// el search solo me da el thumbnail, yo quiero la imagen con
+				// resolucion
+				// alta, fuck ML, formato de iamgen thumbnail .....sad-I.jpg,
+				// formato de
+				// imagen alta resolucion .....sad-O.jpg
 				searchItem.addProperty(
 						"img",
 						item.get("thumbnail")
@@ -69,9 +70,7 @@ public class SearchResource extends ServerResource {
 										0,
 										item.get("thumbnail").getAsString()
 												.length() - 5).concat("O.jpg"));
-				// el search solo me da el thumbnail, yo quiero	 la	 imagen	 con resolucion
-//				 alta, fuck	 ML, formato de	 iamgen thumbnail .....sad-I.jpg, formato de
-//				 imagen	 alta resolucion .....sad-O.jpg
+
 				searchItem.add("name", item.get("title"));
 				search.add(searchItem);
 			}

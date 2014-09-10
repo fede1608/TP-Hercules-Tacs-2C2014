@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
@@ -44,7 +45,8 @@ public class ItemTL {
 	private void cacheNameImage() throws ItemNotExistsException {
 		try {
 			JsonObject item = new Meli().get("items/" + this.idRefML);
-			this.image=item.get("thumbnail").getAsString();
+			JsonArray pics= item.getAsJsonArray("pictures");
+			this.image=pics.get(0).getAsJsonObject().get("url").getAsString();
 			this.name= item.get("title").getAsString();
 		} catch (Exception e) {
 			e.printStackTrace();
