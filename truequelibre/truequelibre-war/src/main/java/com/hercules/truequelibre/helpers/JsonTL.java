@@ -2,12 +2,14 @@ package com.hercules.truequelibre.helpers;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Date;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
+
 
 public class JsonTL {
 
@@ -19,6 +21,7 @@ public class JsonTL {
 		json.addProperty("name", item.name);
 		json.addProperty("img", item.image);
 		json.addProperty("owner", item.owner);
+		json.add("dateCreated", jsonifyDate(item.created));
 		return json;
 	}
 	
@@ -59,6 +62,19 @@ public class JsonTL {
 			jsonTrades.add(JsonTL.jsonifyTrade(trade));
 		}
 		return jsonTrades;
+	}
+	@SuppressWarnings("deprecation")
+	public static JsonObject jsonifyDate(Date date){
+		JsonObject jsonDate = new JsonObject();
+		jsonDate.addProperty("day", date.getDate());
+		jsonDate.addProperty("month",date.getMonth());
+		jsonDate.addProperty("year", date.getYear());
+		jsonDate.addProperty("hours", date.getHours());
+		jsonDate.addProperty("minutes", date.getMinutes());
+		jsonDate.addProperty("seconds", date.getSeconds());
+		
+		
+		return jsonDate;
 	}
 	
 }
