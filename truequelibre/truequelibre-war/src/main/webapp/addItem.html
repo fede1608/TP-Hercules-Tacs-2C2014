@@ -135,8 +135,8 @@
                       </a>
                       <ul class="dropdown-menu extended logout">
                           <div class="log-arrow-up"></div>
-                          <li><a href="profile.html"><i class=" icon-suitcase"></i>Perfil</a></li>
-                          <li><a href="addItem.html"><i class="icon-plus"></i> Agregar Item</a></li>
+                          <li><a href="#"><i class=" icon-suitcase"></i>Perfil</a></li>
+                          <li><a href="#"><i class="icon-plus"></i> Agregar Item</a></li>
                           <li><a href="#"><i class="icon-bell-alt"></i> Solicitudes</a></li>
                           <li><a href="javascript:logout();"><i class="icon-key"></i> Log Out</a></li>
                       </ul>
@@ -159,7 +159,7 @@
                   </li>
 				  
 				  <li>
-                      <a href="profile.html">
+                      <a href="index.html">
                           <i class="icon-list"></i>
                           <span>Mis Items</span>
                       </a>
@@ -199,17 +199,65 @@
       <!--sidebar end-->
       <!--main content start-->
       <section id="main-content">
-          <section class="wrapper site-min-height">
+          <section class="wrapper">
               <!-- page start-->
-              Page content goes here
+              <section class="panel" id="panel">
+                  <header class="panel-heading">
+                      Agregar item para intercambiar
+                  </header>
+                  <div class="panel-body">
+                      <form class="form-horizontal search-result" onSubmit="searchItems($('#query').val());">
+                          <div class="form-group">
+                              <label class="col-lg-1 col-sm-1 control-label">Buscar</label>
+                              <div class="col-lg-8 col-sm-8">
+                                  <input id="query" type="text" class="form-control input-xxlarge">
+                                  <p class="help-block"> </p>
+                              </div>
+                              <div class="col-lg-2">
+                                  <button class="btn " type='button' onClick="searchItems($('#query').val());">BUSCAR</button>
+                              </div>
+                          </div>
+                      </form>
+                      <div class="row product-list" style="margin-top:20px;" id="itemList">
+							  
+                      </div>
+                      <div class="text-center">
+                          <ul class="pagination">
+                              <li><a href="#">«</a></li>
+                              <li><a href="#">1</a></li>
+                              <li><a href="#">2</a></li>
+                              <li><a href="#">3</a></li>
+                              <li><a href="#">4</a></li>
+                              <li><a href="#">5</a></li>
+                              <li><a href="#">»</a></li>
+                          </ul>
+                      </div>
+                  </div>
+              </section>
               <!-- page end-->
           </section>
       </section>
+	  <!-- modal start -->
+	  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="cargandoModal" class="modal fade" style="display: none;">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                          <h4 class="modal-title">Cargando...</h4>
+                      </div>
+                      <div class="modal-body">
+                          <img src="http://img4.wikia.nocookie.net/__cb20130324014301/tomb-raider/es/images/0/03/Cargando.gif" style="width:40px;margin-left:45%">
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+		  <!-- modal ends -->
       <!--main content end-->
       <!--footer start-->
       <footer class="site-footer">
           <div class="text-center">
-              2013 &copy; FlatLab by VectorLab.
+              2013 &copy; TruequeLibre.
               <a href="#" class="go-top">
                   <i class="icon-angle-up"></i>
               </a>
@@ -228,7 +276,32 @@
 
     <!--common script for all pages-->
     <script src="js/common-scripts.js"></script>
-
+	<script>
+	function searchItems(query){
+		$('#cargandoModal').modal('toggle');
+		$.getJSON('/api/search?limit=20&query='+query, function (data) {
+				console.log(data);
+				var itemBoxSize= ($('#panel').width()-80)/4;
+				$('#itemList').empty();
+				data.search.forEach(function(item){
+					$('#itemList').append('<div class="col-md-3"><section class="panel"><div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"><img src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/><a href="javascript:addItem(\''+item.id+'\')" class="adtocart"><i class="icon-plus"></i></a></div><div class="panel-body text-center"><h4><a href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"></p></div></section></div>');
+				});
+                $('#cargandoModal').modal('toggle');
+        })
+	}
+	  $(document).ready(function() {
+			searchItems("celular");
+	});
+	
+	function addItem(id){
+		$('#cargandoModal').modal('toggle');
+		$.post( "/api/users/"+userId+"/items", { itemId: id }, function( data ) {
+		  console.log( data ); 
+			$('#cargandoModal').modal('toggle');
+			alert("Item Agregado");
+		}, "json");
+	}
+	</script>
 
   </body>
 </html>
