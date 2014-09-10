@@ -35,20 +35,20 @@ public class UsersResource extends ParameterGathererTemplateResource {
 		JsonObject json=new JsonObject();
 		String token = getCookies().getValues("accessToken");
 		User user = FacebookDataCollector.getInstance().findUserWithRest(token);
-		String userName =   user.getName();
 		if(FacebookDataCollector.getInstance().isTheUser(user,this.requestedUser())){
 			
 		}else{
 			if(FacebookDataCollector.getInstance().isAFriend(token, this.requestedUser())){
 				user = FacebookDataCollector.getInstance().getFriendData(token, this.requestedUser());
+				
 			}else{
 				json = JsonTL.jsonifyError("No tienes permisos para ver este usuario");
 				return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 			}
 		}
 		json.addProperty("id", this.requestedUser());
-		json.addProperty("name", userName);
-		json.addProperty("profilePic", "imagenHarcodeada.png");
+		json.addProperty("name",user.getName());
+		json.addProperty("profilePic", FacebookDataCollector.getInstance().getUserProfilePic(this.requestedUser()));
 		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 	

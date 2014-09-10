@@ -45,7 +45,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 		String token = getCookies().getValues("accessToken");
 		JsonObject json = new JsonObject();
 		if (this.requestedItem() == null) {// request a api/users/{userid}/items
-			if (FacebookDataCollector.getInstance().isTheUser(token,
+			if (FacebookDataCollector.getInstance().informationCanBeShown(token,
 					this.requestedUser())) {
 				List<ItemTL> items = ofy().load().type(ItemTL.class)
 						.filter("owner", this.requestedUser())

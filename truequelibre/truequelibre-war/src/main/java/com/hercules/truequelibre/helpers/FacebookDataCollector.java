@@ -75,7 +75,11 @@ public class FacebookDataCollector {
 		}
 		return null;
 	}
-
+	
+	public String getUserProfilePic( String userId ){
+		return "http://graph.facebook.com/"+userId+"/picture?type=large";
+	}
+	
 	public Connection<User> getFriends(String facebookAccessToken) {
 		Connection<User> myFriends = null;
 
@@ -84,7 +88,7 @@ public class FacebookDataCollector {
 
 		myFriends = facebookClient
 				.fetchConnection("me/friends", User.class, Parameter.with(
-						"fields", "id,first_name,last_name,name,gender"));
+						"fields", "id,first_name,last_name,name,gender,picture"));
 
 		return myFriends;
 	}
