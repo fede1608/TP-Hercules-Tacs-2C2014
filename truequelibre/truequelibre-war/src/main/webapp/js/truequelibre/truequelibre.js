@@ -28,6 +28,7 @@ var token="";
       // they are logged into this app or not.
       window.location = "login.html";
     }
+	fbApiInit = true; //init flag
   }
 
   // This function is called when someone finishes with the Login
@@ -66,7 +67,7 @@ var token="";
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
-	fbApiInit = true; //init flag
+	
   };
 
   // Load the SDK asynchronously
