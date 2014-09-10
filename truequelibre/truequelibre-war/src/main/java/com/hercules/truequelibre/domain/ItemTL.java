@@ -1,6 +1,7 @@
 package com.hercules.truequelibre.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.repackaged.com.google.common.base.Function;
@@ -27,11 +28,8 @@ public class ItemTL {
 	public String owner;
 	public String image;
 	@Index 
-	List<Ref<ItemTL>> wishlist = null;
-	@Load 
-	List<Ref<ItemTL>> exchangeRequests = new ArrayList<Ref<ItemTL>>();
-	@Index 
 	Boolean exchanged = false;
+	public Date created;
 
 	public ItemTL(){
 		
@@ -40,6 +38,7 @@ public class ItemTL {
 		this.idRefML = id; 
 		this.owner = owner;
 		this.cacheNameImage();
+		created = new Date();
 	}
 	
 	private void cacheNameImage() throws ItemNotExistsException {
@@ -71,22 +70,6 @@ public class ItemTL {
 	    public static <T> List<T> deref(List<Ref<T>> reflist) {
 	        return Lists.transform(reflist, (Func)Func.INSTANCE);
 	    }
-	}
-	
-	public void agregarSolicitud (ItemTL item){
-		Ref<ItemTL> r= Ref.create(item);
-		this.exchangeRequests.add(r);
-	}
-	
-	public List<ItemTL> getTradeRequests() { 
-		return Deref.deref(exchangeRequests); 
-	}
-	
-	public void addWishedItem (ItemTL item){
-		wishlist.add(Ref.create(item));
-	}
-	public List<ItemTL> getWishlist (){
-		return Deref.deref(wishlist);
 	}
 	
 	@Override

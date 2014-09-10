@@ -77,7 +77,7 @@ public class ItemsResource extends ParameterGathererTemplateResource {
 							.id(this.requestedItem()).now();
 					if (item != null) {
 						if (item.owner.equalsIgnoreCase(this.requestedUser())) {
-							json = JsonTL.jsonifyItemWithRequests(item);
+							json = JsonTL.jsonifyItem(item);
 							
 						} else {
 							json = JsonTL

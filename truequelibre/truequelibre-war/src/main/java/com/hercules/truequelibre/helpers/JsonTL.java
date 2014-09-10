@@ -37,12 +37,7 @@ public class JsonTL {
 		}
 		return requestList;
 	}
-	public static JsonObject jsonifyItemWithRequests(ItemTL item){
-		JsonObject jsonItem=JsonTL.jsonifyItem(item);
-		jsonItem.add("SentTradeRequests", JsonTL.jsonifyItemList(item.getWishlist())); //no se si se puede usar this en la misma clase
-		jsonItem.add("RecievedTradeRequests", JsonTL.jsonifyItemList(item.getTradeRequests()));
-		return jsonItem;
-	}
+
 
 	public static JsonObject jsonifyTrade(TradeTL trade) {
 		
