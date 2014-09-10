@@ -107,6 +107,7 @@ public class FacebookDataCollector {
 			JsonObject thisFriend = new JsonObject();
 			thisFriend.addProperty("id", friend.getId());
 			thisFriend.addProperty("name", friend.getName());
+			thisFriend.addProperty("profilePic", FacebookDataCollector.getInstance().getUserProfilePic(friend.getId()));
 			friends.add(thisFriend);
 		}
 		// recuperacion de articulos obtenidos en api/search

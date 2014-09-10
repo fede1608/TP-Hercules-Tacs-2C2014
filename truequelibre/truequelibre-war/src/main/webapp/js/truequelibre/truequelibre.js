@@ -50,7 +50,7 @@ var token="";
     xfbml      : true,  // parse social plugins on this page
     version    : 'v2.1' // use version 2.1
   });
-
+	
   // Now that we've initialized the JavaScript SDK, we call 
   // FB.getLoginStatus().  This function gets the state of the
   // person visiting this page and can return one of three states to
@@ -66,7 +66,7 @@ var token="";
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
-
+	fbApiInit = true; //init flag
   };
 
   // Load the SDK asynchronously
@@ -131,3 +131,12 @@ function getUrlParameter(sParam)
 	return null;
 }  
 
+function fbEnsureInit(callback) {
+        if(!window.fbApiInit) {
+            setTimeout(function() {fbEnsureInit(callback);}, 50);
+        } else {
+            if(callback) {
+                callback();
+            }
+        }
+    }
