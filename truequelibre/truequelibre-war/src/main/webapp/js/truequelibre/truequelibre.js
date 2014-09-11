@@ -134,7 +134,7 @@ function getUrlParameter(sParam)
 
 function fbEnsureInit(callback) { // fuente: http://stackoverflow.com/questions/3548493/how-to-detect-when-facebooks-fb-init-is-complete
         if(!window.fbApiInit) {
-            setTimeout(function() {fbEnsureInit(callback);}, 50);
+            setTimeout(function() {fbEnsureInit(callback);}, 200);
         } else {
             if(callback) {
                 callback();

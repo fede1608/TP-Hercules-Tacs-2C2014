@@ -242,7 +242,7 @@
                           <h4 class="modal-title">Cargando...</h4>
                       </div>
                       <div class="modal-body">
-                          <img src="http://img4.wikia.nocookie.net/__cb20130324014301/tomb-raider/es/images/0/03/Cargando.gif" style="width:40px;margin-left:45%">
+                          <img src="http://w1.hoyennoticias.com.ve//wp-content/themes/HEN/images/loading.gif" style="width:40px;margin-left:45%">
 
                       </div>
                   </div>
@@ -267,99 +267,12 @@
                           <thead>
                           <tr>
                               <th>Título</th>
-                              <th class="hidden-phone">Created</th>
-                              <th class="hidden-phone">Last Modify</th>
+                              <th class="hidden-phone">Creado</th>
+                              <th class="hidden-phone"></th>
                           </tr>
                           </thead>
-                          <tbody>
-                          <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong style="overflow:hidden">Galaxy Nexus Galaxy Nexus Galaxy Nexus Galaxy Nexus Galaxy Nexus Galaxy Nexus Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
-						  <tr>
-                              <td>
-                                  <img alt="" src="http://mla-s1-p.mlstatic.com/18044-MLA20147702647_082014-O.jpg" style="width:20px">
-                                  <strong>Galaxy Nexus</strong>
-                              </td>
-                              <td class="hidden-phone">01.01.2012	</td>
-                              <td class="hidden-phone"><a class="btn btn-info" href="#">Elegir</a></td>
-                          </tr>
+                          <tbody id="modalItemList">
+                          
 
                           </tbody>
                       </table>
@@ -420,16 +333,36 @@
 				
 				$('#itemList').empty();
 				data.items.forEach(function(item){
-					$('#itemList').append('<div class="col-md-3"><section class="panel"><div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"><img src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/><a href="#" class="adtocart"><i class="icon-search"></i></a></div><div class="panel-body text-center"><h4><a href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"></p></div></section></div>');
+					$('#itemList').append('<div class="col-md-3"><section class="panel"><div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"><img src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/><a href="javascript:solicitarTrade('+item.itemId+')" class="adtocart"><i class="icon-search"></i></a></div><div class="panel-body text-center"><h4><a href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"></p></div></section></div>');
 				});
-                $('#cargandoModal').modal('toggle');
+                $('#cargandoModal').modal('hide');
         })
+	}
+	
+	function solicitarTrade(itemId){
+		$('#cargandoModal').modal('show');
+		$.getJSON('/api/users/'+userId+'/items', function (data) {
+				console.log(data);
+				$('#modalItemList').empty();
+				data.items.forEach(function(item){
+					$('#modalItemList').append('<tr> \
+                              <td> \
+                                  <img alt="" src="'+item.img+'" style="width:30px"> \
+                                  <strong style="overflow:hidden">'+item.name+'</strong>\
+                              </td> \
+                              <td class="hidden-phone">01.01.2012	</td> \
+                              <td class="hidden-phone"><a class="btn btn-info" href="">Elegir</a></td> \
+                          </tr>');
+				});
+				$('#cargandoModal').modal('hide');
+				$('#offeredItemModal').modal('show');
+		});
 	}
 	
       $(document).ready(function() {
 	  debugger;
-	  $('#cargandoModal').modal('toggle');
-	  fbEnsureInit( function(response) {
+	  $('#cargandoModal').modal('show');
+ 	  fbEnsureInit( function(response) {
 		
 			var uid=null;
 			if(getUrlParameter('id')!=null){
@@ -446,7 +379,7 @@
                 //$('#cargandoModal').modal('toggle');
 			})
 		
-		});
+		}); 
          
       });
 		</script>
