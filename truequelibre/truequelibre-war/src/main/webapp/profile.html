@@ -210,7 +210,7 @@
                                   <img id="profile_photo2" src="image/avatar-default.png" alt="">
                               </a>
                               <h1 id="profile_name2">Cargando...</h1>
-                              <p>jsmith@flatlab.com</p>
+                              <p></p>
                           </div>
 
                           <ul class="nav nav-pills nav-stacked">
@@ -222,29 +222,7 @@
                       </section>
                   </aside>
                   <aside class="profile-info col-lg-9">
-                     <!--  <section class="panel">
-                          <form>
-                              <textarea placeholder="Whats in your mind today?" rows="2" class="form-control input-lg p-text-area"></textarea>
-                          </form>
-                          <footer class="panel-footer">
-                              <button class="btn btn-danger pull-right">Post</button>
-                              <ul class="nav nav-pills">
-                                  <li>
-                                      <a href="#"><i class="icon-map-marker"></i></a>
-                                  </li>
-                                  <li>
-                                      <a href="#"><i class="icon-camera"></i></a>
-                                  </li>
-                                  <li>
-                                      <a href="#"><i class=" icon-film"></i></a>
-                                  </li>
-                                  <li>
-                                      <a href="#"><i class="icon-microphone"></i></a>
-                                  </li>
-                              </ul>
-                          </footer>
-                      </section> -->
-                      <section class="panel" id="panel">
+                     <section class="panel" id="panel">
                           <div class="bio-graph-heading">
                               Mis Items
                           </div>
@@ -252,66 +230,7 @@
 							  
 						  </div>
                       </section>
-                     <!--  <section>
-                          <div class="row">
-                              <div class="col-lg-6">
-                                  <div class="panel">
-                                      <div class="panel-body">
-                                          <div class="bio-chart">
-                                              <input class="knob" data-width="100" data-height="100" data-displayPrevious=true  data-thickness=".2" value="35" data-fgColor="#e06b7d" data-bgColor="#e8e8e8">
-                                          </div>
-                                          <div class="bio-desk">
-                                              <h4 class="red">Envato Website</h4>
-                                              <p>Started : 15 July</p>
-                                              <p>Deadline : 15 August</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-6">
-                                  <div class="panel">
-                                      <div class="panel-body">
-                                          <div class="bio-chart">
-                                              <input class="knob" data-width="100" data-height="100" data-displayPrevious=true  data-thickness=".2" value="63" data-fgColor="#4CC5CD" data-bgColor="#e8e8e8">
-                                          </div>
-                                          <div class="bio-desk">
-                                              <h4 class="terques">ThemeForest CMS </h4>
-                                              <p>Started : 15 July</p>
-                                              <p>Deadline : 15 August</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-6">
-                                  <div class="panel">
-                                      <div class="panel-body">
-                                          <div class="bio-chart">
-                                              <input class="knob" data-width="100" data-height="100" data-displayPrevious=true  data-thickness=".2" value="75" data-fgColor="#96be4b" data-bgColor="#e8e8e8">
-                                          </div>
-                                          <div class="bio-desk">
-                                              <h4 class="green">VectorLab Portfolio</h4>
-                                              <p>Started : 15 July</p>
-                                              <p>Deadline : 15 August</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div class="col-lg-6">
-                                  <div class="panel">
-                                      <div class="panel-body">
-                                          <div class="bio-chart">
-                                              <input class="knob" data-width="100" data-height="100" data-displayPrevious=true  data-thickness=".2" value="50" data-fgColor="#cba4db" data-bgColor="#e8e8e8">
-                                          </div>
-                                          <div class="bio-desk">
-                                              <h4 class="purple">Adobe Muse Template</h4>
-                                              <p>Started : 15 July</p>
-                                              <p>Deadline : 15 August</p>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </section> -->
+                     
                   </aside>
               </div>
 <!-- modal start -->
@@ -364,7 +283,16 @@
 		
 		$.getJSON('/api/users/'+uid+'/items', function (data) {
 				console.log(data);
-				var itemBoxSize= ($('#panel').width()-80)/4;
+				var itemBoxSize;
+				if( isMobile.any() )
+				{
+				   itemBoxSize= ($('#panel').width()-30);
+				}
+				else
+				{
+				   itemBoxSize= ($('#panel').width()-80)/4;
+				}
+				
 				$('#itemList').empty();
 				data.items.forEach(function(item){
 					$('#itemList').append('<div class="col-md-3"><section class="panel"><div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"><img src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/><a href="#" class="adtocart"><i class="icon-search"></i></a></div><div class="panel-body text-center"><h4><a href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"></p></div></section></div>');
