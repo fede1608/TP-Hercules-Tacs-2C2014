@@ -132,7 +132,7 @@ function getUrlParameter(sParam)
 	return null;
 }  
 
-function fbEnsureInit(callback) {
+function fbEnsureInit(callback) { // fuente: http://stackoverflow.com/questions/3548493/how-to-detect-when-facebooks-fb-init-is-complete
         if(!window.fbApiInit) {
             setTimeout(function() {fbEnsureInit(callback);}, 50);
         } else {
@@ -142,7 +142,7 @@ function fbEnsureInit(callback) {
         }
     }
 	
-var isMobile = { //mover a commons
+var isMobile = { //mover a commons fuente: http://www.abeautifulsite.net/detecting-mobile-devices-with-javascript/
     Android: function() {
         return navigator.userAgent.match(/Android/i);
     },
