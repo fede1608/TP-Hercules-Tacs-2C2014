@@ -29,7 +29,8 @@ public class ItemTL {
 	public String image;
 	@Index 
 	Boolean exchanged = false;
-	public Date created;
+	@Index 
+	public long created;
 
 	public ItemTL(){
 		
@@ -38,7 +39,7 @@ public class ItemTL {
 		this.idRefML = id; 
 		this.owner = owner;
 		this.cacheNameImage();
-		created = new Date();
+		created = System.currentTimeMillis() / 1000L;
 	}
 	
 	private void cacheNameImage() throws ItemNotExistsException {

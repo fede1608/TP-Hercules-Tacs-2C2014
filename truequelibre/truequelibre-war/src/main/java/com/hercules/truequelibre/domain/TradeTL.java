@@ -19,7 +19,8 @@ public class TradeTL {
 	public ItemTL wantedItem;
 	@Index
 	int state; //Pensar mejor solución?   0: pending, 1: accepted, 2: declined, 3: cancelled
-	public String date;
+	@Index
+	public long dateCreated;
 	
 	public TradeTL(){
 		
@@ -29,6 +30,7 @@ public class TradeTL {
 		this.offeredItem = offeredItem;
 		this.wantedItem = wantedItem;
 		this.state = 0;
+		this.dateCreated =  System.currentTimeMillis() / 1000L;
 	}
 	
 	public int getState(){
