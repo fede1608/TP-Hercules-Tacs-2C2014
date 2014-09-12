@@ -1,10 +1,8 @@
 package com.hercules.truequelibre.resources;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
-
 import java.util.Iterator;
 import java.util.List;
-
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -14,7 +12,6 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
-
 import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.google.gson.JsonArray;
@@ -25,8 +22,6 @@ import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
 import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
-import com.hercules.truequelibre.helpers.GenDBHandler;
-import com.hercules.truequelibre.helpers.ItemDBHandler;
 import com.hercules.truequelibre.helpers.JsonTL;
 import com.hercules.truequelibre.mlsdk.Meli;
 

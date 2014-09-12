@@ -3,13 +3,10 @@ package com.hercules.truequelibre.helpers;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Date;
-
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
-
 
 public class JsonTL {
 
