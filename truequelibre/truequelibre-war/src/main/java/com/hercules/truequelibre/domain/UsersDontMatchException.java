@@ -18,6 +18,6 @@ public class UsersDontMatchException extends Exception {
 
 	
 	public String getMessage(){
-		return "el usuario pedido: "+ requestedId + " no es el dueño del item pedido: "+requestedItemId;
+		return "el usuario pedido: "+ requestedId + " no es el duenio del item pedido: "+requestedItemId;
 	}
 }
