@@ -128,14 +128,14 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 		//	ItemDBHandler itemDBHandler = new ItemDBHandler();
 			
 			ItemTL wantedItem = ofy().load().type(ItemTL.class).id(Long.parseLong(this.requestedItem(),10)).now();
-			if(uid.equals(wantedItem.owner)){
+			if(!uid.equals(wantedItem.owner)){
 				throw new UsersDontMatchException(uid,this.requestedItem());
 			}
 			String offeredItemId = form.getFirstValue("offeredItemId");
 
 			ItemTL offeredItem = ofy().load().type(ItemTL.class)
 					.id(Long.parseLong(offeredItemId,10)).now();
-			if(userfb.getId().equals(offeredItem.owner)){
+			if(!userfb.getId().equals(offeredItem.owner)){
 				throw new UsersDontMatchException(userfb.getId(),offeredItemId);
 			}
 			
