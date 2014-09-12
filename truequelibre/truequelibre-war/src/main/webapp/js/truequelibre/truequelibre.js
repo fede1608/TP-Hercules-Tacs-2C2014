@@ -175,3 +175,10 @@ function timeConverter(UNIX_timestamp){
      var time = date + '-' + month + '-' + year; //+ ' ' + hour + ':' + min + ':' + sec ;
      return time;
  }
+ 
+ 	function shareOnFb(itemId){
+		FB.ui({
+		  method: 'share',
+		  href: 'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId,
+		}, function(response){});
+	}

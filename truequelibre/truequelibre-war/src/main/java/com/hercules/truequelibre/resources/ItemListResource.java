@@ -79,10 +79,11 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 		}else {
 			try {
 				ItemTL item = new ItemTL(itemId, uid);
-				DBHandler.getInstance().save(item);
+				long id=DBHandler.getInstance().save(item);
 				message.addProperty("info", "El item se agrego correctamente");
+				message.addProperty("itemId", id);
 			} catch (ItemNotExistsException ex) {
-				message.addProperty("info", ex.getMessage());
+				message.addProperty("error", ex.getMessage());
 			}
 		}
 

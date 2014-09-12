@@ -25,9 +25,9 @@ public class DBHandler {
             instance = new DBHandler();
         }
     }
-	public void save(Object obj){
+	public long save(Object obj){
 
-		ofy().save().entity(obj).now();
+		return ofy().save().entity(obj).now().getId();
 	}
 	
 	public <T> T get(Class<T> clazz, Long objId) throws InexistentObjectException{

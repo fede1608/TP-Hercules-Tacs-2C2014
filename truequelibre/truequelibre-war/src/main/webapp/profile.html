@@ -312,7 +312,7 @@
                                           </li>
                                           <li>
                                               <a id="showItemLink" class="btn btn-space btn-info pull-right" href="javascript:solicitarTrade(id);">
-                                          <i class="fa fa-twitter"></i>
+                                          
                                           Solicitar Trade
                                       </a>
                                           </li>
@@ -395,7 +395,14 @@
 				$('#showItemTitulo').html(data.name);
 				$('#showItemImagen').attr("src",data.img);
 				$('#showItemFecha').html(timeConverter(data.dateCreated));
-				$('#showItemLink').attr('href',"javascript:elegirOfferedItem("+data.itemId+");");
+				if(friendId==null || friendId==userId){
+					//share on Fb
+					$('#showItemLink').html('Compartir en Facebook')
+					$('#showItemLink').attr('href',"javascript:shareOnFb("+data.itemId+");")
+				}else{
+					$('#showItemLink').html('Solicitar Trade')
+					$('#showItemLink').attr('href',"javascript:elegirOfferedItem("+data.itemId+");");
+				}
 				$('#cargandoModal').modal('hide');
 				$('#showItemModal').modal('show');
 		});
@@ -433,6 +440,8 @@
 		}, "json");
 	}
 	
+
+	
 	
       $(document).ready(function() {
 	  debugger;
@@ -454,6 +463,10 @@
 				getItems(uid);
                 //$('#cargandoModal').modal('toggle');
 			})
+			
+			if(getUrlParameter('item')!=null){
+				showItemModal(getUrlParameter('item'),uid)
+			}
 		
 		}); 
          
