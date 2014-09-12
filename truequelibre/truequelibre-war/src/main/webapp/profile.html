@@ -18,7 +18,7 @@
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet" />
-
+	<link rel="stylesheet" type="text/css" href="assets/gritter/css/jquery.gritter.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
@@ -306,12 +306,12 @@
                                   </div>
                                   <div class="weather-category twt-category">
                                       <ul>
-                                          <li class="active">
+                                          <li class="active pull-left" >
                                               <h5 id="showItemFecha">12-03-14</h5>
                                               Fecha de Creacion
                                           </li>
                                           <li>
-                                              <a id="showItemLink" class="btn btn-space btn-info pull-right" href="javascript:solicitarTrade(id);">
+                                              <a id="showItemLink" class="btn btn-info" href="javascript:solicitarTrade(id);">
                                           
                                           Solicitar Trade
                                       </a>
@@ -354,7 +354,7 @@
     <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
     <!--<script src="assets/jquery-knob/js/jquery.knob.js"></script>-->
     <script src="js/respond.min.js" ></script>
-
+	<script type="text/javascript" src="assets/gritter/js/jquery.gritter.js"></script>
     <!--common script for all pages-->
     <script src="js/common-scripts.js"></script>
 
@@ -397,11 +397,13 @@
 				$('#showItemFecha').html(timeConverter(data.dateCreated));
 				if(friendId==null || friendId==userId){
 					//share on Fb
-					$('#showItemLink').html('Compartir en Facebook')
+					$('#showItemLink').html('<i class="icon-facebook"></i> Compartir')
 					$('#showItemLink').attr('href',"javascript:shareOnFb("+data.itemId+");")
+					$('#showItemModal').find("li").eq( 2 ).html('<a class="btn btn-danger" href="javascript:eliminarItem('+data.itemId+')"> Eliminar</a>');
 				}else{
 					$('#showItemLink').html('Solicitar Trade')
 					$('#showItemLink').attr('href',"javascript:elegirOfferedItem("+data.itemId+");");
+					$('#showItemModal').find("li").eq( 2 ).html();
 				}
 				$('#cargandoModal').modal('hide');
 				$('#showItemModal').modal('show');
@@ -436,11 +438,50 @@
 		  console.log( data ); 
 			$('#cargandoModal').modal('hide');
 			
-			alert("Trade solicitado!");
+			$.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title: 'Solicitud Enviada',
+            // (string | mandatory) the text inside the notification
+            text: 'Se ha enviado una solicitud al item xxx por el item yyy.',
+            // (string | optional) the image to display on the left
+            image: 'http://graph.facebook.com/'+friendId+'/picture?type=small',
+            // (bool | optional) if you want it to fade out on its own or just sit there
+            sticky: true,
+            // (int | optional) the time you want it to be alive for before fading out
+            time: ''
+			});
 		}, "json");
 	}
 	
-
+	function eliminarItem(itemId){
+		if(confirm("¿Estas seguro de eliminar el item?")){
+			$('#showItemModal').modal('hide');
+			$('#cargandoModal').modal('show');
+			$.ajax({
+				url: "/api/users/"+userId+"/items/"+itemId,
+				type: 'DELETE',
+				dataType: 'json',
+				data: '',
+				success: function( data ) {
+							  console.log( data ); 
+								$('#cargandoModal').modal('hide');
+								$.gritter.add({
+								// (string | mandatory) the heading of the notification
+								title: '¡Item eliminado con éxito!',
+								// (string | mandatory) the text inside the notification
+								text: 'Se ha eliminado el item seleccionado.',
+								// (string | optional) the image to display on the left
+								image: 'http://graph.facebook.com/'+userId+'/picture?type=small',
+								// (bool | optional) if you want it to fade out on its own or just sit there
+								sticky: true,
+								// (int | optional) the time you want it to be alive for before fading out
+								time: ''
+								});
+								getItems(userId);
+						}
+			});	
+		}
+	}
 	
 	
       $(document).ready(function() {
