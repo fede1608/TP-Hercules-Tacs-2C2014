@@ -13,6 +13,7 @@ Website: http://thevectorlab.net/
 	overflow:hidden; 
 	line-height: 1.2em; 
 	max-height: 2.4em; 
+	min-height: 2.4em;
 }
 
 /*end Custom*/

@@ -36,6 +36,10 @@ public class SearchResource extends ServerResource {
 		}
 		return sb.toString();
 	}
+	
+	public String getImageLarge(String url){
+		return url.length()>5?url.substring(0,url.length() - 5).concat("O.jpg"):"http://static.mlstatic.com/org-img/original/MLA/artsinfoto.gif";
+	}
 
 	@Override
 	protected Representation get() throws ResourceException {
@@ -62,15 +66,7 @@ public class SearchResource extends ServerResource {
 				// alta, fuck ML, formato de iamgen thumbnail .....sad-I.jpg,
 				// formato de
 				// imagen alta resolucion .....sad-O.jpg
-				searchItem.addProperty(
-						"img",
-						item.get("thumbnail")
-								.getAsString()
-								.substring(
-										0,
-										item.get("thumbnail").getAsString()
-												.length() - 5).concat("O.jpg"));
-
+				searchItem.addProperty("img",getImageLarge(item.get("thumbnail").getAsString()));
 				searchItem.add("name", item.get("title"));
 				search.add(searchItem);
 			}
