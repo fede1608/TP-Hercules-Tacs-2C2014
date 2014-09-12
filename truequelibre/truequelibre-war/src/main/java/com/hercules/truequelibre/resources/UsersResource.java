@@ -1,20 +1,14 @@
 package com.hercules.truequelibre.resources;
 
-//import com.hercules.truequelibre.FbProperties;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
-import org.restlet.data.Cookie;
 import org.restlet.data.MediaType;
 import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
-
 import com.restfb.types.User;
-
-import org.restlet.util.Series;
-
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
 import com.hercules.truequelibre.helpers.JsonTL;

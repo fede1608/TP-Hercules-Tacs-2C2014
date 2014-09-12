@@ -1,9 +1,6 @@
 package com.hercules.truequelibre.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 import com.google.appengine.repackaged.com.google.common.base.Function;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
@@ -12,10 +9,8 @@ import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
 import com.hercules.truequelibre.mlsdk.Meli;
 
-//Clase a persistir en la base de datos utilizando objectify
 @Entity
 public class ItemTL {
 	@Id 

@@ -1,17 +1,6 @@
 package com.hercules.truequelibre.helpers;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
-
-import java.lang.reflect.Array;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.googlecode.objectify.NotFoundException;
 import com.hercules.truequelibre.domain.InexistentObjectException;
 
