@@ -84,6 +84,7 @@ var token="";
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     debugger;
+	
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
       console.log(response);
@@ -94,7 +95,8 @@ var token="";
 
         document.getElementById('profile_photo').setAttribute('src', response.data.url);
 
-	});  
+	});
+	loadNotifications();
   }
   
   function setCookie(cname, cvalue) {
@@ -176,9 +178,36 @@ function timeConverter(UNIX_timestamp){
      return time;
  }
  
- 	function shareOnFb(itemId){
-		FB.ui({
-		  method: 'share',
-		  href: 'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId,
-		}, function(response){});
-	}
+function shareOnFb(itemId){
+	FB.ui({
+	  method: 'share',
+	  href: 'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId,
+	}, function(response){});
+}
+
+function loadNotifications(){
+	$.getJSON('/api/pendingTrades', function (data) {
+				console.log(data);
+				$('#header_inbox_bar').find( "span.badge" ).html(data.receivedTradeRequests.length);
+				$('#header_inbox_bar').find( "ul" ).empty();
+				$('#header_inbox_bar').find( "ul" ).append('<div class="notify-arrow notify-arrow-red"></div> \
+                            <li> \
+                                <p class="red">Tienes '+data.receivedTradeRequests.length+' pedidos de intercambio</p> \
+                            </li>');
+				data.receivedTradeRequests.forEach(function(tradeReq){
+					$('#header_inbox_bar').find( "ul" ).append('<li> \
+					<a href="#"> \
+					<span class="photo"><img alt="avatar" src="'+tradeReq.offeredItem.img.slice(0,-5)+'I.jpg"></span> \
+					<span class="photo"><img alt="avatar" src="'+tradeReq.wantedItem.img.slice(0,-5)+'I.jpg" style="float: right;"></span> \
+					<span class="subject"><span class="from">'+tradeReq.offeredItem.owner+'</span></span> \
+					<span class="message"><i class="icon-long-arrow-left"></i> '+tradeReq.offeredItem.name+'</span> \
+					<span class="message"><i class="icon-exchange" style="margin-left: 48%;"></i></span> \
+					<span class="message"><i class="icon-long-arrow-right"></i> '+tradeReq.wantedItem.name+'</span> \
+					</a></li><li>');
+				});
+				$('#header_inbox_bar').find( "ul" ).append('<li> \
+                                <a href="#">Ver Todas</a> \
+                            </li>');
+        })
+}	
+	
