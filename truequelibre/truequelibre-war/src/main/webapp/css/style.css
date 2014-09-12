@@ -3687,8 +3687,8 @@ table.sliders tr td {
 }
 
 .twt-feed a img {
-    height: 112px;
-    width: 112px;
+    height: auto;
+    width: 300px;
     border-radius: 50%;
     -webit-border-radius: 50%;
 }

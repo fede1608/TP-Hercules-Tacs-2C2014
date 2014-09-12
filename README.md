@@ -4,13 +4,10 @@
 Repositorio del trabajo práctico del Grupo Hércules para TACS 
 
 Para correr el sistema:
-Utilizar "mvn clean compile jetty:run" en truequelibre/truequelibre-war/
 
-o
- 
 Utilizar "mvn appengine:devserver" en truequelibre/truequelibre-ear/
+En Windows: usar RunOnDevserver.bat 
 
-Guía basica de Restlet: http://numberformat.wordpress.com/2011/02/20/restlet-hello-world/
 
 
 ##Trabajo práctico TACS 2014 - 2do Cuatrimestre
@@ -27,8 +24,8 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 * ~~La aplicación debe funcionar en Google App Engine.~~
 * ~~El login de usuario debe ser con Facebook a través de OAuth.~~
 * ~~Todos los items creados deberán referenciar a un artículo de Mercado Libre. Para eso la aplicación debe integrarse con la API del sitio.~~
-* Todas las llamadas al servidor deben ser asincrónicas.
-* Si bien se espera algo sencillo. La aplicación debe tener un frontend amigable a los usuarios.
+* ~~Todas las llamadas al servidor deben ser asincrónicas.~~
+* ~~Si bien se espera algo sencillo. La aplicación debe tener un frontend amigable a los usuarios.~~
 * ~~Se debe utilizar maven para gestionar el life-cycle de la aplicación.~~
 * ~~Se debe utilizar GIT como SCM.~~
 * El nivel de cobertura de tests debe ser superior al 70%.
@@ -45,8 +42,8 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 
 
 * ~~Como usuario quiero poder registrarme con mi cuenta de Facebook.~~
-* Como usuario quiero poder publicar un item, buscando y seleccionando un artículo publicado en Mercado Libre a modo de referencia. [API]
-* Como usuario quiero ver los items publicados por mis amigos con su descripción e imagen correspondiente. [API]
+* ~~Como usuario quiero poder publicar un item, buscando y seleccionando un artículo publicado en Mercado Libre a modo de referencia.~~ [API]
+* ~~Como usuario quiero ver los items publicados por mis amigos con su descripción e imagen correspondiente.~~ [API]
 * Como usuario quiero enviar a un amigo una solicitud de trueque indicando un item publicado por él y uno publicado por mi. 
 * Como usuario quiero poder aceptar o rechazar una solicitud de trueque que me haya sido enviada. 
 * Como usuario quiero compartir la creación de un ítem en Facebook 
@@ -61,23 +58,23 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 
 #Entrega 1 - Basis (2 semanas)
 
-* Esqueleto de la aplicación WEB.
-* Se debe definir un primer approach hacia los recursos y URLs REST que se utilizarán para cumplir con las historias propuestas. Para esta entrega no es necesario que las historias funcionen sino que los recursos devuelvan respuestas ficticias estáticas.
+* ~~Esqueleto de la aplicación WEB.~~
+* ~~Se debe definir un primer approach hacia los recursos y URLs REST que se utilizarán para cumplir con las historias propuestas. Para esta entrega no es necesario que las historias funcionen sino que los recursos devuelvan respuestas ficticias estáticas.~~
 
 #Entrega 2 - App volátil (3 semanas)
 
-* Funcionalidad principal sin diferenciar usuarios y persistiendo en memoria.
-* Se debe definir el comportamiento de los principales servicios relacionados al dominio (no sociales) y cumplir con la funcionalidad persistiendo en memoria. La integración principal con la API de Mercado Libre debe estar disponible en esta entrega
+* ~~Funcionalidad principal sin diferenciar usuarios y persistiendo en memoria.~~
+* ~~Se debe definir el comportamiento de los principales servicios relacionados al dominio (no sociales) y cumplir con la funcionalidad persistiendo en memoria. La integración principal con la API de Mercado Libre debe estar disponible en esta entrega~~
 
 #Entrega 3 - Social (2 semanas)
 
-* Integración principal con Facebook..
-* Se debe realizar la primera integración con facebook. Login e interacción con amigos.
+* ~~Integración principal con Facebook.~~
+* ~~Se debe realizar la primera integración con facebook. Login e interacción con amigos.~~
 
 #Entrega 4 - GAE (3 semanas)
 
-* Persistencia utilizado Google App Engine
-* Se debe modificar la aplicación para que en vez de almacenar los datos en memoria, la misma lo haga utilizando Google App Engine.
+* ~~Persistencia utilizado Google App Engine~~
+* ~~Se debe modificar la aplicación para que en vez de almacenar los datos en memoria, la misma lo haga utilizando Google App Engine.~~
 
 #Entrega 5 - Final (2 semanas)
 

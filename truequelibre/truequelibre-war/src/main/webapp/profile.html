@@ -250,7 +250,7 @@
           </div>
 		  <!-- modal ends -->
 		  	<!-- modal start -->
-	  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="offeredItemModal" class="modal fade" style="display: none;">
+			<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="offeredItemModal" class="modal fade" style="display: none;">
               <div class="modal-dialog">
                   <div class="modal-content">
                       <div class="modal-header">
@@ -266,7 +266,7 @@
                       <table class="table table-hover file-search">
                           <thead>
                           <tr>
-                              <th>Título</th>
+                              <th style="width: 60%;">Título</th>
                               <th class="hidden-phone">Creado</th>
                               <th class="hidden-phone"></th>
                           </tr>
@@ -286,6 +286,50 @@
               </div>
           </div>
 		  <!-- modal ends -->
+		  <!-- modal start -->
+			<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="showItemModal" class="modal fade" style="display: none;">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                          <h4 class="modal-title">Información del Item</h4>
+                      </div>
+                      <div class="modal-body">
+                              <!--widget start-->
+                              <section class="panel">
+                                  <div class="twt-feed blue-bg">
+                                      <h1 id="showItemTitulo" >Celular Liberado Mini S3 Android 4 Dualsim Wifi Tv Bluetooth</h1>
+                                      <p></p>
+                                      <a href="#">
+                                          <img id="showItemImagen" src="http://mla-s2-p.mlstatic.com/13227-MLA20074014007_042014-O.jpg" alt="">
+                                      </a>
+                                  </div>
+                                  <div class="weather-category twt-category">
+                                      <ul>
+                                          <li class="active">
+                                              <h5 id="showItemFecha">12-03-14</h5>
+                                              Fecha de Creacion
+                                          </li>
+                                          <li>
+                                              <a id="showItemLink" class="btn btn-space btn-info pull-right" href="javascript:solicitarTrade(id);">
+                                          <i class="fa fa-twitter"></i>
+                                          Solicitar Trade
+                                      </a>
+                                          </li>
+                                          <li>
+                                              
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </section>
+                              <!--widget end-->
+                          
+						  </div>
+                  </div>
+              </div>
+          </div>
+		  <!-- modal ends -->
+		  
               <!-- page end-->
           </section>
       </section>
@@ -333,13 +377,31 @@
 				
 				$('#itemList').empty();
 				data.items.forEach(function(item){
-					$('#itemList').append('<div class="col-md-3"><section class="panel"><div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"><img src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/><a href="javascript:solicitarTrade('+item.itemId+')" class="adtocart"><i class="icon-search"></i></a></div><div class="panel-body text-center"><h4><a href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"></p></div></section></div>');
+					$('#itemList').append('<div class="col-md-3"><section class="panel"> \
+					<div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"> \
+					<img id="'+item.itemId+'" src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/> \
+					<a href="javascript:showItemModal('+item.itemId+')" class="adtocart"><i class="icon-search"></i></a></div> \
+					<div class="panel-body text-center"><h4><a id="'+item.itemId+'" href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"> \
+					</p></div></section></div>');
 				});
                 $('#cargandoModal').modal('hide');
         })
 	}
 	
-	function solicitarTrade(itemId){
+	function showItemModal(itemId){
+		$('#cargandoModal').modal('show');
+		$.getJSON('/api/users/'+userId+'/items/'+itemId, function (data) {
+				console.log(data);
+				$('#showItemTitulo').html(data.name);
+				$('#showItemImagen').attr("src",data.img);
+				$('#showItemFecha').html(timeConverter(data.dateCreated));
+				$('#showItemLink').attr('href',"javascript:elegirOfferedItem("+data.itemId+");");
+				$('#cargandoModal').modal('hide');
+				$('#showItemModal').modal('show');
+		});
+	}
+	function elegirOfferedItem(itemId){
+		$('#showItemModal').modal('hide');
 		$('#cargandoModal').modal('show');
 		$.getJSON('/api/users/'+userId+'/items', function (data) {
 				console.log(data);
@@ -350,14 +412,27 @@
                                   <img alt="" src="'+item.img+'" style="width:30px"> \
                                   <strong style="overflow:hidden">'+item.name+'</strong>\
                               </td> \
-                              <td class="hidden-phone">01.01.2012	</td> \
-                              <td class="hidden-phone"><a class="btn btn-info" href="">Elegir</a></td> \
+                              <td class="hidden-phone">'+timeConverter(item.dateCreated)+'</td> \
+                              <td class="hidden-phone"><a class="btn btn-info" href="javascript:solicitarTrade('+item.itemId+','+itemId+')">Elegir</a></td> \
                           </tr>');
 				});
 				$('#cargandoModal').modal('hide');
 				$('#offeredItemModal').modal('show');
 		});
 	}
+	var friendId=null;
+	
+	function solicitarTrade(offeredItem,wantedItem){
+	$('#offeredItemModal').modal('hide');
+		$('#cargandoModal').modal('show');
+		$.post( "/api/users/"+friendId+"/items/"+wantedItem, { offeredItemId: offeredItem }, function( data ) {
+		  console.log( data ); 
+			$('#cargandoModal').modal('hide');
+			
+			alert("Trade solicitado!");
+		}, "json");
+	}
+	
 	
       $(document).ready(function() {
 	  debugger;
@@ -367,6 +442,7 @@
 			var uid=null;
 			if(getUrlParameter('id')!=null){
 				uid=getUrlParameter('id');
+				friendId=uid;
 			}else{
 				uid=userId;
 			}

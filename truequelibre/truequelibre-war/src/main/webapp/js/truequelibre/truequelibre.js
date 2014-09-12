@@ -162,3 +162,16 @@ var isMobile = { //mover a commons fuente: http://www.abeautifulsite.net/detecti
         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
     }
 };
+
+function timeConverter(UNIX_timestamp){
+ var a = new Date(UNIX_timestamp*1000);
+ var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+     var year = a.getFullYear();
+     var month = months[a.getMonth() - 1];
+     var date = a.getDate();
+     var hour = a.getHours();
+     var min = a.getMinutes();
+     var sec = a.getSeconds();
+     var time = date + '-' + month + '-' + year; //+ ' ' + hour + ':' + min + ':' + sec ;
+     return time;
+ }
