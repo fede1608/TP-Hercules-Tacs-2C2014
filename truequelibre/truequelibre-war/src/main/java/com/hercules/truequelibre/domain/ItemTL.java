@@ -76,4 +76,7 @@ public class ItemTL {
 	public void setUser(String userId) {
 		this.owner = userId;
 	}
+	public boolean isExchanged(){
+		return exchanged;
+	}
 }

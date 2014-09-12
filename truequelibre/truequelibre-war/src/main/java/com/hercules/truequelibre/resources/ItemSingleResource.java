@@ -90,7 +90,7 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 						ofy().delete()
 						.key(Key.create(ItemTL.class, item.id))
 						.now();
-						
+						json.addProperty("success", "el objeto ha sido eliminado correctamente");
 					} else {
 						json = JsonTL
 								.jsonifyError("Item pertenece a otro usuario.");
@@ -131,6 +131,9 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 			if(!uid.equals(wantedItem.owner)){
 				throw new UsersDontMatchException(uid,this.requestedItem());
 			}
+			if(wantedItem.isExchanged()){
+				throw new UsersDontMatchException(userfb.getId(),this.requestedItem());
+			}
 			String offeredItemId = form.getFirstValue("offeredItemId");
 
 			ItemTL offeredItem = ofy().load().type(ItemTL.class)
@@ -138,7 +141,9 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 			if(!userfb.getId().equals(offeredItem.owner)){
 				throw new UsersDontMatchException(userfb.getId(),offeredItemId);
 			}
-			
+			if(offeredItem.isExchanged()){
+				throw new ItemNotExistsException(offeredItem.id.toString());
+			}
 			TradeTL trade = new TradeTL(offeredItem, wantedItem);
 			
 			message.addProperty("wantedItemId",this.requestedItem());
@@ -155,6 +160,8 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 		}
 		}catch (UsersDontMatchException e){
 			message.addProperty("error",e.getMessage());
+		}catch (ItemNotExistsException e){
+			message.addProperty("error","el item "+e.getId()+ " ya se encuentra intercambiado");
 		}
 
 		return new StringRepresentation(message.toString(),
