@@ -14,7 +14,8 @@ import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
 import com.googlecode.objectify.ObjectifyService;
 import com.hercules.truequelibre.resources.FriendsResource;
-import com.hercules.truequelibre.resources.ItemsResource;
+import com.hercules.truequelibre.resources.ItemListResource;
+import com.hercules.truequelibre.resources.ItemSingleResource;
 import com.hercules.truequelibre.resources.ParametersShowerResource;
 import com.hercules.truequelibre.resources.SearchResource;
 import com.hercules.truequelibre.resources.PendingTradesResource;
@@ -49,9 +50,9 @@ public class MainApplication extends Application {
 
 		router.attach("/users/{userId}",UsersResource.class);
 		
-		router.attach("/users/{userId}/items",ItemsResource.class);
-		router.attach("/users/{userId}/items/{itemId}",ItemsResource.class);
-
+		router.attach("/users/{userId}/items",ItemListResource.class);
+		router.attach("/users/{userId}/items/",ItemListResource.class);
+		router.attach("/users/{userId}/items/{itemId}",ItemSingleResource.class);
 		
 		router.attach("/friends",FriendsResource.class);
 		router.attach("/pendingTrades",PendingTradesResource.class);

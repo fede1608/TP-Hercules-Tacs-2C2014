@@ -41,7 +41,6 @@ public class JsonTL {
 		return requestList;
 	}
 
-
 	public static JsonObject jsonifyTrade(TradeTL trade) {
 		
 		JsonObject json = new JsonObject();
