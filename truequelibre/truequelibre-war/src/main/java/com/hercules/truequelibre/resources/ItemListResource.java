@@ -61,20 +61,6 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 
-	public String itemInfo(String requestedItem) {
-		JsonObject searchItem = new JsonObject();
-		try {
-			JsonObject item = new Meli().get("items/" + this.requestedItem());
-			searchItem.add("idRefML", item.get("id"));
-			searchItem.add("img", item.get("thumbnail"));
-			searchItem.add("name", item.get("title"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return searchItem.toString();
-	}
-
 	@Override
 	public Representation post(Representation entity) {
 		// Obtener los datos enviados por post
