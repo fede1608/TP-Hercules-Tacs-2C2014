@@ -178,11 +178,32 @@ function timeConverter(UNIX_timestamp){
      return time;
  }
  
-function shareOnFb(itemId){
-	FB.ui({
-	  method: 'share',
-	  href: 'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId,
-	}, function(response){});
+function shareOnFb(itemId){ //fuente: http://www.walkswithme.net/facebook-share-button-with-custom-parameters
+	$('#cargandoModal').modal('show');
+			$.getJSON('/api/users/'+userId+'/items/'+itemId, function (data) {
+					console.log(data);
+					var product_name   = 	'¡He agregado un nuevo item en TruequeLibre!';
+					var description	   =	'Entra a mi perfil para ver mi nuevo item! TruequeLibre es una plataforma de intercambio directo de artículos libre de impuestos. La más utilizada en LatinoAmérica!';
+					var share_image	   =	data.img;
+					var share_url	   =	'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId;	
+					var share_capt     =    data.name;
+					$('#cargandoModal').modal('hide');
+					FB.ui({
+						method: 'feed',
+						name: product_name,
+						link: share_url,
+						picture: share_image,
+						caption: share_capt,
+						description: description
+
+					}, function(response){});
+					
+					
+			});
+	//FB.ui({
+	//  method: 'share',
+	//  href: 'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId,
+	//}, function(response){});
 }
 
 function loadNotifications(){
