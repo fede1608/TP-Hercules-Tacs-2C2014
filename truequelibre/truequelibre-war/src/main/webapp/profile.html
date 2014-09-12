@@ -380,7 +380,7 @@
 					$('#itemList').append('<div class="col-md-3"><section class="panel"> \
 					<div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"> \
 					<img id="'+item.itemId+'" src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/> \
-					<a href="javascript:showItemModal('+item.itemId+')" class="adtocart"><i class="icon-search"></i></a></div> \
+					<a href="javascript:showItemModal('+item.itemId+','+uid+')" class="adtocart"><i class="icon-search"></i></a></div> \
 					<div class="panel-body text-center"><h4><a id="'+item.itemId+'" href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"> \
 					</p></div></section></div>');
 				});
@@ -388,9 +388,9 @@
         })
 	}
 	
-	function showItemModal(itemId){
+	function showItemModal(itemId,uid){
 		$('#cargandoModal').modal('show');
-		$.getJSON('/api/users/'+userId+'/items/'+itemId, function (data) {
+		$.getJSON('/api/users/'+uid+'/items/'+itemId, function (data) {
 				console.log(data);
 				$('#showItemTitulo').html(data.name);
 				$('#showItemImagen').attr("src",data.img);
