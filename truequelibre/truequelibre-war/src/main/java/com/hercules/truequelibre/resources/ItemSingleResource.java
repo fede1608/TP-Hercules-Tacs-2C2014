@@ -83,7 +83,7 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 			if (FacebookDataCollector.getInstance().isTheUser(token,
 					this.requestedUser())) {
 				ItemTL item = ofy().load().type(ItemTL.class)
-						.id(this.requestedItem()).now();
+						.id(Long.parseLong(this.requestedItem(),10)).now();
 				if (item != null) {
 					if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 						
