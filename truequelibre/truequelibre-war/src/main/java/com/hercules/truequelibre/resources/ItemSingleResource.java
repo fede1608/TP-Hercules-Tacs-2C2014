@@ -23,6 +23,7 @@ import com.googlecode.objectify.Key;
 import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
+import com.hercules.truequelibre.domain.UsersDontMatchException;
 import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
 import com.hercules.truequelibre.helpers.GenDBHandler;
@@ -74,20 +75,6 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 
-	public String itemInfo(String requestedItem) {
-		JsonObject searchItem = new JsonObject();
-		try {
-			JsonObject item = new Meli().get("items/" + this.requestedItem());
-			searchItem.add("idRefML", item.get("id"));
-			searchItem.add("img", item.get("thumbnail"));
-			searchItem.add("name", item.get("title"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return searchItem.toString();
-	}
-
 	@Override
 	protected Representation delete() throws ResourceException {
 		String token = getCookies().getValues("accessToken");
@@ -135,21 +122,22 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 				tokenfb);
 
 		JsonObject message = new JsonObject();
-		if (requestingTrade(uid, userfb)) {
+		try{
+		if (requestingTrade(uid, userfb)&&FacebookDataCollector.getInstance().isAFriend(tokenfb, uid)) {
 			
 		//	ItemDBHandler itemDBHandler = new ItemDBHandler();
 			
-			ItemTL wantedItem = ofy().load().type(ItemTL.class)
-					.filter("owner", uid)
-					.filter("exchanged",false)
-					.filter("id",this.requestedItem()).first().now();
-			
+			ItemTL wantedItem = ofy().load().type(ItemTL.class).id(Long.parseLong(this.requestedItem(),10)).now();
+			if(uid.equals(wantedItem.owner)){
+				throw new UsersDontMatchException(uid,this.requestedItem());
+			}
 			String offeredItemId = form.getFirstValue("offeredItemId");
 
 			ItemTL offeredItem = ofy().load().type(ItemTL.class)
-					.filter("owner", userfb.getId())
-					.filter("exchanged",false)
-					.filter("id",offeredItemId).first().now();
+					.id(Long.parseLong(offeredItemId,10)).now();
+			if(userfb.getId().equals(offeredItem.owner)){
+				throw new UsersDontMatchException(userfb.getId(),offeredItemId);
+			}
 			
 			TradeTL trade = new TradeTL(offeredItem, wantedItem);
 			
@@ -164,6 +152,9 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 			}
 		}else{
 			message=JsonTL.jsonifyError("ha ocurrido un error en la creacion del trato, ya sea porque se creo desde su propio usuario o un error inesperado");
+		}
+		}catch (UsersDontMatchException e){
+			message.addProperty("error",e.getMessage());
 		}
 
 		return new StringRepresentation(message.toString(),
