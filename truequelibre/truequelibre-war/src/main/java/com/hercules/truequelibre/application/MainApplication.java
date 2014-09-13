@@ -15,6 +15,7 @@ import com.hercules.truequelibre.domain.TradeTL;
 import com.googlecode.objectify.ObjectifyService;
 import com.hercules.truequelibre.resources.FriendsResource;
 import com.hercules.truequelibre.resources.ItemListResource;
+import com.hercules.truequelibre.resources.ItemNewsFeedResource;
 import com.hercules.truequelibre.resources.ItemSingleResource;
 import com.hercules.truequelibre.resources.ParametersShowerResource;
 import com.hercules.truequelibre.resources.SearchResource;
@@ -56,6 +57,7 @@ public class MainApplication extends Application {
 		
 		router.attach("/friends",FriendsResource.class);
 		router.attach("/pendingTrades",PendingTradesResource.class);
+		router.attach("/feed",ItemNewsFeedResource.class);
 		Restlet mainpage = new Restlet() {
 			
 			
