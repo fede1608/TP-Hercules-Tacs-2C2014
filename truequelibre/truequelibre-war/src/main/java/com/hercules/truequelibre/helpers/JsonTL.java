@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
@@ -23,7 +24,7 @@ public class JsonTL {
 		json.addProperty("dateCreated", item.created);
 		return json;
 	}
-	
+
 	public static JsonObject jsonifyError(String error){
 		JsonObject json = new JsonObject();
 		json.addProperty("error", error);
@@ -41,7 +42,7 @@ public class JsonTL {
 	}
 
 	public static JsonObject jsonifyTrade(TradeTL trade) {
-		
+
 		JsonObject json = new JsonObject();
 		JsonObject jsonWantedItem = JsonTL.jsonifyItem(trade.getWantedItem());
 		JsonObject jsonOfferedItem = JsonTL.jsonifyItem(trade.getOfferedItem());
@@ -52,10 +53,10 @@ public class JsonTL {
 		json.addProperty("dateCreated", trade.dateCreated);
 		return json;
 	}
-	
+
 	public static JsonArray tradesToJsonArray(List<TradeTL> list){
 		JsonArray jsonTrades = new JsonArray();
-		
+
 		for(TradeTL trade : list)
 		{
 			jsonTrades.add(JsonTL.jsonifyTrade(trade));
@@ -71,23 +72,50 @@ public class JsonTL {
 		jsonDate.addProperty("hours", date.getHours());
 		jsonDate.addProperty("minutes", date.getMinutes());
 		jsonDate.addProperty("seconds", date.getSeconds());
-		
-		
+
+
 		return jsonDate;
 	}
 
-	public static JsonArray jsonifyItemListWithNames(List<ItemTL> items,
+	public static JsonArray jsonifyItemList(List<ItemTL> items,
 			Map<String, String> friends) {
 		Iterator<ItemTL> iterator = items
 				.iterator();
 		JsonArray requestList=new JsonArray();
 		while (iterator.hasNext()) {
-			ItemTL i =iterator.next();
-			JsonObject item=JsonTL.jsonifyItem(i);
-			item.addProperty("ownerName", friends.get(i.owner));
-			requestList.add(item);
+			requestList.add(JsonTL.jsonifyItem(iterator.next(),friends));
 		}
 		return requestList;
 	}
-	
+
+	private static JsonObject jsonifyItem(ItemTL i, Map<String, String> friends) {
+		JsonObject jsonItem= JsonTL.jsonifyItem(i);
+		jsonItem.addProperty("ownerName", friends.get(i.owner));
+		return jsonItem;
+	}
+
+	public static JsonElement tradesToJsonArray(
+			List<TradeTL> trades, Map<String, String> friends) {
+		JsonArray jsonTrades = new JsonArray();
+
+		for(TradeTL trade : trades)
+		{
+			jsonTrades.add(JsonTL.jsonifyTrade(trade,friends));
+		}
+		return jsonTrades;
+	}
+
+	private static JsonElement jsonifyTrade(TradeTL trade,
+			Map<String, String> friends) {
+		JsonObject json = new JsonObject();
+		JsonObject jsonWantedItem = JsonTL.jsonifyItem(trade.getWantedItem(),friends);
+		JsonObject jsonOfferedItem = JsonTL.jsonifyItem(trade.getOfferedItem(),friends);
+		json.addProperty("id", trade.id);
+		json.add("wantedItem", jsonWantedItem);
+		json.add("offeredItem", jsonOfferedItem);
+		json.addProperty("state",trade.getState());
+		json.addProperty("dateCreated", trade.dateCreated);
+		return json;
+	}
+
 }

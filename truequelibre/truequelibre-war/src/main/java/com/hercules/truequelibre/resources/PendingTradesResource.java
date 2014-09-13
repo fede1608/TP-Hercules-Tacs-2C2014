@@ -3,6 +3,7 @@ package com.hercules.truequelibre.resources;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hercules.truequelibre.domain.TradeTL;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
@@ -55,7 +56,8 @@ public class PendingTradesResource extends ServerResource{
 		
 		
 
-		
+		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsAsHashMap(token);
+		friends.put(user.getId(), user.getName());
 		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
 				//.filter("offeringUserId",user.getId())
 				.filter("offeredItem.owner",user.getId())
@@ -66,8 +68,8 @@ public class PendingTradesResource extends ServerResource{
 				.filter("wantedItem.owner",user.getId())
 				.filter("state",0).list();
 		
-		message.add("receivedTradeRequests", JsonTL.tradesToJsonArray(pendingReceivedTrades));
-		message.add("sentTradeRequests", JsonTL.tradesToJsonArray(pendingOfferedTrades));
+		message.add("receivedTradeRequests", JsonTL.tradesToJsonArray(pendingReceivedTrades,friends));
+		message.add("sentTradeRequests", JsonTL.tradesToJsonArray(pendingOfferedTrades,friends));
 		}catch(FacebookOAuthException e) {
 
 			message = JsonTL
