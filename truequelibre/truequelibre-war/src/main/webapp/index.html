@@ -216,6 +216,22 @@
                               </div>
                       </section>
                    </div>
+				   <!-- modal start -->
+					  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="cargandoModal" class="modal fade" style="display: none;">
+				              <div class="modal-dialog">
+				                  <div class="modal-content">
+				                      <div class="modal-header">
+				                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				                          <h4 class="modal-title">Cargando...</h4>
+				                      </div>
+				                      <div class="modal-body">
+				                          <img src="http://w1.hoyennoticias.com.ve//wp-content/themes/HEN/images/loading.gif" style="width:40px;margin-left:45%">
+				
+				                      </div>
+				                  </div>
+				              </div>
+				     </div>
+					<!-- modal ends -->
               <!-- page end-->
           </section>
       </section>
@@ -244,22 +260,37 @@
     	$.getJSON('/api/users/'+uid+'/items', function (data) {
     		console.log(data);
     		$('#addedItemList').empty();
+    		var i = 0;
     		data.items.forEach(
     			function(item){
-    			$('#addedItemList').append(
-    					'<article class="timeline-item">\
-    					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
-    					<span class="arrow"></span>\
-    					<span class="timeline-icon light-green"></span>\
-    					<h1 class="light-green">Agregaste un nuevo item: '+item.name+'</h1>\
-    					<img src="'+item.img+'" heigth="200" width="200">\
-    			</div></div></div></article>');
+    			i = i + 1;
+    			if(i % 2){
+	    			$('#addedItemList').append(
+							'<article class="timeline-item">\
+	    					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
+	        				<span class="arrow"></span>\
+	    					<span class="timeline-icon light-green"></span>\
+	    					<h1 class="light-green">Agregaste un nuevo item: '+item.name+'</h1>\
+	    					<img src="'+item.img+'" heigth="200" width="200">\
+	    			</div></div></div></article>');
+    			}
+    			else{
+    				$('#addedItemList').append(
+    						'<article class="timeline-item alt">\
+        					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
+            				<span class="arrow-alt"></span>\
+        					<span class="timeline-icon red"></span>\
+        					<h1 class="red">Agregaste un nuevo item: '+item.name+'</h1>\
+        					<img src="'+item.img+'" heigth="200" width="200">\
+        			</div></div></div></article>');
+    			}
     		});
     	})
     }
 
     $(document).ready(function() {
     	debugger;
+    	$('#cargandoModal').modal('show');
     	fbEnsureInit( function(response) {
     		var uid=null;
     		if(getUrlParameter('id')!=null){
@@ -273,7 +304,9 @@
 
     		$.getJSON('/api/users/'+uid, function (data) {
     			console.log(data);
+    			
     			getAddedItemList(uid);
+    			$('#cargandoModal').modal('hide');
     		})
     	}); 
 
