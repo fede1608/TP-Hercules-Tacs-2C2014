@@ -1,10 +1,13 @@
 package com.hercules.truequelibre.resources;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
+
 import java.util.List;
+
 import com.hercules.truequelibre.domain.TradeTL;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
 import com.google.gson.JsonObject;
+
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -16,6 +19,8 @@ import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.restlet.util.Series;
+
+import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.hercules.truequelibre.helpers.JsonTL;;
 
@@ -33,6 +38,8 @@ public class PendingTradesResource extends ServerResource{
 	protected Representation get() throws ResourceException {
 		Series<Cookie> cookies = getCookies();	
 		String token = cookies.getValues("accessToken");
+		JsonObject message= new JsonObject();
+		try{
 		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
 		/*
 		List<ItemTL> items = ofy().load().type(ItemTL.class)
@@ -45,7 +52,7 @@ public class PendingTradesResource extends ServerResource{
 		for (ItemTL item:items){
 			jsonItems.add(JsonTL.jsonifyItemWithRequests(item));
 		}*/
-		JsonObject message= new JsonObject();
+		
 		
 
 		
@@ -61,6 +68,11 @@ public class PendingTradesResource extends ServerResource{
 		
 		message.add("receivedTradeRequests", JsonTL.tradesToJsonArray(pendingReceivedTrades));
 		message.add("sentTradeRequests", JsonTL.tradesToJsonArray(pendingOfferedTrades));
+		}catch(FacebookOAuthException e) {
+
+			message = JsonTL
+					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+		}
 		return new StringRepresentation(message.toString(), MediaType.APPLICATION_JSON);
 	}
 	

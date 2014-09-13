@@ -8,6 +8,8 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
+
+import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
@@ -28,21 +30,27 @@ public class UsersResource extends ParameterGathererTemplateResource {
 	protected Representation get() throws ResourceException {
 		JsonObject json=new JsonObject();
 		String token = getCookies().getValues("accessToken");
-		User user = FacebookDataCollector.getInstance().findUserWithRest(token);
-		if(FacebookDataCollector.getInstance().isTheUser(user,this.requestedUser())){
+		try{
+			User user = FacebookDataCollector.getInstance().findUserWithRest(token);
+			if(FacebookDataCollector.getInstance().isTheUser(user,this.requestedUser())){
 			
-		}else{
-			if(FacebookDataCollector.getInstance().isAFriend(token, this.requestedUser())){
-				user = FacebookDataCollector.getInstance().getFriendData(token, this.requestedUser());
-				
 			}else{
-				json = JsonTL.jsonifyError("No tienes permisos para ver este usuario");
-				return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
+				if(FacebookDataCollector.getInstance().isAFriend(token, this.requestedUser())){
+					user = FacebookDataCollector.getInstance().getFriendData(token, this.requestedUser());
+				
+				}else{
+					json = JsonTL.jsonifyError("No tienes permisos para ver este usuario");
+					return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
+				}
 			}
+			json.addProperty("id", this.requestedUser());
+			json.addProperty("name",user.getName());
+			json.addProperty("profilePic", FacebookDataCollector.getInstance().getUserProfilePic(this.requestedUser()));
+		}catch(FacebookOAuthException e) {
+
+			json = JsonTL
+					.jsonifyError("el token esta desactualizado, por favor actualicelo");
 		}
-		json.addProperty("id", this.requestedUser());
-		json.addProperty("name",user.getName());
-		json.addProperty("profilePic", FacebookDataCollector.getInstance().getUserProfilePic(this.requestedUser()));
 		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 	

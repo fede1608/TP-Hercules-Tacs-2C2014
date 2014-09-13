@@ -118,50 +118,57 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 		Form form = new Form(entity);
 		String uid = (String) this.getRequest().getAttributes().get("userId");
 		String tokenfb = getCookies().getValues("accessToken");// form.getFirstValue("token");
-		User userfb = FacebookDataCollector.getInstance().findUserWithRest(
-				tokenfb);
-
 		JsonObject message = new JsonObject();
 		try{
-		if (requestingTrade(uid, userfb)&&FacebookDataCollector.getInstance().isAFriend(tokenfb, uid)) {
+			User userfb = FacebookDataCollector.getInstance().findUserWithRest(
+					tokenfb);
 			
+		
+			try{
+				if (requestingTrade(uid, userfb)&&FacebookDataCollector.getInstance().isAFriend(tokenfb, uid)) {
+					
 		//	ItemDBHandler itemDBHandler = new ItemDBHandler();
 			
-			ItemTL wantedItem = ofy().load().type(ItemTL.class).id(Long.parseLong(this.requestedItem(),10)).now();
-			if(!uid.equals(wantedItem.owner)){
-				throw new UsersDontMatchException(uid,this.requestedItem());
+					ItemTL wantedItem = ofy().load().type(ItemTL.class).id(Long.parseLong(this.requestedItem(),10)).now();
+					if(!uid.equals(wantedItem.owner)){
+						throw new UsersDontMatchException(uid,this.requestedItem());
+					}
+					if(wantedItem.isExchanged()){
+						throw new UsersDontMatchException(userfb.getId(),this.requestedItem());
+					}
+					String offeredItemId = form.getFirstValue("offeredItemId");
+					
+					ItemTL offeredItem = ofy().load().type(ItemTL.class)
+							.id(Long.parseLong(offeredItemId,10)).now();
+					if(!userfb.getId().equals(offeredItem.owner)){
+						throw new UsersDontMatchException(userfb.getId(),offeredItemId);
+					}
+					if(offeredItem.isExchanged()){
+						throw new ItemNotExistsException(offeredItem.id.toString());
+					}
+					TradeTL trade = new TradeTL(offeredItem, wantedItem);
+					
+					message.addProperty("wantedItemId",this.requestedItem());
+					message.addProperty("offeredItemId",offeredItemId);
+					message.addProperty("offeredItem",offeredItem != null? offeredItem.name:"null");
+					message.addProperty("wantedItem",wantedItem != null? wantedItem.name:"null");
+					if(wantedItem!=null && offeredItem != null)
+					{
+						DBHandler.getInstance().save(trade);
+						message.addProperty("success","El pedido de trueque se ha registrado con éxito");
+					}
+				}else{
+					message=JsonTL.jsonifyError("ha ocurrido un error en la creacion del trato, ya sea porque se creo desde su propio usuario o un error inesperado");
+				}
+			}catch (UsersDontMatchException e){
+				message.addProperty("error",e.getMessage());
+			}catch (ItemNotExistsException e){
+				message.addProperty("error","el item "+e.getId()+ " ya se encuentra intercambiado");
 			}
-			if(wantedItem.isExchanged()){
-				throw new UsersDontMatchException(userfb.getId(),this.requestedItem());
-			}
-			String offeredItemId = form.getFirstValue("offeredItemId");
+		}catch(FacebookOAuthException e) {
 
-			ItemTL offeredItem = ofy().load().type(ItemTL.class)
-					.id(Long.parseLong(offeredItemId,10)).now();
-			if(!userfb.getId().equals(offeredItem.owner)){
-				throw new UsersDontMatchException(userfb.getId(),offeredItemId);
-			}
-			if(offeredItem.isExchanged()){
-				throw new ItemNotExistsException(offeredItem.id.toString());
-			}
-			TradeTL trade = new TradeTL(offeredItem, wantedItem);
-			
-			message.addProperty("wantedItemId",this.requestedItem());
-			message.addProperty("offeredItemId",offeredItemId);
-			message.addProperty("offeredItem",offeredItem != null? offeredItem.name:"null");
-			message.addProperty("wantedItem",wantedItem != null? wantedItem.name:"null");
-			if(wantedItem!=null && offeredItem != null)
-			{
-				DBHandler.getInstance().save(trade);
-				message.addProperty("success","El pedido de trueque se ha registrado con éxito");
-			}
-		}else{
-			message=JsonTL.jsonifyError("ha ocurrido un error en la creacion del trato, ya sea porque se creo desde su propio usuario o un error inesperado");
-		}
-		}catch (UsersDontMatchException e){
-			message.addProperty("error",e.getMessage());
-		}catch (ItemNotExistsException e){
-			message.addProperty("error","el item "+e.getId()+ " ya se encuentra intercambiado");
+			message = JsonTL
+					.jsonifyError("el token esta desactualizado, por favor actualicelo");
 		}
 
 		return new StringRepresentation(message.toString(),
