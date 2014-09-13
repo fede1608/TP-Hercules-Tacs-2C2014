@@ -27,7 +27,8 @@
   </head>
 
   <body>
-	<script src="js/truequelibre/truequelibre.js" type="text/javascript"></script>  
+	<script src="js/truequelibre/truequelibre.js" type="text/javascript"></script>
+	 
   <section id="container" class="">
       <!--header start-->
       <header class="header white-bg">
@@ -208,72 +209,9 @@
                                       <h3 class="timeline-title">Timeline</h3>
                                       <p class="t-info">Ultimos items agregados</p>
                                   </div>
-
-                                  <div class="timeline">
-                                      <article class="timeline-item">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow"></span>
-                                                      <span class="timeline-icon red"></span>
-                                                      <span class="timeline-date">08:25 am</span>
-                                                      <h1 class="red">12 de Julio | Sabado</h1>
-                                                      <p><a href="#">Juan</a> Agrego un reloj</p>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item alt">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow-alt"></span>
-                                                      <span class="timeline-icon green"></span>
-                                                      <span class="timeline-date">10:00 am</span>
-                                                      <h1 class="green">10 de Julio | Miercoles</h1>
-                                                      <p><a href="#">Jonathan</a> Agrego un televisor <span><a href="#" class="green">Samsung</a></span></p>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-                                      <article class="timeline-item">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow"></span>
-                                                      <span class="timeline-icon blue"></span>
-                                                      <span class="timeline-date">11:35 am</span>
-                                                      <h1 class="blue">05 de Julio | Lunes</h1>
-                                                      <p><a href="#">Uriel</a> Agrego una tostadora <span><a href="#" class="blue">ATMA</a></span></p>
-                                                      <div class="tostadora">
-                                                          <a href="#">
-                                                              <img alt="" src="http://www.atma.com.ar/files/media/2045.jpg" width='250' height='250'>
-                                                          </a>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
-									  <article class="timeline-item alt">
-                                          <div class="timeline-desk">
-                                              <div class="panel">
-                                                  <div class="panel-body">
-                                                      <span class="arrow-alt"></span>
-                                                      <span class="timeline-icon light-green"></span>
-                                                      <span class="timeline-date">07:49 pm</span>
-                                                      <h1 class="light-green">10 de Junio | Viernes</h1>
-                                                      <p><a href="#">Federico</a> Agrego una bobina de Tesla</p>
-                                                      <div class="bobina">
-                                                      	<a href="#">
-                                                              <img alt="" src="http://hacknmod.com/wp-content/uploads/2009/05/tesla1811foot000710003-600x412.jpg" width='250' height='250'>
-                                                         </a>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </article>
+                                  <div class="timeline" id="addedItemList">
+                                  
                                   </div>
-
                                   <div class="clearfix">&nbsp;</div>
                               </div>
                       </section>
@@ -301,7 +239,47 @@
     <script src="js/jquery.scrollTo.min.js"></script>
     <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
     <script src="js/respond.min.js" ></script>
+    <script>
+    function getAddedItemList(uid){
+    	$.getJSON('/api/users/'+uid+'/items', function (data) {
+    		console.log(data);
+    		$('#addedItemList').empty();
+    		data.items.forEach(
+    			function(item){
+    			$('#addedItemList').append(
+    					'<article class="timeline-item">\
+    					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
+    					<span class="arrow"></span>\
+    					<span class="timeline-icon light-green"></span>\
+    					<h1 class="light-green">Agregaste un nuevo item: '+item.name+'</h1>\
+    					<img src="'+item.img+'" heigth="200" width="200">\
+    			</div></div></div></article>');
+    		});
+    	})
+    }
 
+    $(document).ready(function() {
+    	debugger;
+    	fbEnsureInit( function(response) {
+    		var uid=null;
+    		if(getUrlParameter('id')!=null){
+    			uid=getUrlParameter('id');
+    			friendId=uid;
+    			$('ul.nav-pills').find('li').eq(2).empty();
+    			$('ul.nav-pills').find('li').eq(1).empty();
+    		}else{
+    			uid=userId;
+    		}
+
+    		$.getJSON('/api/users/'+uid, function (data) {
+    			console.log(data);
+    			getAddedItemList(uid);
+    		})
+    	}); 
+
+    });
+    </script>
+    
     <!--common script for all pages-->
     <script src="js/common-scripts.js"></script>
 
