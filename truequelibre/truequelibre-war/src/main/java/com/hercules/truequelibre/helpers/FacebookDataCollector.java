@@ -1,5 +1,10 @@
 package com.hercules.truequelibre.helpers;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
@@ -117,4 +122,17 @@ public class FacebookDataCollector {
 		json.add("friends", friends);
 		return json.toString();
 	}
+
+	public Map<String, String> getFriendsAsHashMap(String token) {
+		Map<String,String> friends = new HashMap<String,String>();
+		List<User> friendList=this.getFriends(token).getData();
+		for (User friend : friendList) {
+			
+			if (friends.get(friend.getId())==null) {
+			    friends.put(friend.getId(), friend.getName());
+			}
+		}
+		return friends;
+	}
+
 }

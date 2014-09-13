@@ -257,7 +257,7 @@
     <script src="js/respond.min.js" ></script>
     <script>
     function getAddedItemList(uid){
-    	$.getJSON('/api/users/'+uid+'/items', function (data) {
+    	$.getJSON('/api/feed', function (data) {
     		console.log(data);
     		$('#addedItemList').empty();
     		var i = 0;

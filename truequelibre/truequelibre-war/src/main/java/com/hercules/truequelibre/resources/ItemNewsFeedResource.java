@@ -3,8 +3,10 @@ package com.hercules.truequelibre.resources;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.restlet.Context;
 import org.restlet.Request;
@@ -47,32 +49,29 @@ public class ItemNewsFeedResource extends ParameterGathererTemplateResource {
 	protected Representation get() throws ResourceException {
 		String token = getCookies().getValues("accessToken");
 		JsonObject json = new JsonObject();
-		String uid=FacebookDataCollector.getInstance().findUserWithRest(token).getId();
-		List<User> friends=FacebookDataCollector.getInstance().getFriends(token).getData();
-		List<String> friendsIds=this.getIdsFromUserList(friends);
-		friendsIds.add(uid);
+		try{
+		Map<String,String> friends = FacebookDataCollector.getInstance().getFriendsAsHashMap(token);
+		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
+		friends.put(user.getId(), user.getName());
 		List<ItemTL> items = ofy().load().type(ItemTL.class)
-					.filter("owner in", friendsIds)
+					.filter("owner in", friends.keySet())
 					.filter("exchanged", false)
 					.order("-created").limit(10)
 					.list();
-			json = new JsonObject();
-			JsonArray jsonedItemlist=JsonTL.jsonifyItemList(items);
-			json.add("items", jsonedItemlist);
-			json.addProperty("itemCount", jsonedItemlist.size());
 		
+		json = new JsonObject();
+		JsonArray jsonedItemlist=JsonTL.jsonifyItemListWithNames(items,friends);
+		json.add("items", jsonedItemlist);
+		json.addProperty("itemCount", jsonedItemlist.size());
+		
+		}catch (FacebookOAuthException e) {
 
+			json = JsonTL
+					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+		}
 		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}
 
-	private List<String> getIdsFromUserList(List<User> friends) {
-		List<String> ids= new ArrayList<String>();
-		
-		for(User friend : friends){
-			ids.add(friend.getId());
-		}
-		
-		return ids;
-	}
+
 
 }

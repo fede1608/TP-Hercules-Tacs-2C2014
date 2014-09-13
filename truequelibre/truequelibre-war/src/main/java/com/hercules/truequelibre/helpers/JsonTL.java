@@ -3,6 +3,8 @@ package com.hercules.truequelibre.helpers;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.domain.ItemTL;
@@ -72,6 +74,20 @@ public class JsonTL {
 		
 		
 		return jsonDate;
+	}
+
+	public static JsonArray jsonifyItemListWithNames(List<ItemTL> items,
+			Map<String, String> friends) {
+		Iterator<ItemTL> iterator = items
+				.iterator();
+		JsonArray requestList=new JsonArray();
+		while (iterator.hasNext()) {
+			ItemTL i =iterator.next();
+			JsonObject item=JsonTL.jsonifyItem(i);
+			item.addProperty("ownerName", friends.get(i.owner));
+			requestList.add(item);
+		}
+		return requestList;
 	}
 	
 }
