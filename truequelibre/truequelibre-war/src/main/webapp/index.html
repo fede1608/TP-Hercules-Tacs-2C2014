@@ -261,16 +261,27 @@
     		console.log(data);
     		$('#addedItemList').empty();
     		var i = 0;
+    		var w = 0;
+    		var color = "red"
     		data.items.forEach(
     			function(item){
     			i = i + 1;
+    			w = Math.random();
+    			if(w > 0.66){
+    				color = "light-green";
+    			}
+    			else{
+    				if(w > 0.33){
+    					color = "purple";
+    				}
+    			}
     			if(i % 2){
 	    			$('#addedItemList').append(
 							'<article class="timeline-item">\
 	    					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
 	        				<span class="arrow"></span>\
-	    					<span class="timeline-icon light-green"></span>\
-	    					<h1 class="light-green">Agregaste un nuevo item: '+item.name+'</h1>\
+	    					<span class="timeline-icon '+color+'"></span>\
+	    					<h1 class="'+color+'">Agregaste un nuevo item: '+item.name+'</h1>\
 	    					<img src="'+item.img+'" heigth="200" width="200">\
 	    			</div></div></div></article>');
     			}
@@ -279,8 +290,8 @@
     						'<article class="timeline-item alt">\
         					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
             				<span class="arrow-alt"></span>\
-        					<span class="timeline-icon red"></span>\
-        					<h1 class="red">Agregaste un nuevo item: '+item.name+'</h1>\
+        					<span class="timeline-icon '+color+'"></span>\
+        					<h1 class="'+color+'">Agregaste un nuevo item: '+item.name+'</h1>\
         					<img src="'+item.img+'" heigth="200" width="200">\
         			</div></div></div></article>');
     			}
