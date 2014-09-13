@@ -2,6 +2,9 @@
 var userId=0;
 var token="";
 
+if(getCookie("accessToken")==null){
+	window.location = "login.html";
+}
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -220,7 +223,7 @@ function loadNotifications(){
 					<a href="#"> \
 					<span class="photo"><img alt="avatar" src="'+tradeReq.offeredItem.img.slice(0,-5)+'I.jpg"></span> \
 					<span class="photo"><img alt="avatar" src="'+tradeReq.wantedItem.img.slice(0,-5)+'I.jpg" style="float: right;"></span> \
-					<span class="subject"><span class="from">'+tradeReq.offeredItem.owner+'</span></span> \
+					<span class="subject"><span class="from">'+tradeReq.offeredItem.ownerName+'</span></span> \
 					<span class="message"><i class="icon-long-arrow-left"></i> '+tradeReq.offeredItem.name+'</span> \
 					<span class="message"><i class="icon-exchange" style="margin-left: 48%;"></i></span> \
 					<span class="message"><i class="icon-long-arrow-right"></i> '+tradeReq.wantedItem.name+'</span> \

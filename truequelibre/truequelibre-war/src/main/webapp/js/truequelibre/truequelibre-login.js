@@ -41,6 +41,12 @@
 	{
      if (response.status === 'connected') 
      {
+		deleteCookie("accessToken");
+		deleteCookie("userID");
+		setCookie("accessToken",response.authResponse.accessToken);
+		setCookie("userID",response.authResponse.userID);
+		userId=response.authResponse.userID;
+		token=response.authResponse.accessToken;
          window.location = "index.html";
      }   
      else if (response.status === 'not_authorized') 

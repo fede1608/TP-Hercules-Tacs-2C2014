@@ -27,6 +27,7 @@ public class JsonTL {
 
 	public static JsonObject jsonifyError(String error){
 		JsonObject json = new JsonObject();
+		json.addProperty("status", 404);
 		json.addProperty("error", error);
 		return json;
 	}
