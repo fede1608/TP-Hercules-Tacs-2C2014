@@ -319,7 +319,7 @@
 					$('#itemList').append('<div class="col-md-3"><section class="panel"> \
 					<div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"> \
 					<img id="'+item.itemId+'" src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/> \
-					<a href="javascript:showItemModal('+item.itemId+','+uid+')" class="adtocart"><i class="icon-search"></i></a></div> \
+					<a href="javascript:showItemModal(\''+item.itemId+'\',\''+uid+'\')" class="adtocart"><i class="icon-search"></i></a></div> \
 					<div class="panel-body text-center"><h4><a id="'+item.itemId+'" href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"> \
 					</p></div></section></div>');
 				});
@@ -337,11 +337,11 @@
 				if(friendId==null || friendId==userId){
 					//share on Fb
 					$('#showItemLink').html('<i class="icon-facebook"></i> Compartir')
-					$('#showItemLink').attr('href',"javascript:shareOnFb("+data.itemId+");")
-					$('#showItemModal').find("li").eq( 2 ).html('<a class="btn btn-danger" href="javascript:eliminarItem('+data.itemId+')"> Eliminar</a>');
+					$('#showItemLink').attr('href',"javascript:shareOnFb(\'"+data.itemId+"\');")
+					$('#showItemModal').find("li").eq( 2 ).html('<a class="btn btn-danger" href="javascript:eliminarItem(\''+data.itemId+'\')"> Eliminar</a>');
 				}else{
 					$('#showItemLink').html('Solicitar Trade')
-					$('#showItemLink').attr('href',"javascript:elegirOfferedItem("+data.itemId+");");
+					$('#showItemLink').attr('href','javascript:elegirOfferedItem(\''+data.itemId+'\');');
 					$('#showItemModal').find("li").eq( 2 ).html();
 				}
 				$('#cargandoModal').modal('hide');
@@ -361,7 +361,7 @@
                                   <strong style="overflow:hidden">'+item.name+'</strong>\
                               </td> \
                               <td class="hidden-phone">'+timeConverter(item.dateCreated)+'</td> \
-                              <td class="hidden-phone"><a class="btn btn-info" href="javascript:solicitarTrade('+item.itemId+','+itemId+')">Elegir</a></td> \
+                              <td class="hidden-phone"><a class="btn btn-info" href="javascript:solicitarTrade(\''+item.itemId+'\',\''+itemId+'\')">Elegir</a></td> \
                           </tr>');
 				});
 				$('#cargandoModal').modal('hide');
