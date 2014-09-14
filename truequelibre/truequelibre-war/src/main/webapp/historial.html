@@ -8,7 +8,7 @@
     <meta name="keyword" content="Truequelibre">
     <link rel="shortcut icon" href="images/favicon.png">
 
-    <title>Perfil</title>
+    <title>Historial</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -326,7 +326,7 @@
 										  <div class="message-body msg-out"> \
 											  <span class="arrow"></span> \
 											  <div class="text" style="background-color:lightsteelblue"> \
-												  <p class="attribution"><a href="profile.html?id='+trade.offeredItem.owner+'">'+trade.offeredItem.ownerName+'</a> a las 2:05pm, 13 Abril 2013</p> \
+												  <p class="attribution"><a href="profile.html?id='+trade.offeredItem.owner+'">'+trade.offeredItem.ownerName+'</a> el '+getFormattedDate(trade.dateCreated)+'</p> \
 												  <p>Aceptaste cambiar su <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por tu <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
 													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
 													</div> \
@@ -345,7 +345,7 @@
 										  <div class="message-body msg-in"> \
 											  <span class="arrow"></span> \
 											  <div class="text" style="background-color:silver"> \
-												  <p class="attribution"><a href="profile.html?id='+trade.wantedItem.owner+'">'+trade.wantedItem.ownerName+'</a> a las 2:05pm, 13 Abril 2013</p> \
+												  <p class="attribution"><a href="profile.html?id='+trade.wantedItem.owner+'">'+trade.wantedItem.ownerName+'</a> el '+getFormattedDate(trade.dateCreated)+'</p> \
 												  <p>Aceptó cambiar tu <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por su <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
 													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
 													</div> \

@@ -181,6 +181,12 @@ function timeConverter(UNIX_timestamp){
      return time;
  }
  
+ function getFormattedDate(UNIX_timestamp){
+	 var date = new Date(UNIX_timestamp*1000);
+	 var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+     return date.getDate()+' de '+months[date.getMonth()] +' de '+date.getFullYear()  +' a las '+(date.getHours()<10?('0'+date.getHours()):date.getHours()) + ':' + ((date.getMinutes()<10)?('0'+date.getMinutes()):date.getMinutes());
+ }
+ 
 function shareOnFb(itemId){ //fuente: http://www.walkswithme.net/facebook-share-button-with-custom-parameters
 	$('#cargandoModal').modal('show');
 			$.getJSON('/api/users/'+userId+'/items/'+itemId, function (data) {

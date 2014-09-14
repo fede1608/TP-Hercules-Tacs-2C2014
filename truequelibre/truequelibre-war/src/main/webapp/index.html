@@ -120,7 +120,7 @@
                   </li>
 				  
 				  <li>
-                      <a href="#">
+                      <a href="historial.html">
                           <i class="icon-book"></i>
                           <span>Historial de Intercambios</span>
                       </a>
@@ -204,11 +204,8 @@
     		var i = 0;
     		var w = 0;
     		var color = "red";
-			var date;
-			var months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
     		data.items.forEach(
     			function(item){
-    			date=new Date(item.dateCreated*1000);
 				i = i + 1;
     			w = Math.random();
 				color="red";
@@ -226,7 +223,7 @@
 	    					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
 	        				<span class="arrow"></span>\
 	    					<span class="timeline-icon '+color+'"></span>\
-							<span class="timeline-date">'+date.getDate()+' de '+months[date.getMonth()-1] +' de '+date.getFullYear()  +' a las '+date.getHours() + ':' + date.getMinutes()+'</span>\
+							<span class="timeline-date">'+getFormattedDate(item.dateCreated)+'</span>\
 	    					<h1 class="'+color+'">'+item.ownerName+' agrego un nuevo item: '+item.name+'</h1>\
 	    					<img src="'+item.img+'" heigth="200" width="200">\
 	    			</div></div></div></article>');
@@ -237,8 +234,8 @@
         					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
             				<span class="arrow-alt"></span>\
         					<span class="timeline-icon '+color+'"></span>\
-							<span class="timeline-date">'+date.getDate()+' de '+months[date.getMonth()-1] +' de '+date.getFullYear()  +' a las '+date.getHours() + ':' + date.getMinutes()+'</span>\
-        					<h1 class="'+color+'">Agregaste un nuevo item: '+item.name+'</h1>\
+							<span class="timeline-date">'+getFormattedDate(item.dateCreated)+'</span>\
+        					<h1 class="'+color+'">'+item.ownerName+' agrego un nuevo item: '+item.name+'</h1>\
         					<img src="'+item.img+'" heigth="200" width="200">\
         			</div></div></div></article>');
     			}

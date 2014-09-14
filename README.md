@@ -49,7 +49,7 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 * ~~Como usuario quiero compartir la creación de un ítem en Facebook ~~
 * Como usuario quiero compartir un trueque aceptado en mi muro de Facebook.
 * Como usuario quiero ver las solicitudes de trueque que me fueron enviadas.
-* Como usuario quiero retirar de circulación un item que cree. [API]
+* ~~Como usuario quiero retirar de circulación un item que cree.~~ [API]
 * Como usuario quiero recibir una notificación en Facebook cuando alguien acepte un trueque que propuse.
 
 
