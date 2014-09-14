@@ -39,6 +39,7 @@ public class PendingTradesResource extends ServerResource{
 	protected Representation get() throws ResourceException {
 		Series<Cookie> cookies = getCookies();	
 		String token = cookies.getValues("accessToken");
+		int state = (getQuery().getValues("state")==null)?0:Integer.parseInt(getQuery().getValues("state"));
 		JsonObject message= new JsonObject();
 		try{
 		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
@@ -61,12 +62,12 @@ public class PendingTradesResource extends ServerResource{
 		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
 				//.filter("offeringUserId",user.getId())
 				.filter("offeredItem.owner",user.getId())
-				.filter("state",0).list();
+				.filter("state",state).list();
 		
 		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
 				//.filter("requestedUserId",user.getId())
 				.filter("wantedItem.owner",user.getId())
-				.filter("state",0).list();
+				.filter("state",state).list();
 		
 		message.add("receivedTradeRequests", JsonTL.tradesToJsonArray(pendingReceivedTrades,friends));
 		message.add("sentTradeRequests", JsonTL.tradesToJsonArray(pendingOfferedTrades,friends));

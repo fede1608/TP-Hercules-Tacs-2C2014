@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Hercules">
+    <meta name="keyword" content="Truequelibre">
+    <link rel="shortcut icon" href="images/favicon.png">
+
+    <title>Perfil</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+    <!--external css-->
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="assets/gritter/css/jquery.gritter.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+	<script src="js/truequelibre/truequelibre.js" type="text/javascript"></script>  
+  <section id="container" class="">
+      <!--header start-->
+      <header class="header white-bg">
+          <div class="sidebar-toggle-box">
+              <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
+          </div>
+          <!--logo start-->
+          <a href="index.html" class="logo" ><img src="images/logo-truequelibre.png" style="width: 80%;"></a>
+          <!--logo end-->
+          <div class="nav notify-row" id="top_menu">
+            <!--  notification start -->
+            <ul class="nav top-menu">
+			
+			<!-- inbox dropdown start-->
+                    <li id="header_inbox_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="icon-envelope-alt"></i>
+                            <span class="badge bg-important"></span>
+                        </a>
+                        <ul class="dropdown-menu extended inbox">
+                            <div class="notify-arrow notify-arrow-red"></div>
+                            <li>
+                                <p class="red">Tienes 0 pedidos de intercambio</p>
+                            </li>
+                            
+                            <li>
+                                <a href="#">See all messages</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- inbox dropdown end -->
+             
+          </ul>
+          </div>
+          <div class="top-nav ">
+              <ul class="nav pull-right top-menu">
+                  
+                  <!-- user login dropdown start-->
+                  <li class="dropdown">
+                      <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                          <img id="profile_photo" alt="" src="images/avatar-default.png">
+                          <span id="profile_name" class="username">Cargando</span>
+                          <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu extended logout">
+                          <div class="log-arrow-up"></div>
+                          <li><a href="#"><i class=" icon-suitcase"></i>Perfil</a></li>
+                          <li><a href="addItem.html"><i class="icon-plus"></i> Agregar Item</a></li>
+                          <li><a href="#"><i class="icon-bell-alt"></i> Solicitudes</a></li>
+                          <li><a href="javascript:logout();"><i class="icon-key"></i> Log Out</a></li>
+                      </ul>
+                  </li>
+                  <!-- user login dropdown end -->
+              </ul>
+          </div>
+      </header>
+      <!--header end-->
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+                  <li>
+                      <a href="index.html">
+                          <i class="icon-home"></i>
+                          <span>P&aacute;gina Principal</span>
+                      </a>
+                  </li>
+				  
+				  <li>
+                      <a href="profile.html">
+                          <i class="icon-list"></i>
+                          <span>Mis Items</span>
+                      </a>
+                  </li>
+
+				  <li>
+                      <a href="#">
+                          <i class="icon-glass"></i>
+                          <span>Solicitudes de Intercambio</span>
+                      </a>
+                  </li>
+				  
+				  <li>
+                      <a href="#">
+                          <i class="icon-shopping-cart"></i>
+                          <span>Mis Solicitudes</span>
+                      </a>
+                  </li>
+				  
+				  <li>
+                      <a href="#">
+                          <i class="icon-book"></i>
+                          <span>Historial de Intercambios</span>
+                      </a>
+                  </li>
+				  
+				  <li>
+                      <a href="friends.html">
+                          <i class="icon-user"></i>
+                          <span>Amigos</span>
+                      </a>
+                  </li>
+				</ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+      <!--main content start-->
+      <section id="main-content">
+	  
+          <section class="wrapper site-min-height">
+              <!-- page start-->
+              <div class="row">
+                  <aside class="profile-nav col-lg-3">
+                      <section class="panel">
+                          <div class="user-heading round">
+                              <a href="#">
+                                  <img id="profile_photo2" src="images/avatar-default.png" alt="">
+                              </a>
+                              <h1 id="profile_name2">Cargando...</h1>
+                              <p></p>
+                          </div>
+
+                          <ul class="nav nav-pills nav-stacked" id="profile-navigator">
+                              <li ><a href="profile.html"> <i class="icon-user"></i> Profile</a></li>
+                              <li class="active"><a href="#"> <i class="icon-calendar"></i> Historial de Ventas <span class="label label-danger pull-right r-activity"></span></a></li>
+                              <li><a href="addItem.html"> <i class="icon-edit"></i> Agregar Item</a></li>
+                          </ul>
+
+                      </section>
+                  </aside>
+                  <aside class="profile-info col-lg-9">
+                     <section class="panel" id="panel">
+                          <div class="bio-graph-heading">
+                              Mi Historial de Intercambios
+                          </div>
+							  <section class="panel">
+							  <header class="panel-heading">
+								  Trades
+								  <span class="tools pull-right">
+									<!-- <a class="icon-chevron-down" href="javascript:;"></a>
+									<a class="icon-remove" href="javascript:;"></a> -->
+								</span>
+							  </header>
+							  <div class="panel-body">
+								  <div class="timeline-messages" id="tradeList">
+									  <!-- Comment -->
+									  <div class="msg-time-chat">
+										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
+										  <div class="message-body msg-in">
+											  <span class="arrow"></span>
+											  <div class="text">
+												  <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
+												  <p>Hello, How are you brother?</p>
+											  </div>
+										  </div>
+									  </div>
+									  <!-- /comment -->
+
+									  <!-- Comment -->
+									  <div class="msg-time-chat">
+										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
+										  <div class="message-body msg-out">
+											  <span class="arrow"></span>
+											  <div class="text">
+												  <p class="attribution"> <a href="#">Jonathan Smith</a> at 2:01pm, 13th April 2013</p>
+												  <p>I'm Fine, Thank you. What about you? How is going on?</p>
+											  </div>
+										  </div>
+									  </div>
+									  <!-- /comment -->
+
+									  <!-- Comment -->
+									  <div class="msg-time-chat">
+										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
+										  <div class="message-body msg-in">
+											  <span class="arrow"></span>
+											  <div class="text">
+												  <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
+												  <p>Hello, How are you brother?</p>
+											  </div>
+										  </div>
+									  </div>
+									  <!-- /comment -->
+
+									  <!-- Comment -->
+									  <div class="msg-time-chat">
+										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
+										  <div class="message-body msg-out">
+											  <span class="arrow"></span>
+											  <div class="text" style="background-color:lightsteelblue">
+												  <p class="attribution"><a href="#">Jonathan Smith</a> a las 2:05pm, 13 Abril 2013</p>
+												  <p>Acepto cambiar su <a href="javascript:showItemModal(5679413765079040,10203879422657432)">"Camion de basura Lego N°394343"</a> por tu <a href="javascript:showItemModal(5679413765079040,10203879422657432)">"Cartas Pokemon  ultimate super shiny"</a></p>
+													<div class="pro-thumb" style="margin:20px"><img src="http://mla-s2-p.mlstatic.com/17383-MLA20136724872_072014-I.jpg" alt="" style="width: 80px;height:80px;">
+													</div>
+													<div class="pro-thumb pull-right" style="margin:20px"><img src="http://mla-s2-p.mlstatic.com/17383-MLA20136724872_072014-I.jpg" alt="" style="width: 80px;height:80px;">
+													</div>
+											  </div>
+										  </div>
+									  </div>
+									  <!-- /comment -->
+									  <!-- Comment -->
+									  <div class="msg-time-chat">
+										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
+										  <div class="message-body msg-in">
+											  <span class="arrow"></span>
+											  <div class="text">
+												  <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
+												  <p>Hello, How are you brother?</p>
+											  </div>
+										  </div>
+									  </div>
+									  <!-- /comment -->
+								  </div>
+								  
+							  </div>
+						  </section>
+                      </section>
+                     
+                  </aside>
+              </div>
+	<!-- modal start -->
+	  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="cargandoModal" class="modal fade" style="display: none;">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                          <h4 class="modal-title">Cargando...</h4>
+                      </div>
+                      <div class="modal-body">
+                          <img src="http://w1.hoyennoticias.com.ve//wp-content/themes/HEN/images/loading.gif" style="width:40px;margin-left:45%">
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+		  <!-- modal ends -->
+		  	
+		  <!-- modal start -->
+			<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="showItemModal" class="modal fade" style="display: none;">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                          <h4 class="modal-title">Información del Item</h4>
+                      </div>
+                      <div class="modal-body">
+                              <!--widget start-->
+                              <section class="panel">
+                                  <div class="twt-feed blue-bg">
+                                      <h1 id="showItemTitulo" >Celular Liberado Mini S3 Android 4 Dualsim Wifi Tv Bluetooth</h1>
+                                      <p></p>
+                                      <a href="#">
+                                          <img id="showItemImagen" src="http://mla-s2-p.mlstatic.com/13227-MLA20074014007_042014-O.jpg" alt="">
+                                      </a>
+                                  </div>
+                                  <div class="weather-category twt-category">
+                                      <ul>
+                                          <li class="active pull-left" >
+                                              &nbsp;
+                                          </li>
+                                          <li>
+                                              <h5 id="showItemFecha">12-03-14</h5>
+                                              Fecha de Creación
+                                      </a>
+                                          </li>
+                                          <li>
+                                              
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </section>
+                              <!--widget end-->
+                          
+						  </div>
+                  </div>
+              </div>
+          </div>
+		  <!-- modal ends -->
+		  
+              <!-- page end-->
+          </section>
+      </section>
+      <!--main content end-->
+      <!--footer start-->
+      <footer class="site-footer">
+          <div class="text-center">
+              2014 &copy; TruequeLibre.
+              <a href="#" class="go-top">
+                  <i class="icon-angle-up"></i>
+              </a>
+          </div>
+      </footer>
+      <!--footer end-->
+  </section>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="js/jquery.scrollTo.min.js"></script>
+    <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+    <!--<script src="assets/jquery-knob/js/jquery.knob.js"></script>-->
+    <script src="js/respond.min.js" ></script>
+	<script type="text/javascript" src="assets/gritter/js/jquery.gritter.js"></script>
+    <!--common script for all pages-->
+    <script src="js/common-scripts.js"></script>
+
+
+	<script>
+		function getTrades(uid){
+		
+		$.getJSON('/api/pendingTrades', { state : 0 } , function (data) {
+				console.log(data);
+				var itemBoxSize;
+				$('#tradeList').empty();
+				data.receivedTradeRequests.forEach(function(trade){
+					$('#tradeList').append('<!-- Trade --\> \
+									  <div class="msg-time-chat"> \
+										  <a href="#" class="message-img"><img class="avatar" src="http://graph.facebook.com/'+trade.offeredItem.owner+'/picture?type=small" alt=""></a> \
+										  <div class="message-body msg-out"> \
+											  <span class="arrow"></span> \
+											  <div class="text" style="background-color:lightsteelblue"> \
+												  <p class="attribution"><a href="profile.html?id='+trade.offeredItem.owner+'">'+trade.offeredItem.ownerName+'</a> a las 2:05pm, 13 Abril 2013</p> \
+												  <p>Acepto cambiar su <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por tu <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
+													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
+													</div> \
+													<div class="pro-thumb pull-right" style="margin:20px"><img src="'+trade.wantedItem.img+'" alt="" style="width: 80px;height:80px;"> \
+													</div> \
+											  </div> \
+										  </div> \
+									  </div> \
+									  <!-- /Trade --\>');
+				});
+                $('#cargandoModal').modal('hide');
+        })
+	}
+	
+	function showItemModal(itemId,uid){
+		$('#cargandoModal').modal('show');
+		$.getJSON('/api/users/'+uid+'/items/'+itemId, function (data) {
+				console.log(data);
+				$('#showItemTitulo').html(data.name);
+				$('#showItemImagen').attr("src",data.img);
+				$('#showItemFecha').html(timeConverter(data.dateCreated));
+				$('#cargandoModal').modal('hide');
+				$('#showItemModal').modal('show');
+		});
+	}
+
+	
+
+	
+
+	
+	
+      $(document).ready(function() {
+	  debugger;
+	  $('#cargandoModal').modal('show');
+ 	  fbEnsureInit( function(response) {
+			var uid= userId;
+			$.getJSON('/api/users/'+uid, function (data) {
+				console.log(data);
+				document.getElementById('profile_name2').innerHTML = data.name;
+				document.getElementById('profile_photo2').setAttribute('src', data.profilePic);
+				getTrades(uid);
+                //$('#cargandoModal').modal('toggle');
+			})
+			
+		
+		}); 
+         
+      });
+		</script>
+
+
+  </body>
+</html>
