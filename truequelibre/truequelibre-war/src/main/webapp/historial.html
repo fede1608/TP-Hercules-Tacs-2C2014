@@ -165,87 +165,61 @@
                           <div class="bio-graph-heading">
                               Mi Historial de Intercambios
                           </div>
-							  <section class="panel">
-							  <header class="panel-heading">
-								  Trades
-								  <span class="tools pull-right">
-									<!-- <a class="icon-chevron-down" href="javascript:;"></a>
-									<a class="icon-remove" href="javascript:;"></a> -->
-								</span>
-							  </header>
-							  <div class="panel-body">
-								  <div class="timeline-messages" id="tradeList">
-									  <!-- Comment -->
-									  <div class="msg-time-chat">
-										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-										  <div class="message-body msg-in">
-											  <span class="arrow"></span>
-											  <div class="text">
-												  <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
-												  <p>Hello, How are you brother?</p>
-											  </div>
-										  </div>
-									  </div>
-									  <!-- /comment -->
-
-									  <!-- Comment -->
-									  <div class="msg-time-chat">
-										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
-										  <div class="message-body msg-out">
-											  <span class="arrow"></span>
-											  <div class="text">
-												  <p class="attribution"> <a href="#">Jonathan Smith</a> at 2:01pm, 13th April 2013</p>
-												  <p>I'm Fine, Thank you. What about you? How is going on?</p>
-											  </div>
-										  </div>
-									  </div>
-									  <!-- /comment -->
-
-									  <!-- Comment -->
-									  <div class="msg-time-chat">
-										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-										  <div class="message-body msg-in">
-											  <span class="arrow"></span>
-											  <div class="text">
-												  <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
-												  <p>Hello, How are you brother?</p>
-											  </div>
-										  </div>
-									  </div>
-									  <!-- /comment -->
-
-									  <!-- Comment -->
-									  <div class="msg-time-chat">
-										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar2.jpg" alt=""></a>
-										  <div class="message-body msg-out">
-											  <span class="arrow"></span>
-											  <div class="text" style="background-color:lightsteelblue">
-												  <p class="attribution"><a href="#">Jonathan Smith</a> a las 2:05pm, 13 Abril 2013</p>
-												  <p>Acepto cambiar su <a href="javascript:showItemModal(5679413765079040,10203879422657432)">"Camion de basura Lego N°394343"</a> por tu <a href="javascript:showItemModal(5679413765079040,10203879422657432)">"Cartas Pokemon  ultimate super shiny"</a></p>
-													<div class="pro-thumb" style="margin:20px"><img src="http://mla-s2-p.mlstatic.com/17383-MLA20136724872_072014-I.jpg" alt="" style="width: 80px;height:80px;">
-													</div>
-													<div class="pro-thumb pull-right" style="margin:20px"><img src="http://mla-s2-p.mlstatic.com/17383-MLA20136724872_072014-I.jpg" alt="" style="width: 80px;height:80px;">
-													</div>
-											  </div>
-										  </div>
-									  </div>
-									  <!-- /comment -->
-									  <!-- Comment -->
-									  <div class="msg-time-chat">
-										  <a href="#" class="message-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-										  <div class="message-body msg-in">
-											  <span class="arrow"></span>
-											  <div class="text">
-												  <p class="attribution"><a href="#">Jhon Doe</a> at 1:55pm, 13th April 2013</p>
-												  <p>Hello, How are you brother?</p>
-											  </div>
-										  </div>
-									  </div>
-									  <!-- /comment -->
+						  <section class="panel">
+                          <header class="panel-heading tab-bg-dark-navy-blue">
+                              <ul class="nav nav-tabs">
+                                  
+                                  <li class="active">
+                                      <a data-toggle="tab" href="#about-2">
+                                          <i class="icon-user"></i>
+                                          Request Aceptadas
+                                      </a>
+                                  </li>
+                                  <li class="">
+                                      <a data-toggle="tab" href="#contact-2">
+                                          <i class="icon-envelope"></i>
+                                          Solicitudes Aceptadas
+                                      </a>
+                                  </li>
+                              </ul>
+                          </header>
+                          <div class="panel-body">
+                              <div class="tab-content">
+                                  
+                                  <div id="about-2" class="tab-pane active">
+									<section class="panel">
+									  <header class="panel-heading">
+										  Trades
+										  <span class="tools pull-right">
+											<!-- <a class="icon-chevron-down" href="javascript:;"></a>
+											<a class="icon-remove" href="javascript:;"></a> -->
+										</span>
+									  </header>
+									  <div class="panel-body">
+										<div class="timeline-messages" id="tradeList">
+										</div>
+									</div>
+									</section>
 								  </div>
-								  
-							  </div>
-						  </section>
+                                  <div id="contact-2" class="tab-pane">
+									<section class="panel">
+									  <header class="panel-heading">
+										  Trades
+										  <span class="tools pull-right">
+											<!-- <a class="icon-chevron-down" href="javascript:;"></a>
+											<a class="icon-remove" href="javascript:;"></a> -->
+										</span>
+									  </header>
+									  <div class="panel-body">
+										<div class="timeline-messages" id="tradeList2">
+										</div>
+									</div>
+									</section>
+								  </div>
+                              </div>
+                          </div>
+                      </section>
+							  
                       </section>
                      
                   </aside>
@@ -353,7 +327,26 @@
 											  <span class="arrow"></span> \
 											  <div class="text" style="background-color:lightsteelblue"> \
 												  <p class="attribution"><a href="profile.html?id='+trade.offeredItem.owner+'">'+trade.offeredItem.ownerName+'</a> a las 2:05pm, 13 Abril 2013</p> \
-												  <p>Acepto cambiar su <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por tu <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
+												  <p>Aceptaste cambiar su <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por tu <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
+													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
+													</div> \
+													<div class="pro-thumb pull-right" style="margin:20px"><img src="'+trade.wantedItem.img+'" alt="" style="width: 80px;height:80px;"> \
+													</div> \
+											  </div> \
+										  </div> \
+									  </div> \
+									  <!-- /Trade --\>');
+				});
+				$('#tradeList2').empty();
+				data.sentTradeRequests.forEach(function(trade){
+					$('#tradeList2').append('<!-- Trade --\> \
+									  <div class="msg-time-chat"> \
+										  <a href="#" class="message-img"><img class="avatar" src="http://graph.facebook.com/'+trade.wantedItem.owner+'/picture?type=small" alt=""></a> \
+										  <div class="message-body msg-in"> \
+											  <span class="arrow"></span> \
+											  <div class="text" style="background-color:silver"> \
+												  <p class="attribution"><a href="profile.html?id='+trade.wantedItem.owner+'">'+trade.wantedItem.ownerName+'</a> a las 2:05pm, 13 Abril 2013</p> \
+												  <p>Aceptó cambiar tu <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por su <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
 													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
 													</div> \
 													<div class="pro-thumb pull-right" style="margin:20px"><img src="'+trade.wantedItem.img+'" alt="" style="width: 80px;height:80px;"> \
