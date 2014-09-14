@@ -266,7 +266,7 @@ debugger;
 				$('#tradesList').empty();
 				data.sentTradeRequests.forEach(function(trade){
 					$('#tradesList').append(
-							'<div class ="row">'+
+							
 							'<aside>'+
 			                  '<!-- Trade start  -->'+
 			                  '<!-- Offered  item start -->'+
@@ -291,7 +291,7 @@ debugger;
 			                '</aside>'+
 			              '<aside class="post-highlight yellow v-align">'+
 			                  '<div class="panel-body text-center">'+
-			                      '<div class="pro-thumb">'
+			                      '<div class="pro-thumb">'+
 			                      '<img src="'+trade.offeredItem.img+'" alt="">'+
 			                      '</div>'+
 			                  '</div>'+		                  
@@ -320,16 +320,17 @@ debugger;
 			                          '<div class="post-btn">'+
 			                          '<a href="javascript:;">'+
 			                                  '<i class="fa fa-chevron-circle-left"></i>'+
-			                              '</a>'
+			                              '</a>'+
 			                              '<a href="javascript:;">'+
-			                                  '<i class="fa fa-chevron-circle-right"></i>'+			                              </a>
+			                                  '<i class="fa fa-chevron-circle-right"></i>'+			                              
+			                               '</a>'+
 			                          '</div>'+
 			                      '</div>'+
 			                     '</div>'+
 			              '</aside>'+			              
-			              '</div>'+
+			              
 			              '<!-- Wanted item end -->'+
-			              '<!--  Trade end -->'
+			              '<!--  Trade end -->')
 			  			});
                 $('#cargandoModal').modal('toggle');
         })
