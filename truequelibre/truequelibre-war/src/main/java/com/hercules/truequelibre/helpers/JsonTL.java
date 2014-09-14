@@ -31,6 +31,14 @@ public class JsonTL {
 		json.addProperty("error", error);
 		return json;
 	}
+	
+	public static JsonObject jsonifyInfo(String info){
+		JsonObject json = new JsonObject();
+		json.addProperty("status", 200);
+		json.addProperty("info", info);
+		return json;
+	}
+	
 	public static JsonArray jsonifyItemList(List<ItemTL> items){
 		Iterator<ItemTL> iterator = items
 				.iterator();

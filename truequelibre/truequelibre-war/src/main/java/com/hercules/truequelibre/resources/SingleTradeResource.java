@@ -62,14 +62,14 @@ public class SingleTradeResource extends ServerResource {
 			User user = FacebookDataCollector.getInstance().findUserWithRest(
 					token);
 			TradeTL trade = ofy().load().type(TradeTL.class).id(id).now();
-			if (trade.wantedItem.owner == user.getId()) {
-
+			if (trade.wantedItem.owner.equals(user.getId())) {
+				trade.accept();
+				FacebookDataCollector.getInstance().sendNotification(trade.offeredItem.owner, "@["+user.getId()+"] ha aceptado tu solicitud de intercambio.");
 			} else {
 				throw new Exception(
 						"El trade solicitado no es del usuario o no tiene permisos sobre el mismo.");
 			}
-			message.add("trade", JsonTL.jsonifyTrade(trade));
-			message.addProperty("status", 200);
+			message=JsonTL.jsonifyInfo("Se ha aceptado el trade correctamente.");
 		} catch (Exception ex) {
 			message = JsonTL.jsonifyError(ex.getMessage());
 		}
@@ -87,15 +87,16 @@ public class SingleTradeResource extends ServerResource {
 			User user = FacebookDataCollector.getInstance().findUserWithRest(
 					token);
 			TradeTL trade = ofy().load().type(TradeTL.class).id(id).now();
-			if (trade.wantedItem.owner == user.getId()) {// Reject
-
-			} else if (trade.offeredItem.owner == user.getId()) {// cancel
-
+			if (trade.wantedItem.owner.equals(user.getId())) {// Decline
+				trade.decline();
+				message=JsonTL.jsonifyInfo("Se ha rechazado el trade correctamente.");
+			} else if (trade.offeredItem.owner.equals(user.getId())) {// cancel
+				trade.cancel();
+				message=JsonTL.jsonifyInfo("Se ha cancelado el trade correctamente.");
 			} else {
 				throw new Exception("El trade solicitado no es del usuario.");
 			}
-			message.add("trade", JsonTL.jsonifyTrade(trade));
-			message.addProperty("status", 200);
+
 		} catch (Exception ex) {
 			message = JsonTL.jsonifyError(ex.getMessage());
 		}
