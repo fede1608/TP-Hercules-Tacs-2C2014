@@ -51,7 +51,7 @@ public class JsonTL {
 		json.add("wantedItem", jsonWantedItem);
 		json.add("offeredItem", jsonOfferedItem);
 		json.addProperty("state",trade.getState());
-		json.addProperty("dateCreated", trade.dateCreated);
+		json.addProperty("date", trade.date);
 		return json;
 	}
 
@@ -115,7 +115,7 @@ public class JsonTL {
 		json.add("wantedItem", jsonWantedItem);
 		json.add("offeredItem", jsonOfferedItem);
 		json.addProperty("state",trade.getState());
-		json.addProperty("dateCreated", trade.dateCreated);
+		json.addProperty("dateCreated", trade.date);
 		return json;
 	}
 

@@ -20,6 +20,7 @@ import com.hercules.truequelibre.resources.ItemSingleResource;
 import com.hercules.truequelibre.resources.ParametersShowerResource;
 import com.hercules.truequelibre.resources.SearchResource;
 import com.hercules.truequelibre.resources.PendingTradesResource;
+import com.hercules.truequelibre.resources.SingleTradeResource;
 import com.hercules.truequelibre.resources.UsersResource;
 
 
@@ -45,19 +46,17 @@ public class MainApplication extends Application {
 		router.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
 		router.setRoutingMode(Router.BEST);
 
+		router.attach("/parametersshower", ParametersShowerResource.class);//todo eliminar
+		
 		router.attach("/search", SearchResource.class);
-
-		router.attach("/parametersshower", ParametersShowerResource.class);
-
 		router.attach("/users/{userId}",UsersResource.class);
-		
 		router.attach("/users/{userId}/items",ItemListResource.class);
-		router.attach("/users/{userId}/items/",ItemListResource.class);
 		router.attach("/users/{userId}/items/{itemId}",ItemSingleResource.class);
-		
 		router.attach("/friends",FriendsResource.class);
 		router.attach("/pendingTrades",PendingTradesResource.class);
+		router.attach("/pendingTrades/{tradeId}",SingleTradeResource.class);
 		router.attach("/feed",ItemNewsFeedResource.class);
+		
 		Restlet mainpage = new Restlet() {
 			
 			

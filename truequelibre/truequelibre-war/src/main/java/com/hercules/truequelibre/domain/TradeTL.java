@@ -16,7 +16,7 @@ public class TradeTL {
 	@Index
 	int state; //Pensar mejor solución?   0: pending, 1: accepted, 2: declined, 3: cancelled
 	@Index
-	public long dateCreated;
+	public long date;
 	
 	public TradeTL(){
 		
@@ -26,7 +26,7 @@ public class TradeTL {
 		this.offeredItem = offeredItem;
 		this.wantedItem = wantedItem;
 		this.state = 0;
-		this.dateCreated =  System.currentTimeMillis() / 1000L;
+		this.date =  System.currentTimeMillis() / 1000L;
 	}
 	
 	public int getState(){
@@ -65,7 +65,7 @@ public class TradeTL {
 	
 	
 	@Override
-	public String toString()
+	public String toString() //todo mover a clase Estado
 	{
 		String estado = this.state==0 ? "pending" : this.state ==1? "accepted" : this.state == 2? "declined" : "cancelled"; 
 		return "wanted: " + this.getWantedItem().id.toString() + " - offered: " + this.getOfferedItem().id.toString() + " state: " 

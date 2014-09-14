@@ -22,5 +22,5 @@ http://microformats.org/wiki/rest/urls#Java
   - POST: Confirma el trueque si la solicitud era recibida.
 * api/search IMPLEMENTED - FRONTEND
   - GET: obtiene una coleccion de items de mercadolibre
-* api/feed 
+* api/feed IMPLEMENTED - FRONTEND
   - GET: obtiene una coleccion de X items de nuestros amigos ordenados por ultima creacion

@@ -37,8 +37,7 @@ public class PendingTradesResource extends ServerResource{
 
 	@Override
 	protected Representation get() throws ResourceException {
-		Series<Cookie> cookies = getCookies();	
-		String token = cookies.getValues("accessToken");
+		String token = getCookies().getValues("accessToken");
 		int state = (getQuery().getValues("state")==null)?0:Integer.parseInt(getQuery().getValues("state"));
 		JsonObject message= new JsonObject();
 		try{
