@@ -4,6 +4,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Unindex;
+import com.hercules.truequelibre.helpers.DBHandler;
 
 @Entity
 public class TradeTL {
@@ -36,16 +37,19 @@ public class TradeTL {
 	public void accept() {
 	
 		this.state = 1;
+		DBHandler.getInstance().save(this);
 		//logica de aceptar
 	}
 	
 	public void decline() {
 	
 		this.state = 2; 
+		DBHandler.getInstance().save(this);
 		//logica de cancelar
 	}
 	public void cancel() {
 		this.state = 3;
+		DBHandler.getInstance().save(this);
 	}
 	
 /****************************************/

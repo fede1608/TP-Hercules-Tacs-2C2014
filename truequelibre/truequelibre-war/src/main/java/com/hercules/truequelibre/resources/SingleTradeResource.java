@@ -62,6 +62,9 @@ public class SingleTradeResource extends ServerResource {
 			User user = FacebookDataCollector.getInstance().findUserWithRest(
 					token);
 			TradeTL trade = ofy().load().type(TradeTL.class).id(id).now();
+			if(trade.getState()!=0){
+				throw new Exception("El trade solicitado no esta pendiente.");
+			}
 			if (trade.wantedItem.owner.equals(user.getId())) {
 				trade.accept();
 				FacebookDataCollector.getInstance().sendNotification(trade.offeredItem.owner, "@["+user.getId()+"] ha aceptado tu solicitud de intercambio.");
@@ -87,6 +90,9 @@ public class SingleTradeResource extends ServerResource {
 			User user = FacebookDataCollector.getInstance().findUserWithRest(
 					token);
 			TradeTL trade = ofy().load().type(TradeTL.class).id(id).now();
+			if(trade.getState()!=0){
+				throw new Exception("El trade solicitado no esta pendiente.");
+			}
 			if (trade.wantedItem.owner.equals(user.getId())) {// Decline
 				trade.decline();
 				message=JsonTL.jsonifyInfo("Se ha rechazado el trade correctamente.");
