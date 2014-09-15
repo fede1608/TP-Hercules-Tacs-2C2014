@@ -69,6 +69,8 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 
 			json = JsonTL
 					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+		}catch(NumberFormatException e){
+			json=JsonTL.jsonifyError("el codigo del item debe ser un numero");
 		}
 
 
@@ -106,6 +108,8 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 
 			json = JsonTL
 					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+		}catch(NumberFormatException e){
+			json=JsonTL.jsonifyError("el codigo del item debe ser un numero");
 		}
 
 
@@ -164,6 +168,8 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 				message.addProperty("error",e.getMessage());
 			}catch (ItemNotExistsException e){
 				message.addProperty("error","el item "+e.getId()+ " ya se encuentra intercambiado");
+			}catch(NumberFormatException e){
+				message=JsonTL.jsonifyError("el codigo del item debe ser un numero");
 			}
 		}catch(FacebookOAuthException e) {
 
