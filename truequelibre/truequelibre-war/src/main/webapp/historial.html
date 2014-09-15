@@ -330,6 +330,7 @@
 												  <p>Aceptaste cambiar su <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por tu <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
 													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
 													</div> \
+													<button id="showTradeLink" class="btn btn-info" onclick="javascript:shareTradeOnFb(\''+trade.id+'\',false);" style="margin-left: 19%;"><i class="icon-facebook"></i> Compartir</button> \
 													<div class="pro-thumb pull-right" style="margin:20px"><img src="'+trade.wantedItem.img+'" alt="" style="width: 80px;height:80px;"> \
 													</div> \
 											  </div> \
@@ -349,6 +350,7 @@
 												  <p>Aceptó cambiar tu <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por su <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
 													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
 													</div> \
+													<button id="showTradeLink" class="btn btn-info" onclick="javascript:shareTradeOnFb(\''+trade.id+'\',true);" style="margin-left: 19%;"><i class="icon-facebook"></i> Compartir</button> \
 													<div class="pro-thumb pull-right" style="margin:20px"><img src="'+trade.wantedItem.img+'" alt="" style="width: 80px;height:80px;"> \
 													</div> \
 											  </div> \
