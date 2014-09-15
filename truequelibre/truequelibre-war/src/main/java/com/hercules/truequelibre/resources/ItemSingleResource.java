@@ -86,6 +86,9 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					this.requestedUser())) {
 				ItemTL item = ofy().load().type(ItemTL.class)
 						.id(Long.parseLong(this.requestedItem(),10)).now();
+				if(item.isExchanged()){
+					throw new Exception("El item ya ha sido intercambiado. No puede ser eliminado.");
+				}
 				if (item != null) {
 					if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 						
@@ -110,6 +113,8 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					.jsonifyError("el token esta desactualizado, por favor actualicelo");
 		}catch(NumberFormatException e){
 			json=JsonTL.jsonifyError("el codigo del item debe ser un numero");
+		}catch(Exception e){
+			json=JsonTL.jsonifyError(e.getMessage());
 		}
 
 
