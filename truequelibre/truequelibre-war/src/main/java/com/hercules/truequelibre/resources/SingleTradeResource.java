@@ -2,6 +2,8 @@ package com.hercules.truequelibre.resources;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.Map;
+
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -43,7 +45,8 @@ public class SingleTradeResource extends ServerResource {
 			} else {
 				throw new Exception("El trade solicitado no es del usuario."+trade.wantedItem.owner+" "+trade.offeredItem.owner+" "+user.getId());
 			}
-			message.add("trade", JsonTL.jsonifyTrade(trade));
+			Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token);
+			message.add("trade", JsonTL.jsonifyTrade(trade,friends));
 			message.addProperty("status", 200);
 		} catch (Exception ex) {
 			message = JsonTL.jsonifyError(ex.getMessage());

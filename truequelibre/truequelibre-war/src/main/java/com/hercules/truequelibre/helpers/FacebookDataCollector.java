@@ -73,7 +73,13 @@ public class FacebookDataCollector {
 		}
 		return false;
 	}
-
+	
+	public Map<String,String> getFriendsHashMapWithUser(String token){
+		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
+		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsAsHashMap(token);
+		friends.put(user.getId(), user.getName());
+		return friends;
+	}
 	public User getFriendData(String facebookAccessToken, String friendId) {
 		Connection<User> myFriends = this.getFriends(facebookAccessToken);
 		for (User friend : myFriends.getData()) {

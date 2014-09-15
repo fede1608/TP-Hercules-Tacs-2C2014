@@ -114,7 +114,7 @@ public class JsonTL {
 		return jsonTrades;
 	}
 
-	private static JsonElement jsonifyTrade(TradeTL trade,
+	public static JsonElement jsonifyTrade(TradeTL trade,
 			Map<String, String> friends) {
 		JsonObject json = new JsonObject();
 		JsonObject jsonWantedItem = JsonTL.jsonifyItem(trade.getWantedItem(),friends);

@@ -42,8 +42,7 @@ public class PendingTradesResource extends ServerResource{
 		JsonObject message= new JsonObject();
 		try{
 		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
-		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsAsHashMap(token);
-		friends.put(user.getId(), user.getName());
+		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token);
 		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class).order("-date")
 				.filter("offeredItem.owner",user.getId())
 				.filter("state",state).list();
