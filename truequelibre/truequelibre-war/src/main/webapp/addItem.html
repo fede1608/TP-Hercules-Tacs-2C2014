@@ -245,8 +245,12 @@
 	function addItem(id){
 		$('#cargandoModal').modal('show');
 		$.post( "/api/users/"+userId+"/items", { itemId: id }, function( data ) {
-		  console.log( data ); 
+			console.log( data ); 
 			$('#cargandoModal').modal('hide');
+			if(data.status == 404){
+				alert(data.error);
+				return;
+			}
 			$.gritter.add({
             // (string | mandatory) the heading of the notification
             title: '¡Item agregado con éxito!',
