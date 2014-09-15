@@ -376,7 +376,10 @@
 		$.post( "/api/users/"+friendId+"/items/"+wantedItem, { offeredItemId: offeredItem }, function( data ) {
 		  console.log( data ); 
 			$('#cargandoModal').modal('hide');
-			
+			if(data.status == 404){
+				alert(data.error);
+				return;
+			}
 			$.gritter.add({
             // (string | mandatory) the heading of the notification
             title: 'Solicitud Enviada',
