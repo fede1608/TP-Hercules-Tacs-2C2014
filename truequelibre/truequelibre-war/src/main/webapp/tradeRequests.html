@@ -205,16 +205,28 @@
                   <aside class="profile-info col-lg-12">
                       <section class="panel" id="panel" style="background-color: lightgray;">
                           <div class="bio-graph-heading">
-                              Mis solicitudes de trueque
+                              Mis solicitudes de trueque.
                           </div>
                       </section>
                   </aside>
               </div>
+              
           </section>
+
+
+
+		<div class="panel-body">
           <div class="row" style="margin:20px;" id="tradesList">
-							  
-						  
-						  </div>
+		  						  
+		  </div>
+		</div>
+		
+		<div class="panel-body">
+          <div class="row" style="margin:20px;" id="tradesList">
+		  						  
+		  </div>
+		</div>
+		
       </section>
       <!--main content end-->
       <!--footer start-->
@@ -267,70 +279,78 @@ debugger;
 				data.sentTradeRequests.forEach(function(trade){
 					$('#tradesList').append(
 							
-							'<aside>'+
-			                  '<!-- Trade start  -->'+
-			                  '<!-- Offered  item start -->'+
-			                  '<div class="post-info">'+
-			                      '<span class="arrow-pro right"></span>'+
-			                      '<div class="panel-body">'+
-			                          '<h1><strong>Oferta</strong> <br> Nueva oferta</h1>'+
-			                          '<div class="desk yellow">'+
-			                              '<h3>'+trade.offeredItem.name+'</h3>'+
-			                              '<p>Esta es la descripción del item que te ofrecieron</p>'+
-			                          '</div>'+
-			                          '<div class="post-btn">'+
-			                              '<a href="javascript:;">'+
-			                                  '<i class="fa fa-chevron-circle-left"></i>'+
-			                              '</a>'+
-			                              '<a href="javascript:;">'+
-			                                  '<i class="fa fa-chevron-circle-right"></i>'+
-			                              '</a>'+
-			                          '</div>'+
-			                       '</div>'+
+							'<!-- Trade start -->'+
+							'<div class="panel-body">'+
+							  '<div class="col-lg-8">'+
+			                      '<!--offered product info start-->'+
+			                      '<section class="panel post-wrap pro-box">'+
+			                          '<aside>'+
+			                              '<div class="post-info">'+
+			                                  '<span class="arrow-pro right"></span>'+
+			                                  '<div class="panel-body">'+
+			                                      '<h1><strong>Nueva oferta</strong> <br> te han ofrecido un trueque</h1>'+
+			                                      '<div class="desk yellow">'+
+			                                          '<h3>'+trade.offeredItem.name+'</h3>'+
+			                                          '<p>Descripción del item ofrecido (AGREGAR AL JSON DE RESPONSE)</p>'+			                                      
+			                                      '</div>'+
+			                                      '<div class="post-btn">'+
+			                                          '<a href="javascript:;">'+
+			                                              '<i class="fa fa-chevron-circle-left"></i>'+
+			                                          '</a>'+
+			                                          '<a href="javascript:;">'+
+			                                              '<i class="fa fa-chevron-circle-right"></i>'+
+			                                          '</a>'+
+			                                      '</div>'+
+			                                  '</div>'+
+			                              '</div>'+
+			                          '</aside>'+
+			                          '<aside class="post-highlight yellow v-align">'+
+			                              '<div class="panel-body text-center">'+
+			                                  '<div class="pro-thumb">'+
+			                                      '<img src=' + trade.offeredItem.img + 'alt="">'+
+			                                  '</div>'+
+			                              '</div>'+
+			                          '</aside>'+
+			                      '</section>'+
+			                      '<!--offered product info end-->'+
+			                      
+			                      
+			                      '<!--offered product info start-->'+
+			                      '<section class="panel post-wrap pro-box">'+
+			                          '<aside class="post-highlight yellow v-align">'+
+			                              '<div class="panel-body text-center">'+
+			                                  '<div class="pro-thumb">'+
+			                                      '<img src=' + trade.wantedItem.img + 'alt="">'+
+			                                  '</div>'+
+			                              '</div>'+
+			                          '</aside>'+
+			                          '<aside>'+
+			                              '<div class="post-info">'+
+			                                  '<span class="arrow-pro right"></span>'+
+			                                  '<div class="panel-body">'+
+			                                      '<h1><strong>Quieren este ítem</strong> <br> ¿Qué te parece?</h1>'+
+			                                      '<div class="desk yellow">'+
+			                                          '<h3>'+trade.wantedItem.name+'</h3>'+
+			                                           '<p>Descripción del item ofrecido (AGREGAR AL JSON DE RESPONSE)</p>'+			                                      
+			                                      	'</div>'+
+			                                      '<div class="post-btn">'+
+			                                          '<a href="javascript:;">'+
+			                                              '<i class="fa fa-chevron-circle-left"></i>'+
+			                                          '</a>'+
+			                                          '<a href="javascript:;">'+
+			                                              '<i class="fa fa-chevron-circle-right"></i>'+
+			                                          '</a>'+
+			                                      '</div>'+
+			                                  '</div>'+
+			                              '</div>'+
+			                          '</aside>'+
+			                      '</section>'+
+			                      '<!--offered product info end-->'+
 			                  '</div>'+
-			                '</aside>'+
-			              '<aside class="post-highlight yellow v-align">'+
-			                  '<div class="panel-body text-center">'+
-			                      '<div class="pro-thumb">'+
-			                      '<img src="'+trade.offeredItem.img+'" alt="">'+
-			                      '</div>'+
-			                  '</div>'+		                  
-			              '</aside>'+
-			              '<!-- Offered item end -->'+
-			              '<!-- Wanted item start -->'+
-			              
-			              '<aside class="post-highlight yellow v-align">'+
-			                  '<div class="panel-body text-center">'+
-			                   '   <div class="pro-thumb">'+
-			                      '<img src="'+trade.wantedItem.img+'" alt="">'+
-			                      '</div>'+
-			                  '</div>'+
-			              '</aside>'+
-			               '  <aside>'+
-			                
-			                  '<!-- Offered  item start -->'+
-			                  '<div class="post-info">'+
-			                      '<span class="arrow-pro right"></span>'+
-			                      '<div class="panel-body">'+
-			                          '<h1><strong>Quieren este item</strong> <br> ¿Qué te parece?</h1>'+
-			                          '<div class="desk yellow">'+
-			                              '<h3>'+trade.wantedItem.name+'</h3>'+
-			                              '<p>Esta es la descripción del item que te pidieron</p>'+
-			                          '</div>'+
-			                          '<div class="post-btn">'+
-			                          '<a href="javascript:;">'+
-			                                  '<i class="fa fa-chevron-circle-left"></i>'+
-			                              '</a>'+
-			                              '<a href="javascript:;">'+
-			                                  '<i class="fa fa-chevron-circle-right"></i>'+			                              
-			                               '</a>'+
-			                          '</div>'+
-			                      '</div>'+
-			                     '</div>'+
-			              '</aside>'+			              
-			              
-			              '<!-- Wanted item end -->'+
-			              '<!--  Trade end -->')
+			                '</div>'+
+							'<!-- Trade end   -->'	
+							
+							)
 			  			});
                 $('#cargandoModal').modal('toggle');
         })
