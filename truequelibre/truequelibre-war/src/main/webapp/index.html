@@ -197,6 +197,17 @@
     <script src="js/respond.min.js" ></script>
     <script>
 
+    function getOwnerName(item, uid){
+    	var name;
+    	if(item.owner == uid){
+    		name = "Agregaste"; 
+    	}
+    	else{
+    		name = item.ownerName + " agrego";
+    	}
+    	return name;
+    }
+    
     function getAddedItemList(uid){
     	$.getJSON('/api/feed', function (data) {
     		console.log(data);
@@ -217,6 +228,7 @@
     					color = "purple";
     				}
     			}
+    			
     			if(i % 2){
 	    			$('#addedItemList').append(
 							'<article class="timeline-item">\
@@ -224,7 +236,7 @@
 	        				<span class="arrow"></span>\
 	    					<span class="timeline-icon '+color+'"></span>\
 							<span class="timeline-date">'+getFormattedDate(item.dateCreated)+'</span>\
-	    					<h1 class="'+color+'">'+item.ownerName+' agrego un nuevo item: '+item.name+'</h1>\
+	    					<h1 class="'+color+'">'+getOwnerName(item, uid)+' un nuevo item: '+item.name+'</h1>\
 	    					<img src="'+item.img+'" heigth="200" width="200">\
 	    			</div></div></div></article>');
     			}
@@ -235,7 +247,7 @@
             				<span class="arrow-alt"></span>\
         					<span class="timeline-icon '+color+'"></span>\
 							<span class="timeline-date">'+getFormattedDate(item.dateCreated)+'</span>\
-        					<h1 class="'+color+'">'+item.ownerName+' agrego un nuevo item: '+item.name+'</h1>\
+        					<h1 class="'+color+'">'+getOwnerName(item, uid)+' un nuevo item: '+item.name+'</h1>\
         					<img src="'+item.img+'" heigth="200" width="200">\
         			</div></div></div></article>');
     			}
