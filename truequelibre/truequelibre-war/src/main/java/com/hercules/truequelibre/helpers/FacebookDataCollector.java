@@ -1,10 +1,9 @@
 package com.hercules.truequelibre.helpers;
 
-import java.util.Collection;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
