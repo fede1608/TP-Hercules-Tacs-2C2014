@@ -8,7 +8,10 @@ import java.util.Map;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
+import com.restfb.FacebookClient.AccessToken;
 import com.restfb.Parameter;
+import com.restfb.exception.FacebookOAuthException;
+import com.restfb.types.FacebookType;
 import com.restfb.types.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -70,7 +73,13 @@ public class FacebookDataCollector {
 		}
 		return false;
 	}
-
+	
+	public Map<String,String> getFriendsHashMapWithUser(String token){
+		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
+		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsAsHashMap(token);
+		friends.put(user.getId(), user.getName());
+		return friends;
+	}
 	public User getFriendData(String facebookAccessToken, String friendId) {
 		Connection<User> myFriends = this.getFriends(facebookAccessToken);
 		for (User friend : myFriends.getData()) {
@@ -133,6 +142,24 @@ public class FacebookDataCollector {
 			}
 		}
 		return friends;
+	}
+	public void sendNotification(String externalUserId, String message) {
+	    AccessToken appAccessToken = new DefaultFacebookClient()
+	            .obtainAppAccessToken(FbProperties.getInstance().appId, FbProperties.getInstance().appSecret);
+	    FacebookClient facebookClient = new DefaultFacebookClient(
+	            appAccessToken.getAccessToken());
+	    try {
+	        facebookClient.publish(externalUserId
+	                + "/notifications", FacebookType.class,
+	                Parameter.with("template", message),
+	                Parameter.with("href", "historial.html"));
+	    } catch (FacebookOAuthException e) {
+	        if (e.getErrorCode() == 200) {
+	            //Not an app user
+	        } else if (e.getErrorCode() == 100) {
+	            //Message cannot be longer than 180 characters
+	        }
+	    }
 	}
 
 }

@@ -46,11 +46,14 @@ public class SearchResource extends ServerResource {
 		Meli m = new Meli();
 		JsonObject json = new JsonObject();
 		MultivaluedMap<String, String> params = new MultivaluedMapImpl();
-		params.add("limit", (getQuery().getValues("limit") == null ? "10"
-				: getQuery().getValues("limit")));// si me dan un limite
-													// diferente lo pongo, sino
+		int limit=(getQuery().getValues("limit") == null ? 10
+				: Integer.parseInt(getQuery().getValues("limit")));
+		int page=(getQuery().getValues("page") == null ? 0
+				: Integer.parseInt(getQuery().getValues("page")));
+		params.add("limit", String.valueOf(limit));// si me dan un limite diferente lo pongo, sino
 													// default 10
-
+		params.add("offset", String.valueOf(limit * page));// si me dan un offset diferente lo pongo, sino
+													// default 10
 		params.add("q", getQuery().getValues("query"));
 		JsonArray search = new JsonArray();
 		try {

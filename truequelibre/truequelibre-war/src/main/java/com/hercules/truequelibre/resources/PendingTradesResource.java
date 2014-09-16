@@ -37,35 +37,17 @@ public class PendingTradesResource extends ServerResource{
 
 	@Override
 	protected Representation get() throws ResourceException {
-		Series<Cookie> cookies = getCookies();	
-		String token = cookies.getValues("accessToken");
+		String token = getCookies().getValues("accessToken");
 		int state = (getQuery().getValues("state")==null)?0:Integer.parseInt(getQuery().getValues("state"));
 		JsonObject message= new JsonObject();
 		try{
 		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
-		/*
-		List<ItemTL> items = ofy().load().type(ItemTL.class)
-		.filter("owner", user.getId())
-		.filter("exchanged", false).list();
-		JsonObject message= new JsonObject();
-		message.addProperty("id", user.getId()); 
-		message.addProperty("name", user.getName());
-		JsonArray jsonItems = new JsonArray();
-		for (ItemTL item:items){
-			jsonItems.add(JsonTL.jsonifyItemWithRequests(item));
-		}*/
-		
-		
-
-		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsAsHashMap(token);
-		friends.put(user.getId(), user.getName());
-		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
-				//.filter("offeringUserId",user.getId())
+		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token);
+		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class).order("-date")
 				.filter("offeredItem.owner",user.getId())
 				.filter("state",state).list();
 		
-		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
-				//.filter("requestedUserId",user.getId())
+		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class).order("-date")
 				.filter("wantedItem.owner",user.getId())
 				.filter("state",state).list();
 		

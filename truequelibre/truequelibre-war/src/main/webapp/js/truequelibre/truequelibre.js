@@ -209,10 +209,42 @@ function shareOnFb(itemId){ //fuente: http://www.walkswithme.net/facebook-share-
 					
 					
 			});
-	//FB.ui({
-	//  method: 'share',
-	//  href: 'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId,
-	//}, function(response){});
+}
+
+function shareTradeOnFb(tradeId, tradeSolicitado){ //fuente: http://www.walkswithme.net/facebook-share-button-with-custom-parameters
+	$('#cargandoModal').modal('show');
+			$.getJSON('/api/pendingTrades/'+tradeId, function (data) {
+					console.log(data);
+					var otherPerson;
+					var myItem;
+					var otherItem;
+					if(tradeSolicitado){
+						otherPerson= data.trade.wantedItem.ownerName;
+						myItem=data.trade.offeredItem.name;
+						otherItem=data.trade.wantedItem.name;
+					}else{
+						otherPerson= data.trade.offeredItem.ownerName;
+						myItem=data.trade.wantedItem.name;
+						otherItem=data.trade.offeredItem.name;
+					}
+					var product_name   = 	'¡He intercambiado un nuevo item en TruequeLibre!';
+					var description	   =	'He intercambiado a '+otherPerson+' mi "'+myItem+'" por su "'+otherItem+'"!';
+					var share_image	   =	data.trade.wantedItem.img;
+					var share_url	   =	'https://hercules-tacs.appspot.com/profile.html?id='+userId;	
+					var share_capt     =    'TruequeLibre, la plataforma de intercambios más utilizada!';
+					$('#cargandoModal').modal('hide');
+					FB.ui({
+						method: 'feed',
+						name: product_name,
+						link: share_url,
+						picture: share_image,
+						caption: share_capt,
+						description: description
+
+					}, function(response){});
+					
+					
+			});
 }
 
 function loadNotifications(){

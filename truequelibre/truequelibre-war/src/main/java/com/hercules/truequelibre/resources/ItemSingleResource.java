@@ -69,6 +69,8 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 
 			json = JsonTL
 					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+		}catch(NumberFormatException e){
+			json=JsonTL.jsonifyError("el codigo del item debe ser un numero");
 		}
 
 
@@ -84,7 +86,11 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					this.requestedUser())) {
 				ItemTL item = ofy().load().type(ItemTL.class)
 						.id(Long.parseLong(this.requestedItem(),10)).now();
+				
 				if (item != null) {
+					if(item.isExchanged()){
+						throw new Exception("El item ya ha sido intercambiado. No puede ser eliminado.");
+					}
 					if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 						
 						ofy().delete()
@@ -106,6 +112,10 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 
 			json = JsonTL
 					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+		}catch(NumberFormatException e){
+			json=JsonTL.jsonifyError("el codigo del item debe ser un numero");
+		}catch(Exception e){
+			json=JsonTL.jsonifyError(e.getMessage());
 		}
 
 
@@ -127,25 +137,36 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 			try{
 				if (requestingTrade(uid, userfb)&&FacebookDataCollector.getInstance().isAFriend(tokenfb, uid)) {
 					
-		//	ItemDBHandler itemDBHandler = new ItemDBHandler();
-			
-					ItemTL wantedItem = ofy().load().type(ItemTL.class).id(Long.parseLong(this.requestedItem(),10)).now();
+					long offeredItemId = Long.parseLong(form.getFirstValue("offeredItemId"),10);
+					long wantedItemId = Long.parseLong(this.requestedItem(),10);
+					
+					
+					
+					ItemTL wantedItem = ofy().load().type(ItemTL.class).id(wantedItemId).now();
 					if(!uid.equals(wantedItem.owner)){
 						throw new UsersDontMatchException(uid,this.requestedItem());
 					}
 					if(wantedItem.isExchanged()){
 						throw new UsersDontMatchException(userfb.getId(),this.requestedItem());
 					}
-					String offeredItemId = form.getFirstValue("offeredItemId");
+					
 					
 					ItemTL offeredItem = ofy().load().type(ItemTL.class)
-							.id(Long.parseLong(offeredItemId,10)).now();
+							.id(offeredItemId).now();
 					if(!userfb.getId().equals(offeredItem.owner)){
-						throw new UsersDontMatchException(userfb.getId(),offeredItemId);
+						throw new UsersDontMatchException(userfb.getId(),String.valueOf(offeredItemId));
 					}
 					if(offeredItem.isExchanged()){
 						throw new ItemNotExistsException(offeredItem.id.toString());
 					}
+					
+					if(ofy().load().type(TradeTL.class).filter("wantedItem.idRefML",wantedItem.idRefML)
+							.filter("offeredItem.idRefML", offeredItem.idRefML)
+							.filter("state", 0).count()>0){
+						//Hack para consultar sobre dos items ya que no guarda el id del item dentro del trade (TODO: averiguar otra forma de consultarlo)
+						throw new Exception("No puedes Solicitar 2 veces el mismo trade.");
+					}
+					
 					TradeTL trade = new TradeTL(offeredItem, wantedItem);
 					
 					message.addProperty("wantedItemId",this.requestedItem());
@@ -164,11 +185,15 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 				message.addProperty("error",e.getMessage());
 			}catch (ItemNotExistsException e){
 				message.addProperty("error","el item "+e.getId()+ " ya se encuentra intercambiado");
+			}catch(NumberFormatException e){
+				message=JsonTL.jsonifyError("el codigo del item debe ser un numero");
 			}
 		}catch(FacebookOAuthException e) {
 
 			message = JsonTL
 					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+		}catch(Exception ex){
+			message=JsonTL.jsonifyError(ex.getMessage());
 		}
 
 		return new StringRepresentation(message.toString(),

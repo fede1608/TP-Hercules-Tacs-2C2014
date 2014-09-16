@@ -44,25 +44,26 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 	protected Representation get() throws ResourceException {
 		String token = getCookies().getValues("accessToken");
 		JsonObject json = new JsonObject();
-		try{
-		if (FacebookDataCollector.getInstance().informationCanBeShown(token,
-				this.requestedUser())) {
-			List<ItemTL> items = ofy().load().type(ItemTL.class)
-					.filter("owner", this.requestedUser())
-					.filter("exchanged", false).list();
-			json = new JsonObject();
-			
-			json.add("items", JsonTL.jsonifyItemList(items));
-		} else {
-			json = JsonTL
+		try {
+			if (FacebookDataCollector.getInstance().informationCanBeShown(
+					token, this.requestedUser())) {
+				List<ItemTL> items = ofy().load().type(ItemTL.class)
+						.filter("owner", this.requestedUser())
+						.filter("exchanged", false).list();
+				json = new JsonObject();
+
+				json.add("items", JsonTL.jsonifyItemList(items));
+			} else {
+				json = JsonTL
 						.jsonifyError("Usuario no corresponde con el token o no es su amigo en facebook");
 			}
-		}catch (FacebookOAuthException e) {
+		} catch (FacebookOAuthException e) {
 
 			json = JsonTL
 					.jsonifyError("el token esta desactualizado, por favor actualicelo");
 		}
-		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
+		return new StringRepresentation(json.toString(),
+				MediaType.APPLICATION_JSON);
 	}
 
 	@Override
@@ -73,31 +74,37 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 		String itemId = form.getFirstValue("itemId");
 		String tokenfb = getCookies().getValues("accessToken");// form.getFirstValue("token");
 		JsonObject message = new JsonObject();
-		try{
+		try {
 			User userfb = FacebookDataCollector.getInstance().findUserWithRest(
 					tokenfb);
 
-		
 			if (creatingItemInOtherUser(uid, userfb)) {// autenticar
-				message.addProperty("error",
+				message=JsonTL.jsonifyError(
 						"Un usuario no puede crear un item para otro usuario.");
-				
-			}else {
+
+			} else {
 				try {
-					ItemTL item = new ItemTL(itemId, uid);
-					long id=DBHandler.getInstance().save(item);
-					message.addProperty("info", "El item se agrego correctamente");
-					message.addProperty("itemId", id);
+					if (ofy().load().type(ItemTL.class)
+							.filter("idRefML", itemId).count() > 0) {
+						message=JsonTL.jsonifyError("Ya ha agregado ese item.");
+					} else {
+						ItemTL item = new ItemTL(itemId, uid);
+						long id = DBHandler.getInstance().save(item);
+						message=JsonTL.jsonifyInfo("El item se agrego correctamente");
+						message.addProperty("itemId", id);
+					}
 				} catch (ItemNotExistsException ex) {
-					message.addProperty("error", ex.getMessage());
+					message=JsonTL.jsonifyError( ex.getMessage());
 				}
 			}
-		}catch (FacebookOAuthException e) {
+		} catch (FacebookOAuthException e) {
 
 			message = JsonTL
 					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+		}catch (Exception ex){
+			message= JsonTL.jsonifyError(ex.getMessage());
 		}
-		
+
 		return new StringRepresentation(message.toString(),
 				MediaType.APPLICATION_JSON);
 

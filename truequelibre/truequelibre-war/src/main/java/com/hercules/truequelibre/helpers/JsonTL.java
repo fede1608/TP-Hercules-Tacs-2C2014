@@ -31,6 +31,14 @@ public class JsonTL {
 		json.addProperty("error", error);
 		return json;
 	}
+	
+	public static JsonObject jsonifyInfo(String info){
+		JsonObject json = new JsonObject();
+		json.addProperty("status", 200);
+		json.addProperty("info", info);
+		return json;
+	}
+	
 	public static JsonArray jsonifyItemList(List<ItemTL> items){
 		Iterator<ItemTL> iterator = items
 				.iterator();
@@ -51,7 +59,7 @@ public class JsonTL {
 		json.add("wantedItem", jsonWantedItem);
 		json.add("offeredItem", jsonOfferedItem);
 		json.addProperty("state",trade.getState());
-		json.addProperty("dateCreated", trade.dateCreated);
+		json.addProperty("date", trade.date);
 		return json;
 	}
 
@@ -106,7 +114,7 @@ public class JsonTL {
 		return jsonTrades;
 	}
 
-	private static JsonElement jsonifyTrade(TradeTL trade,
+	public static JsonElement jsonifyTrade(TradeTL trade,
 			Map<String, String> friends) {
 		JsonObject json = new JsonObject();
 		JsonObject jsonWantedItem = JsonTL.jsonifyItem(trade.getWantedItem(),friends);
@@ -115,7 +123,7 @@ public class JsonTL {
 		json.add("wantedItem", jsonWantedItem);
 		json.add("offeredItem", jsonOfferedItem);
 		json.addProperty("state",trade.getState());
-		json.addProperty("dateCreated", trade.dateCreated);
+		json.addProperty("dateCreated", trade.date);
 		return json;
 	}
 
