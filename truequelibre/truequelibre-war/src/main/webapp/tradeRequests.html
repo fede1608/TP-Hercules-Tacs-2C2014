@@ -210,22 +210,20 @@
                       </section>
                   </aside>
               </div>
-              
+         
+         
+         
+        <section class="panel">
+          <div class="row" style="margin:20px;" id="tradesList">
+		  						  
+		  </div>
+		</section>
           </section>
 
 
 
-		<div class="panel-body">
-          <div class="row" style="margin:20px;" id="tradesList">
-		  						  
-		  </div>
-		</div>
 		
-		<div class="panel-body">
-          <div class="row" style="margin:20px;" id="tradesList">
-		  						  
-		  </div>
-		</div>
+		
 		
       </section>
       <!--main content end-->
@@ -276,12 +274,19 @@ debugger;
 				debugger;
 				var tradeslist = $('#tradesList'); 
 				$('#tradesList').empty();
+				var requestNumber=0;
+
 				data.sentTradeRequests.forEach(function(trade){
+					requestNumber++;
 					$('#tradesList').append(
 							
 							'<!-- Trade start -->'+
-							'<div class="panel-body">'+
-							  '<div class="col-lg-8">'+
+							'<section class="panel" id='+trade.id+'>'+
+							
+							'<header class="panel-heading">'+
+	                            'Solicitud de trueque #'+requestNumber+
+                       		'</header>'+
+							  '<div class="col-lg-12">'+
 			                      '<!--offered product info start-->'+
 			                      '<section class="panel post-wrap pro-box">'+
 			                          '<aside>'+
@@ -347,7 +352,13 @@ debugger;
 			                      '</section>'+
 			                      '<!--offered product info end-->'+
 			                  '</div>'+
-			                '</div>'+
+			                  '<div class="row">'+
+			                  	  '<div class="col-md-10"></div>'+
+				                  '<a href="javascript:acceptTrade(\''+trade.id+'\')" type="button" class="btn btn-round btn-success" a href="#">Aceptar</button>'+
+				                  '<a href="javascript:rejectTrade(\''+trade.id+'\')" type="button" class="btn btn-round btn-danger">Rechazar</button>'+
+			                  '</div>'+
+			                  
+			                '</section>'+
 							'<!-- Trade end   -->'	
 							
 							)
@@ -355,6 +366,37 @@ debugger;
                 $('#cargandoModal').modal('toggle');
         })
 	}
+		
+		function acceptTrade(id)
+		{
+			$('#cargandoModal').modal('show');
+			/*$.post( "api/pendingTrades/"+id", { itemId: id }, function( data ) {
+			  console.log( data ); 
+				$('#cargandoModal').modal('hide');
+				
+			}*/
+		}
+		function rejectTrade(id)
+		{
+			$('#cargandoModal').modal('show');
+			$.ajax( 
+					"api/pendingTrades/"+id, 
+					{ type:'DELETE', 
+						
+					  success: function( data,statusCode, jqXHR ) {
+								  console.log( data ); 
+								  $('#'+id).remove();
+									$('#cargandoModal').modal('hide');
+								},
+					 error: function( jqXHR,textStatus, message ) {
+						  console.log( 'status: '+textStatus+" message: "+message ); 
+							$('#cargandoModal').modal('hide');
+							alert(message);
+						}
+					});
+			
+		}
+	
 	
       $(document).ready(function() {
 		  debugger;
