@@ -40,8 +40,6 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 				List<ItemTL> items = ofy().load().type(ItemTL.class)
 						.filter("owner", this.requestedUser())
 						.filter("exchanged", false).list();
-				json = new JsonObject();
-
 				json.add("items", JsonTL.jsonifyItemList(items));
 			} else {
 				json = JsonTL

@@ -1,6 +1,9 @@
 package com.hercules.truequelibre.resources;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
+
+import java.util.List;
+
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;
@@ -10,6 +13,7 @@ import org.restlet.representation.Representation;
 import org.restlet.representation.StringRepresentation;
 import org.restlet.representation.Variant;
 import org.restlet.resource.ResourceException;
+
 import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.User;
 import com.google.gson.JsonObject;
@@ -45,7 +49,15 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 				if (item != null) {
 					if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 						json = JsonTL.jsonifyItem(item);
+						List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
+								.filter("offeredItemId",item.id)
+								.filter("state",0).list();
 						
+						List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
+								.filter("wantedItemId",item.id)
+								.filter("state",0).list();
+						json.add("trRec", JsonTL.tradesToJsonArray(pendingReceivedTrades, FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token)));
+						json.add("trOff", JsonTL.tradesToJsonArray(pendingOfferedTrades, FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token)));
 					} else {
 						json = JsonTL
 								.jsonifyError("Item pertenece a otro usuario.");

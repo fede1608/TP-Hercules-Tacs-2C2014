@@ -12,7 +12,7 @@ http://microformats.org/wiki/rest/urls#Java
   - POST: Solicita trueque, si el usuario que hace el post no es el dueño 
 * api/friends IMPLEMENTED - FRONTEND
   - GET: Lista de amigos del usuario ‘userId’ IMPLEMENTED - FRONTEND
-* api/pendingTrades IMPLEMENTED
+* api/pendingTrades IMPLEMENTED - FRONTEND
   - GET: Devuelve 2 listas con los tratos incompletos:
     * receivedTradeRequests: solicitudes de trueque recibidas por parte de los amigos del usuario
     * sentTradeRequests: solicitudes de trueques realizadas por el usuario a uno de sus amigos

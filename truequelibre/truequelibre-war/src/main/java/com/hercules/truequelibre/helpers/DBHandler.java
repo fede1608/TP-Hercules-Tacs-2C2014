@@ -3,10 +3,13 @@ package com.hercules.truequelibre.helpers;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.Iterator;
+import java.util.List;
 
 import com.googlecode.objectify.NotFoundException;
 import com.hercules.truequelibre.domain.InexistentObjectException;
 import com.hercules.truequelibre.domain.ItemTL;
+import com.hercules.truequelibre.domain.TradeTL;
 
 public class DBHandler {
 	static DBHandler instance=null;
@@ -54,6 +57,26 @@ public class DBHandler {
 			this.save(fetched);
 		} catch (InexistentObjectException ex) {
 			throw ex;
+		}
+	}
+	
+	public void cancelAndDeclineTrades(long itemId){
+		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
+				.filter("offeredItemId",itemId)
+				.filter("state",0).list();
+		
+		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
+				.filter("wantedItemId",itemId)
+				.filter("state",0).list();
+		Iterator<TradeTL> iterator = pendingOfferedTrades.iterator();
+		while(iterator.hasNext()){
+			TradeTL trade= iterator.next();
+			trade.cancel();
+		}
+		iterator = pendingReceivedTrades.iterator();
+		while(iterator.hasNext()){
+			TradeTL trade= iterator.next();
+			trade.decline();;
 		}
 	}
 }
