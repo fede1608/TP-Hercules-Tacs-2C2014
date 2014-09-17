@@ -49,15 +49,6 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 				if (item != null) {
 					if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 						json = JsonTL.jsonifyItem(item);
-						List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
-								.filter("offeredItemId",item.id)
-								.filter("state",0).list();
-						
-						List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
-								.filter("wantedItemId",item.id)
-								.filter("state",0).list();
-						json.add("trRec", JsonTL.tradesToJsonArray(pendingReceivedTrades, FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token)));
-						json.add("trOff", JsonTL.tradesToJsonArray(pendingOfferedTrades, FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token)));
 					} else {
 						json = JsonTL
 								.jsonifyError("Item pertenece a otro usuario.");
@@ -96,10 +87,12 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					}
 					if (item.owner.equalsIgnoreCase(this.requestedUser())) {
 						
+						DBHandler.getInstance().cancelAndDeclineTrades(item.id);
 						ofy().delete()
 						.key(Key.create(ItemTL.class, item.id))
 						.now();
-						json.addProperty("success", "el objeto ha sido eliminado correctamente");
+						json= JsonTL
+								.jsonifyInfo("el objeto ha sido eliminado correctamente");
 					} else {
 						json = JsonTL
 								.jsonifyError("Item pertenece a otro usuario.");
@@ -179,15 +172,16 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					if(wantedItem!=null && offeredItem != null)
 					{
 						DBHandler.getInstance().save(trade);
-						message.addProperty("success","El pedido de trueque se ha registrado con éxito");
+						message= JsonTL
+								.jsonifyInfo("El pedido de trueque se ha registrado con éxito");
 					}
 				}else{
 					message=JsonTL.jsonifyError("ha ocurrido un error en la creacion del trato, ya sea porque se creo desde su propio usuario o un error inesperado");
 				}
 			}catch (UsersDontMatchException e){
-				message.addProperty("error",e.getMessage());
+				message=JsonTL.jsonifyError(e.getMessage());
 			}catch (ItemNotExistsException e){
-				message.addProperty("error","el item "+e.getId()+ " ya se encuentra intercambiado");
+				message=JsonTL.jsonifyError("el item "+e.getId()+ " ya se encuentra intercambiado");
 			}catch(NumberFormatException e){
 				message=JsonTL.jsonifyError("el codigo del item debe ser un numero");
 			}
