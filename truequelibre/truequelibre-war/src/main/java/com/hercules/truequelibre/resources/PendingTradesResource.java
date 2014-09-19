@@ -33,7 +33,7 @@ public class PendingTradesResource extends ServerResource{
 	protected Representation get() throws ResourceException {
 		String token = getCookies().getValues("accessToken");
 		int state = (getQuery().getValues("state")==null)?0:Integer.parseInt(getQuery().getValues("state"));
-		JsonObject message= new JsonObject();
+		JsonObject message= JsonTL.getResponse();//new JsonObject();
 		try{
 		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
 		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token);
@@ -50,7 +50,7 @@ public class PendingTradesResource extends ServerResource{
 		}catch(FacebookOAuthException e) {
 
 			message = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
 		}
 		return new StringRepresentation(message.toString(), MediaType.APPLICATION_JSON);
 	}

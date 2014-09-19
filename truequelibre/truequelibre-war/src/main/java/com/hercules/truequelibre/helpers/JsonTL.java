@@ -26,12 +26,19 @@ public class JsonTL {
 	}
 
 	public static JsonObject jsonifyError(String error){
+		return jsonifyError(error,404);
+	}
+	public static JsonObject jsonifyError(String error, int status){
 		JsonObject json = new JsonObject();
-		json.addProperty("status", 404);
+		json.addProperty("status", status);
 		json.addProperty("error", error);
 		return json;
 	}
-	
+	public static JsonObject getResponse(){
+		JsonObject response = new JsonObject();
+		response.addProperty("status", 200);
+		return response;
+	}
 	public static JsonObject jsonifyInfo(String info){
 		JsonObject json = new JsonObject();
 		json.addProperty("status", 200);

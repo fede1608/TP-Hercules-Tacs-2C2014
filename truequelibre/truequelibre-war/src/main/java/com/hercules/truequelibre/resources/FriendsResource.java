@@ -1,6 +1,7 @@
 package com.hercules.truequelibre.resources;
 
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
+import com.hercules.truequelibre.helpers.JsonTL;
 import com.google.gson.JsonObject;
 
 import org.restlet.Context;
@@ -36,8 +37,7 @@ public class FriendsResource extends ServerResource{
 			String friends = FacebookDataCollector.getInstance().findFacebookFriendsUsingRest(token);
 			message += friends;
 		}catch(FacebookOAuthException e){
-			JsonObject j = new JsonObject();
-			j.addProperty("error", "El token esta desactualizado, por favor actualicelo");
+			JsonObject j = JsonTL.jsonifyError("El token esta desactualizado, por favor actualicelo",401);
 			message = j.toString();
 		}
 		return new StringRepresentation(message, MediaType.APPLICATION_JSON);

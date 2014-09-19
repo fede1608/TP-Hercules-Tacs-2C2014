@@ -32,7 +32,7 @@ public class ItemNewsFeedResource extends ParameterGathererTemplateResource {
 	@Override
 	protected Representation get() throws ResourceException {
 		String token = getCookies().getValues("accessToken");
-		JsonObject json = new JsonObject();
+		JsonObject json = JsonTL.getResponse();//new JsonObject();
 		try{
 		Map<String,String> friends = FacebookDataCollector.getInstance().getFriendsAsHashMap(token);
 		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
@@ -51,7 +51,7 @@ public class ItemNewsFeedResource extends ParameterGathererTemplateResource {
 		}catch (FacebookOAuthException e) {
 
 			json = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
 		}
 		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}

@@ -33,7 +33,7 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 	@Override
 	protected Representation get() throws ResourceException {
 		String token = getCookies().getValues("accessToken");
-		JsonObject json = new JsonObject();
+		JsonObject json = JsonTL.getResponse();//new JsonObject();
 		try {
 			if (FacebookDataCollector.getInstance().informationCanBeShown(
 					token, this.requestedUser())) {
@@ -48,7 +48,7 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 		} catch (FacebookOAuthException e) {
 
 			json = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
 		}
 		return new StringRepresentation(json.toString(),
 				MediaType.APPLICATION_JSON);
@@ -61,7 +61,7 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 		String uid = this.requestedUser();
 		String itemId = form.getFirstValue("itemId");
 		String tokenfb = getCookies().getValues("accessToken");// form.getFirstValue("token");
-		JsonObject message = new JsonObject();
+		JsonObject message = JsonTL.getResponse();//new JsonObject();
 		try {
 			User userfb = FacebookDataCollector.getInstance().findUserWithRest(
 					tokenfb);
@@ -88,7 +88,7 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 		} catch (FacebookOAuthException e) {
 
 			message = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo");
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
 		}catch (Exception ex){
 			message= JsonTL.jsonifyError(ex.getMessage());
 		}

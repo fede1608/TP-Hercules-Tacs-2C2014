@@ -32,7 +32,7 @@ public class SingleTradeResource extends ServerResource {
 
 	@Override
 	protected Representation get() throws ResourceException {
-		JsonObject message = new JsonObject();
+		JsonObject message = JsonTL.getResponse();//new JsonObject();
 		String token = getCookies().getValues("accessToken");
 		long id = Long.valueOf((String) this.getRequest().getAttributes()
 				.get("tradeId"));
@@ -47,7 +47,7 @@ public class SingleTradeResource extends ServerResource {
 			}
 			Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token);
 			message.add("trade", JsonTL.jsonifyTrade(trade,friends));
-			message.addProperty("status", 200);
+			
 		} catch (Exception ex) {
 			message = JsonTL.jsonifyError(ex.getMessage());
 		}
@@ -57,7 +57,7 @@ public class SingleTradeResource extends ServerResource {
 
 	@Override
 	public Representation post(Representation entity) {
-		JsonObject message = new JsonObject();
+		JsonObject message = JsonTL.getResponse();//new JsonObject();
 		String token = getCookies().getValues("accessToken");
 		long id = Long.valueOf((String) this.getRequest().getAttributes()
 				.get("tradeId"));
@@ -85,7 +85,7 @@ public class SingleTradeResource extends ServerResource {
 
 	@Override
 	protected Representation delete() throws ResourceException {
-		JsonObject message = new JsonObject();
+		JsonObject message = JsonTL.getResponse();//new JsonObject();
 		String token = getCookies().getValues("accessToken");
 		long id = Long.valueOf((String) this.getRequest().getAttributes()
 				.get("tradeId"));

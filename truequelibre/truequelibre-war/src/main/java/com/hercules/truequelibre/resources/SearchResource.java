@@ -44,7 +44,7 @@ public class SearchResource extends ServerResource {
 	@Override
 	protected Representation get() throws ResourceException {
 		Meli m = new Meli();
-		JsonObject json = new JsonObject();
+		JsonObject json =  JsonTL.getResponse();//new JsonObject();
 		MultivaluedMap<String, String> params = new MultivaluedMapImpl();
 		int limit=(getQuery().getValues("limit") == null ? 10
 				: Integer.parseInt(getQuery().getValues("limit")));
