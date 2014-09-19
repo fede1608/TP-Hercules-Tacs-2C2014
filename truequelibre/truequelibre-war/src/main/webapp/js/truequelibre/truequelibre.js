@@ -258,13 +258,13 @@ function loadNotifications(){
                             </li>');
 				data.receivedTradeRequests.forEach(function(tradeReq){
 					$('#header_inbox_bar').find( "ul" ).append('<li> \
-					<a href="#"> \
-					<span class="photo"><img alt="avatar" src="'+tradeReq.offeredItem.img.slice(0,-5)+'I.jpg"></span> \
-					<span class="photo"><img alt="avatar" src="'+tradeReq.wantedItem.img.slice(0,-5)+'I.jpg" style="float: right;"></span> \
+					<a href="tradeRequests.html#recibidos"> \
+					<span class="photo"><img  src="'+tradeReq.offeredItem.img.slice(0,-5)+'I.jpg"></span> \
+					<span class="photo"><img  src="'+tradeReq.wantedItem.img.slice(0,-5)+'I.jpg" style="float: right;"></span> \
 					<span class="subject"><span class="from">'+tradeReq.offeredItem.ownerName+'</span></span> \
-					<span class="message"><i class="icon-long-arrow-left"></i> '+tradeReq.offeredItem.name+'</span> \
+					<span class="message"></i> '+tradeReq.offeredItem.name+'</span> \
 					<span class="message"><i class="icon-exchange" style="margin-left: 48%;"></i></span> \
-					<span class="message"><i class="icon-long-arrow-right"></i> '+tradeReq.wantedItem.name+'</span> \
+					<span class="message"></i> '+tradeReq.wantedItem.name+'</span> \
 					</a></li><li>');
 				});
 				$('#header_inbox_bar').find( "ul" ).append('<li> \

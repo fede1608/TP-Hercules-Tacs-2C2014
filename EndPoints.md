@@ -16,7 +16,7 @@ http://microformats.org/wiki/rest/urls#Java
   - GET: Devuelve 2 listas con los tratos incompletos:
     * receivedTradeRequests: solicitudes de trueque recibidas por parte de los amigos del usuario
     * sentTradeRequests: solicitudes de trueques realizadas por el usuario a uno de sus amigos
-* api/pendingTrades/{pendingTradesId}
+* api/pendingTrades/{pendingTradesId} IMPLEMENTED - FRONTEND
   - GET: trae la información del trueque
   - DELETE: elimina la solicitud de trueque tanto recibida como enviada.
   - POST: Confirma el trueque si la solicitud era recibida.
