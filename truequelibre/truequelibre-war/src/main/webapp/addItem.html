@@ -145,7 +145,7 @@
                       Agregar item para intercambiar
                   </header>
                   <div class="panel-body">
-                      <form class="form-horizontal search-result" onSubmit="searchItems($('#query').val(),0);return false;">
+                      <form class="form-horizontal search-result" onSubmit="searchItems($('#query').val());return false;">
                           <div class="form-group">
                               <label class="col-lg-1 col-sm-1 control-label">Buscar</label>
                               <div class="col-lg-8 col-sm-8">
@@ -153,7 +153,7 @@
                                   <p class="help-block"> </p>
                               </div>
                               <div class="col-lg-2">
-                                  <button class="btn " type='button' onClick="searchItems($('#query').val(),0);">BUSCAR</button>
+                                  <button class="btn " type='button' onClick="searchItems($('#query').val());">BUSCAR</button>
                               </div>
                           </div>
                       </form>
@@ -161,14 +161,8 @@
 							  
                       </div>
                       <div class="text-center">
-                          <ul class="pagination">
-                              <li><a href="#">«</a></li>
-                              <li><a href="javascript:searchItems($('#query').val(),0)">1</a></li>
-                              <li><a href="javascript:searchItems($('#query').val(),1)">2</a></li>
-                              <li><a href="javascript:searchItems($('#query').val(),2)">3</a></li>
-                              <li><a href="javascript:searchItems($('#query').val(),3)">4</a></li>
-                              <li><a href="javascript:searchItems($('#query').val(),4)">5</a></li>
-                              <li><a href="#">»</a></li>
+                          <ul class="pagination" id="pagination" >
+                              
                           </ul>
                       </div>
                   </div>
@@ -214,33 +208,75 @@
     <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
     <script src="js/respond.min.js" ></script>
 	<script type="text/javascript" src="assets/gritter/js/jquery.gritter.js"></script>
+	<script src="js/jquery.paging.min.js"></script>
     <!--common script for all pages-->
     <script src="js/common-scripts.js"></script>
 	<script>
-	function searchItems(query,page){
+	function paginate(totalCount){
+		$("#pagination").paging(totalCount, {
+			format: '< nncnn >',
+			perpage: 20, // show 10 elements per page
+			lapping: 0, // don't overlap pages for the moment
+			page: 1, // start at page, can also be "null" or negative
+			onSelect: function (page) {
+				paginateItems($('#query').val(),page-1);
+				return false;
+			},
+			onFormat: function (type) {
+				switch (type) {
+				case 'block': // n and c
+					if(this.value==this.page)
+						return ' <li class="active"><a href="#">'+ this.value + '</a></li>' ;
+					else
+						return ' <li><a href="#">'+ this.value + '</a></li>' ;
+				case 'next': // >
+					return '<li><a href="#">»</a></li>';
+				case 'prev': // <
+					return '<li><a href="#">«</a></li>';
+				}
+			}
+		});
+	}
+	
+	function paginateItems(query, page){
 		$('#cargandoModal').modal('show');
 		$.getJSON('/api/search',{limit:20, query: query, page: page}, function (data) {
-				console.log(data);
-				var itemBoxSize;
-				if( isMobile.any() ) {
-					if(window.innerHeight > window.innerWidth){
-						itemBoxSize= ($('#panel').width()-30); //Vertical
-					}else{
-						itemBoxSize= ($('#panel').width()-80)/4; //Landscape
-					}
-				}else{
-				   itemBoxSize= ($('#panel').width()-80)/4;
-				}
-				$('#itemList').empty();
-				data.search.forEach(function(item){
-					$('#itemList').append('<div class="col-md-3"><section class="panel"><div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"><img src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/><a href="javascript:addItem(\''+item.id+'\')" class="adtocart"><i class="icon-plus"></i></a></div><div class="panel-body text-center"><h4><a href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"></p></div></section></div>');
-				});
+				showData(data);
                 $('#cargandoModal').modal('hide');
         })
 	}
-	  $(document).ready(function() {
-			searchItems("celular");
-	});
+	
+	function showData(data){
+		console.log(data);
+		var itemBoxSize;
+		if( isMobile.any() ) {
+			if(window.innerHeight > window.innerWidth){
+				itemBoxSize= ($('#panel').width()-30); //Vertical
+			}else{
+				itemBoxSize= ($('#panel').width()-80)/4; //Landscape
+			}
+		}else{
+		   itemBoxSize= ($('#panel').width()-80)/4;
+		}
+		$('#itemList').empty();
+		data.search.forEach(function(item){
+			$('#itemList').append('<div class="col-md-3"><section class="panel">\
+			<div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"> \
+			<img src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/>\
+			<a href="javascript:addItem(\''+item.id+'\')" class="adtocart"><i class="icon-plus"></i></a></div><div class="panel-body text-center">\
+			<h4><a href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"></p></div></section></div>');
+		});
+	}
+	
+	function searchItems(query){
+		$('#cargandoModal').modal('show');
+		$.getJSON('/api/search',{limit:20, query: query, page: 0}, function (data) {
+				$('#query').val(query);
+				paginate(data.total);
+        })
+	}
+
+	
 	
 	function addItem(id){
 		$('#cargandoModal').modal('show');
