@@ -258,7 +258,7 @@ function loadNotifications(){
                             </li>');
 				data.receivedTradeRequests.forEach(function(tradeReq){
 					$('#header_inbox_bar').find( "ul" ).append('<li> \
-					<a href="tradeRequests.html#recibidos"> \
+					<a href="tradeRequests.html#recibidas"> \
 					<span class="photo"><img  src="'+tradeReq.offeredItem.img.slice(0,-5)+'I.jpg"></span> \
 					<span class="photo"><img  src="'+tradeReq.wantedItem.img.slice(0,-5)+'I.jpg" style="float: right;"></span> \
 					<span class="subject"><span class="from">'+tradeReq.offeredItem.ownerName+'</span></span> \
@@ -268,7 +268,7 @@ function loadNotifications(){
 					</a></li><li>');
 				});
 				$('#header_inbox_bar').find( "ul" ).append('<li> \
-                                <a href="#">Ver Todas</a> \
+                                <a href="tradeRequests.html#recibidas">Ver Todas</a> \
                             </li>');
         })
 }	
