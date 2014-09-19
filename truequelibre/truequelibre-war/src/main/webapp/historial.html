@@ -76,7 +76,7 @@
                           <div class="log-arrow-up"></div>
                           <li><a href="profile.html"><i class=" icon-suitcase"></i>Perfil</a></li>
                           <li><a href="addItem.html"><i class="icon-plus"></i> Agregar Item</a></li>
-                          <li><a href="tradeRequests.html"><i class="icon-bell-alt"></i> Solicitudes</a></li>
+                          <li><a href="tradeRequests.html#recibidas"><i class="icon-bell-alt"></i> Solicitudes</a></li>
                           <li><a href="javascript:logout();"><i class="icon-key"></i> Log Out</a></li>
                       </ul>
                   </li>
@@ -105,16 +105,16 @@
                   </li>
 
 				  <li>
-                      <a href="tradeRequests.html">
+                      <a href="tradeRequests.html#recibidas">
                           <i class="icon-glass"></i>
-                          <span>Solicitudes de Intercambio</span>
+                          <span>Solicitudes Recibidas</span>
                       </a>
                   </li>
 				  
 				  <li>
-                      <a href="tradeRequests.html">
+                      <a href="tradeRequests.html#enviadas">
                           <i class="icon-shopping-cart"></i>
-                          <span>Mis Solicitudes</span>
+                          <span>Mis Solicitudes Enviadas</span>
                       </a>
                   </li>
 				  
@@ -170,15 +170,27 @@
                               <ul class="nav nav-tabs">
                                   
                                   <li class="active">
-                                      <a data-toggle="tab" href="#about-2">
+                                      <a data-toggle="tab" href="#recibidas">
                                           <i class="icon-user"></i>
                                           Request Aceptadas
                                       </a>
                                   </li>
                                   <li class="">
-                                      <a data-toggle="tab" href="#contact-2">
+                                      <a data-toggle="tab" href="#enviadas">
                                           <i class="icon-envelope"></i>
                                           Solicitudes Aceptadas
+                                      </a>
+                                  </li>
+								  <li class="">
+                                      <a data-toggle="tab" href="#recibidasRechazadas">
+                                          <i class="icon-envelope"></i>
+                                          Requests Rechazados 
+                                      </a>
+                                  </li>
+								  <li class="">
+                                      <a data-toggle="tab" href="#enviadasRechazadas">
+                                          <i class="icon-envelope"></i>
+                                          Solicitudes Rechazadas
                                       </a>
                                   </li>
                               </ul>
@@ -186,7 +198,7 @@
                           <div class="panel-body">
                               <div class="tab-content">
                                   
-                                  <div id="about-2" class="tab-pane active">
+                                  <div id="recibidas" class="tab-pane active">
 									<section class="panel">
 									  <header class="panel-heading">
 										  Trades
@@ -201,7 +213,7 @@
 									</div>
 									</section>
 								  </div>
-                                  <div id="contact-2" class="tab-pane">
+                                  <div id="enviadas" class="tab-pane">
 									<section class="panel">
 									  <header class="panel-heading">
 										  Trades
@@ -212,6 +224,36 @@
 									  </header>
 									  <div class="panel-body">
 										<div class="timeline-messages" id="tradeList2">
+										</div>
+									</div>
+									</section>
+								  </div>
+								  <div id="recibidasRechazadas" class="tab-pane">
+									<section class="panel">
+									  <header class="panel-heading">
+										  Trades
+										  <span class="tools pull-right">
+											<!-- <a class="icon-chevron-down" href="javascript:;"></a>
+											<a class="icon-remove" href="javascript:;"></a> -->
+										</span>
+									  </header>
+									  <div class="panel-body">
+										<div class="timeline-messages" id="tradeList3">
+										</div>
+									</div>
+									</section>
+								  </div>
+								  <div id="enviadasRechazadas" class="tab-pane">
+									<section class="panel">
+									  <header class="panel-heading">
+										  Trades
+										  <span class="tools pull-right">
+											<!-- <a class="icon-chevron-down" href="javascript:;"></a>
+											<a class="icon-remove" href="javascript:;"></a> -->
+										</span>
+									  </header>
+									  <div class="panel-body">
+										<div class="timeline-messages" id="tradeList4">
 										</div>
 									</div>
 									</section>
@@ -358,8 +400,56 @@
 									  </div> \
 									  <!-- /Trade --\>');
 				});
-                $('#cargandoModal').modal('hide');
+				
+				
+                
         })
+		$.getJSON('/api/pendingTrades', { state : 2 } , function (data) {
+				console.log(data);
+				var itemBoxSize;
+				$('#tradeList3').empty();
+				data.receivedTradeRequests.forEach(function(trade){
+					$('#tradeList3').append('<!-- Trade --\> \
+									  <div class="msg-time-chat"> \
+										  <a href="#" class="message-img"><img class="avatar" src="http://graph.facebook.com/'+trade.offeredItem.owner+'/picture?type=small" alt=""></a> \
+										  <div class="message-body msg-out"> \
+											  <span class="arrow"></span> \
+											  <div class="text" style="background-color:lightsteelblue"> \
+												  <p class="attribution"><a href="profile.html?id='+trade.offeredItem.owner+'">'+trade.offeredItem.ownerName+'</a> el '+getFormattedDate(trade.dateCreated)+'</p> \
+												  <p>Rechazaste cambiar su <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por tu <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
+													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
+													</div> \
+													<button id="showTradeLink" class="btn btn-info" onclick="javascript:shareTradeOnFb(\''+trade.id+'\',false);" style="margin-left: 19%;"><i class="icon-facebook"></i> Compartir</button> \
+													<div class="pro-thumb pull-right" style="margin:20px"><img src="'+trade.wantedItem.img+'" alt="" style="width: 80px;height:80px;"> \
+													</div> \
+											  </div> \
+										  </div> \
+									  </div> \
+									  <!-- /Trade --\>');
+				});
+				$('#tradeList4').empty();
+				data.sentTradeRequests.forEach(function(trade){
+					$('#tradeList4').append('<!-- Trade --\> \
+									  <div class="msg-time-chat"> \
+										  <a href="#" class="message-img"><img class="avatar" src="http://graph.facebook.com/'+trade.wantedItem.owner+'/picture?type=small" alt=""></a> \
+										  <div class="message-body msg-in"> \
+											  <span class="arrow"></span> \
+											  <div class="text" style="background-color:silver"> \
+												  <p class="attribution"><a href="profile.html?id='+trade.wantedItem.owner+'">'+trade.wantedItem.ownerName+'</a> el '+getFormattedDate(trade.dateCreated)+'</p> \
+												  <p>Rechazó cambiar tu <a href="javascript:showItemModal('+trade.offeredItem.itemId+','+trade.offeredItem.owner+')">"'+trade.offeredItem.name+'"</a>por su <a href="javascript:showItemModal('+trade.wantedItem.itemId+','+trade.wantedItem.owner+')">"'+trade.wantedItem.name+'"</a></p> \
+													<div class="pro-thumb" style="margin:20px"><img src="'+trade.offeredItem.img+'" alt="" style="width: 80px;height:80px;"> \
+													</div> \
+													<button id="showTradeLink" class="btn btn-info" onclick="javascript:shareTradeOnFb(\''+trade.id+'\',true);" style="margin-left: 19%;"><i class="icon-facebook"></i> Compartir</button> \
+													<div class="pro-thumb pull-right" style="margin:20px"><img src="'+trade.wantedItem.img+'" alt="" style="width: 80px;height:80px;"> \
+													</div> \
+											  </div> \
+										  </div> \
+									  </div> \
+									  <!-- /Trade --\>');
+				});
+				$('#cargandoModal').modal('hide');
+        })
+				
 	}
 	
 	function showItemModal(itemId,uid){

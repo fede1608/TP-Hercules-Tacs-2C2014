@@ -165,15 +165,16 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					
 					TradeTL trade = new TradeTL(offeredItem, wantedItem);
 					
-					message.addProperty("wantedItemId",this.requestedItem());
-					message.addProperty("offeredItemId",offeredItemId);
-					message.addProperty("offeredItem",offeredItem != null? offeredItem.name:"null");
-					message.addProperty("wantedItem",wantedItem != null? wantedItem.name:"null");
+					
 					if(wantedItem!=null && offeredItem != null)
 					{
 						DBHandler.getInstance().save(trade);
 						message= JsonTL
 								.jsonifyInfo("El pedido de trueque se ha registrado con éxito");
+						message.addProperty("wantedItemId",this.requestedItem());
+						message.addProperty("offeredItemId",offeredItemId);
+						message.addProperty("offeredItem",offeredItem != null? offeredItem.name:"null");
+						message.addProperty("wantedItem",wantedItem != null? wantedItem.name:"null");
 					}
 				}else{
 					message=JsonTL.jsonifyError("ha ocurrido un error en la creacion del trato, ya sea porque se creo desde su propio usuario o un error inesperado");
