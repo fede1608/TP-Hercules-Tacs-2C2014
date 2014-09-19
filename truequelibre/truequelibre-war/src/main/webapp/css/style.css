@@ -979,7 +979,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 /*personal task*/
 
 .task-thumb {
-    width: 90px;
+    /*width: 90px;*/
     float: left;
 }
 
@@ -989,8 +989,8 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 }
 
 .task-thumb-details {
-    display: inline-block;
-    margin: 25px 0 0 10px;
+    /*display: inline-block;*/
+    margin: 35px 0 0 140px;
 }
 
 .task-progress {
@@ -1249,11 +1249,11 @@ h3.timeline-title {
     margin-top: 5px;
 }
 .timeline .timeline-date {
-    left: -200px;
+    left: -250px;
     position: absolute;
     text-align: right;
     top: 12px;
-    width: 150px;
+    width: 200px;
 }
 
 .timeline-desk h5 span {
@@ -1309,7 +1309,7 @@ h3.timeline-title {
 
 .timeline-item.alt .timeline-date {
     left: auto;
-    right: -200px;
+    right: -250px;
     text-align: left;
 }
 
