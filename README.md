@@ -42,14 +42,14 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 
 
 * ~~Como usuario quiero poder registrarme con mi cuenta de Facebook.~~
-* ~~Como usuario quiero poder publicar un item, buscando y seleccionando un artículo publicado en Mercado Libre a modo de referencia.~~ [API]
-* ~~Como usuario quiero ver los items publicados por mis amigos con su descripción e imagen correspondiente.~~ [API]
+* ~~Como usuario quiero poder publicar un item, buscando y seleccionando un artículo publicado en Mercado Libre a modo de referencia.~~ 
+* ~~Como usuario quiero ver los items publicados por mis amigos con su descripción e imagen correspondiente.~~ 
 * ~~Como usuario quiero enviar a un amigo una solicitud de trueque indicando un item publicado por él y uno publicado por mi.~~
-* Como usuario quiero poder aceptar o rechazar una solicitud de trueque que me haya sido enviada. 
+* ~~Como usuario quiero poder aceptar o rechazar una solicitud de trueque que me haya sido enviada.~~
 * ~~Como usuario quiero compartir la creación de un ítem en Facebook~~
 * ~~Como usuario quiero compartir un trueque aceptado en mi muro de Facebook.~~
 * ~~Como usuario quiero ver las solicitudes de trueque que me fueron enviadas.~~
-* ~~Como usuario quiero retirar de circulación un item que cree.~~ [API]
+* ~~Como usuario quiero retirar de circulación un item que cree.~~ 
 * ~~Como usuario quiero recibir una notificación en Facebook cuando alguien acepte un trueque que propuse.~~
 
 
@@ -78,5 +78,10 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 
 #Entrega 5 - Final (2 semanas)
 
+<<<<<<< HEAD
+* Entrega final del TP. ~~Cerrar historias que no hayan sido atacadas~~ + bonus.
+* ~~Se deben implementar todas las historias propuestas en el backlog.~~ A su vez se coordinará con el ayudante la inclusión de una o más historias extra.
+=======
 * Entrega final del TP. Cerrar historias que no hayan sido atacadas + bonus.
 * Se deben implementar todas las historias propuestas en el backlog. A su vez se coordinará con el ayudante la inclusión de una o más historias extra.
+>>>>>>> a406ca155a1c2895a26293883614c29b6fa3935b

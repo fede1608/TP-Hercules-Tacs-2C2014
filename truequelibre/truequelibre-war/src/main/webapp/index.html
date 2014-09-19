@@ -200,10 +200,10 @@
     function getOwnerName(item, uid){
     	var name;
     	if(item.owner == uid){
-    		name = "Agregaste"; 
+    		name = '<a href="profile.html">Agregaste</a>'; 
     	}
     	else{
-    		name = item.ownerName + " agrego";
+    		name = '<a href="profile.html?id='+item.owner+'">'+item.ownerName + "</a> agrego";
     	}
     	return name;
     }
@@ -219,7 +219,7 @@
     			function(item){
 				i = i + 1;
     			w = Math.random();
-				color="red";
+				color="light-green";
     			if(w > 0.66){
     				color = "light-green";
     			}
@@ -229,15 +229,15 @@
     				}
     			}
     			
-    			if(i % 2){
+    			if(i % 2){// mejorar: no repetir codigo 
 	    			$('#addedItemList').append(
 							'<article class="timeline-item">\
 	    					<div class="timeline-desk"><div class="panel"><div class="panel-body">\
 	        				<span class="arrow"></span>\
 	    					<span class="timeline-icon '+color+'"></span>\
 							<span class="timeline-date">'+getFormattedDate(item.dateCreated)+'</span>\
-	    					<h1 class="'+color+'">'+getOwnerName(item, uid)+' un nuevo item: '+item.name+'</h1>\
-	    					<img src="'+item.img+'" heigth="200" width="200">\
+	    					<h1 class="'+color+'">'+getOwnerName(item, uid)+' un nuevo item: <a href="profile.html?id='+item.owner+'&item='+item.itemId+'">'+item.name+'</a></h1>\
+	    					<div class="pro-thumb"><img src="'+item.img+'" heigth="200" width="200"> </div>\
 	    			</div></div></div></article>');
     			}
     			else{
@@ -247,8 +247,8 @@
             				<span class="arrow-alt"></span>\
         					<span class="timeline-icon '+color+'"></span>\
 							<span class="timeline-date">'+getFormattedDate(item.dateCreated)+'</span>\
-        					<h1 class="'+color+'">'+getOwnerName(item, uid)+' un nuevo item: '+item.name+'</h1>\
-        					<img src="'+item.img+'" heigth="200" width="200">\
+        					<h1 class="'+color+'">'+getOwnerName(item, uid)+' un nuevo item: <a href="profile.html?id='+item.owner+'&item='+item.itemId+'">'+item.name+'</a></h1>\
+        					<div class="pro-thumb"><img src="'+item.img+'" heigth="200" width="200"> </div>\
         			</div></div></div></article>');
     			}
     		});

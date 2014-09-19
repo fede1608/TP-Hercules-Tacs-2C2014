@@ -59,7 +59,7 @@ public class SearchResource extends ServerResource {
 		try {
 			JsonObject response = m.get("sites/MLA/search", params);
 			JsonArray results = response.getAsJsonArray("results");
-
+			json.addProperty("total", response.get("paging").getAsJsonObject().get("total").getAsLong());
 			for (int i = 0; i < results.size(); i++) {
 				JsonObject item = results.get(i).getAsJsonObject();
 				JsonObject searchItem = new JsonObject();
@@ -71,6 +71,7 @@ public class SearchResource extends ServerResource {
 				// imagen alta resolucion .....sad-O.jpg
 				searchItem.addProperty("img",getImageLarge(item.get("thumbnail").getAsString()));
 				searchItem.add("name", item.get("title"));
+				
 				search.add(searchItem);
 			}
 			json.add("search", search);

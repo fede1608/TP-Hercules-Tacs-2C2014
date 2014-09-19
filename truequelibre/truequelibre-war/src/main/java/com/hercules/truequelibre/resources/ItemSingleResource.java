@@ -156,10 +156,9 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 						throw new ItemNotExistsException(offeredItem.id.toString());
 					}
 					
-					if(ofy().load().type(TradeTL.class).filter("wantedItem.idRefML",wantedItem.idRefML)
-							.filter("offeredItem.idRefML", offeredItem.idRefML)
+					if(ofy().load().type(TradeTL.class).filter("wantedItemId",wantedItem.id)
+							.filter("offeredItemId", offeredItem.id)
 							.filter("state", 0).count()>0){
-						//Hack para consultar sobre dos items ya que no guarda el id del item dentro del trade (TODO: averiguar otra forma de consultarlo)
 						throw new Exception("No puedes Solicitar 2 veces el mismo trade.");
 					}
 					
