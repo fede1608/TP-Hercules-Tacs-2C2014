@@ -78,5 +78,10 @@ El TP constará de 5 entregas en las cuales de forma iterativa e incremental se 
 
 #Entrega 5 - Final (2 semanas)
 
+<<<<<<< HEAD
 * Entrega final del TP. ~~Cerrar historias que no hayan sido atacadas~~ + bonus.
 * ~~Se deben implementar todas las historias propuestas en el backlog.~~ A su vez se coordinará con el ayudante la inclusión de una o más historias extra.
+=======
+* Entrega final del TP. Cerrar historias que no hayan sido atacadas + bonus.
+* Se deben implementar todas las historias propuestas en el backlog. A su vez se coordinará con el ayudante la inclusión de una o más historias extra.
+>>>>>>> a406ca155a1c2895a26293883614c29b6fa3935b
