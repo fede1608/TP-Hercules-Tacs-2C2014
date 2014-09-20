@@ -109,7 +109,6 @@
 	}
 
 	$(document).ready(function() {
-	  debugger;
 	  $('#cargandoModal').modal('show');
  	  fbEnsureInit( function(response) {
 			var uid= userId;

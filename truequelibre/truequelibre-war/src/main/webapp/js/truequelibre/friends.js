@@ -29,7 +29,6 @@
 	}
 	
       $(document).ready(function() {
-		  debugger;
 		  $('#cargandoModal').modal('toggle');
 		  getFriends();
          

@@ -241,7 +241,6 @@ function getPendingTrades(){
 		  });
 		});
       $(document).ready(function() {
-		  debugger;
 		  $('#cargandoModal').modal('toggle');
 		  getPendingTrades();
          
