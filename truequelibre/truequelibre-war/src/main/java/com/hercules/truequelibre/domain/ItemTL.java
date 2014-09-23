@@ -67,11 +67,6 @@ public class ItemTL {
 	        return Lists.transform(reflist, (Func)Func.INSTANCE);
 	    }
 	}
-	
-	@Override
-	public boolean equals(Object o){
-		return ((ItemTL)o).id==this.id;
-	}
 
 	public void setUser(String userId) {
 		this.owner = userId;

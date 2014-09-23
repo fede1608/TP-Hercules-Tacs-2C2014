@@ -70,7 +70,7 @@ public class SingleTradeResource extends ServerResource {
 			}
 			if (trade.wantedItem.owner.equals(user.getId())) {
 				trade.accept();
-				FacebookDataCollector.getInstance().sendNotification(trade.offeredItem.owner, "@["+user.getId()+"] ha aceptado tu solicitud de intercambio.");
+				FacebookDataCollector.getInstance().sendNotification(trade.offeredItem.owner, "@["+user.getId()+"] ha aceptado tu solicitud de intercambio.","historial.html");
 			} else {
 				throw new Exception(
 						"El trade solicitado no es del usuario o no tiene permisos sobre el mismo.");

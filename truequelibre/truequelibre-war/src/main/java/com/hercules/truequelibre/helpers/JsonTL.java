@@ -25,6 +25,26 @@ public class JsonTL {
 		return json;
 	}
 
+	public static String getImageLarge(String url){ //TODO encontrar un mejor lugar para alojar este metodo
+		// el search solo me da el thumbnail, para obtener la imagen con
+		// resolucion alta hay que cambiar el
+		// formato de imagen thumbnail:
+		// http://mla-s2-p.mlstatic.com/18799-MLA20160634057_092014-I.jpg,
+		//  a formato de imagen alta resolucion:
+		// http://mla-s2-p.mlstatic.com/18799-MLA20160634057_092014-O.jpg
+		if(url.length()>5)
+			return url.substring(0,url.length() - 5).concat("O.jpg");//cambia la I por la O
+		else
+			return "http://static.mlstatic.com/org-img/original/MLA/artsinfoto.gif";// en caso que no tenga una imagen 
+	}
+	
+	public static JsonObject jsonifySearchItem(JsonObject item){	
+		JsonObject searchItem = new JsonObject();
+		searchItem.add("id", item.get("id"));
+		searchItem.addProperty("img",getImageLarge(item.get("thumbnail").getAsString()));
+		searchItem.add("name", item.get("title"));
+		return searchItem;
+	}
 	public static JsonObject jsonifyError(String error){
 		return jsonifyError(error,404);
 	}

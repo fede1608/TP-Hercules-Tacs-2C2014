@@ -142,7 +142,7 @@ public class FacebookDataCollector {
 		}
 		return friends;
 	}
-	public void sendNotification(String externalUserId, String message) {
+	public void sendNotification(String externalUserId, String message, String href) {
 	    AccessToken appAccessToken = new DefaultFacebookClient()
 	            .obtainAppAccessToken(FbProperties.getInstance().appId, FbProperties.getInstance().appSecret);
 	    FacebookClient facebookClient = new DefaultFacebookClient(
@@ -151,7 +151,7 @@ public class FacebookDataCollector {
 	        facebookClient.publish(externalUserId
 	                + "/notifications", FacebookType.class,
 	                Parameter.with("template", message),
-	                Parameter.with("href", "historial.html"));
+	                Parameter.with("href", href));
 	    } catch (FacebookOAuthException e) {
 	        if (e.getErrorCode() == 200) {
 	            //Not an app user

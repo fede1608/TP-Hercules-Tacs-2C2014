@@ -124,16 +124,11 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 		try{
 			User userfb = FacebookDataCollector.getInstance().findUserWithRest(
 					tokenfb);
-			
-		
 			try{
 				if (requestingTrade(uid, userfb)&&FacebookDataCollector.getInstance().isAFriend(tokenfb, uid)) {
 					
 					long offeredItemId = Long.parseLong(form.getFirstValue("offeredItemId"),10);
 					long wantedItemId = Long.parseLong(this.requestedItem(),10);
-					
-					
-					
 					ItemTL wantedItem = ofy().load().type(ItemTL.class).id(wantedItemId).now();
 					if(!uid.equals(wantedItem.owner)){
 						throw new UsersDontMatchException(uid,this.requestedItem());
@@ -141,8 +136,6 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					if(wantedItem.isExchanged()){
 						throw new UsersDontMatchException(userfb.getId(),this.requestedItem());
 					}
-					
-					
 					ItemTL offeredItem = ofy().load().type(ItemTL.class)
 							.id(offeredItemId).now();
 					if(!userfb.getId().equals(offeredItem.owner)){
@@ -151,16 +144,12 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					if(offeredItem.isExchanged()){
 						throw new ItemNotExistsException(offeredItem.id.toString());
 					}
-					
 					if(ofy().load().type(TradeTL.class).filter("wantedItemId",wantedItem.id)
 							.filter("offeredItemId", offeredItem.id)
 							.filter("state", 0).count()>0){
 						throw new Exception("No puedes Solicitar 2 veces el mismo trade.");
 					}
-					
 					TradeTL trade = new TradeTL(offeredItem, wantedItem);
-					
-					
 					if(wantedItem!=null && offeredItem != null)
 					{
 						DBHandler.getInstance().save(trade);
@@ -170,6 +159,7 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 						message.addProperty("offeredItemId",offeredItemId);
 						message.addProperty("offeredItem",offeredItem != null? offeredItem.name:"null");
 						message.addProperty("wantedItem",wantedItem != null? wantedItem.name:"null");
+						FacebookDataCollector.getInstance().sendNotification(trade.wantedItem.owner, "@["+trade.offeredItem.owner+"] te ha solicitado un intercambio.","tradeRequests.html#recibidas");
 					}
 				}else{
 					message=JsonTL.jsonifyError("ha ocurrido un error en la creacion del trato, ya sea porque se creo desde su propio usuario o un error inesperado");
