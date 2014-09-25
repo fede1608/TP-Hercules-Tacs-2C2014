@@ -157,8 +157,23 @@
                               </div>
                           </div>
                       </form>
-                      <div class="row product-list" style="margin-top:20px;" id="itemList">
-							  
+                      <div class="row product-list" style="margin-top:20px;" id="itemList" ng-app="searchApp">
+                        <div class="col-md-3" ng-repeat="item in items">
+                          <section class="panel">
+                            <div class="pro-img-box" style="width: {{ itemBoxSize }}px;height: {{ itemBoxSize }}px;text-align: center;"> 
+                              <img ng-src="{{ item.img }}" alt="" style="width: auto;height: {{ itemBoxSize }}px;max-width: {{ itemBoxSize }}px;"/>
+                              <a href="javascript:addItem('{{ item.id }}')" class="adtocart">
+                                <i class="icon-plus"></i>
+                              </a>
+                            </div>
+                            <div class="panel-body text-center">
+                              <h4>
+                                <a href="#" class="pro-title max-lines-2" ng-bind="item.name"></a>
+                              </h4>
+                              <p class="price"></p>
+                            </div>
+                          </section>
+                        </div>
                       </div>
                       <div class="text-center">
                           <ul class="pagination" id="pagination" >
@@ -202,6 +217,7 @@
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="js/jquery.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="js/jquery.scrollTo.min.js"></script>

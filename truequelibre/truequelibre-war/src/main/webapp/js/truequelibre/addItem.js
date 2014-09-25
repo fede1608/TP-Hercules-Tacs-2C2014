@@ -1,3 +1,13 @@
+angular.module( 'searchApp', [] )
+.config( [
+    '$compileProvider',
+    function( $compileProvider )
+    {   
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|javascript):/);
+        // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+    }
+]);
+
 function paginate(totalCount){
 		$("#pagination").paging(totalCount, {
 			format: '< nncnn >',
@@ -44,14 +54,10 @@ function paginate(totalCount){
 		}else{
 		   itemBoxSize= ($('#panel').width()-80)/4;
 		}
-		$('#itemList').empty();
-		data.search.forEach(function(item){
-			$('#itemList').append('<div class="col-md-3"><section class="panel">\
-			<div class="pro-img-box" style="width: '+itemBoxSize+'px;height: '+itemBoxSize+'px;text-align: center;"> \
-			<img src="'+item.img+'" alt="" style="width: auto;height: '+itemBoxSize+'px;max-width: '+itemBoxSize+'px;"/>\
-			<a href="javascript:addItem(\''+item.id+'\')" class="adtocart"><i class="icon-plus"></i></a></div><div class="panel-body text-center">\
-			<h4><a href="#" class="pro-title max-lines-2">'+item.name+'</a></h4><p class="price"></p></div></section></div>');
-		});
+		angular.element($("#itemList")).scope().$apply(function(scope){
+	        scope.itemBoxSize = itemBoxSize;
+	        scope.items = data.search;
+	    });
 	}
 	
 	function searchItems(query){
