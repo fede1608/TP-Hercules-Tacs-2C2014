@@ -162,7 +162,7 @@
                           <section class="panel">
                             <div class="pro-img-box" style="width: {{ itemBoxSize }}px;height: {{ itemBoxSize }}px;text-align: center;"> 
                               <img ng-src="{{ item.img }}" alt="" style="width: auto;height: {{ itemBoxSize }}px;max-width: {{ itemBoxSize }}px;"/>
-                              <a href="javascript:addItem('{{ item.id }}')" class="adtocart">
+                              <a ng-href="javascript:addItem('{{ item.id }}')" class="adtocart">
                                 <i class="icon-plus"></i>
                               </a>
                             </div>

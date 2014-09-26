@@ -1,35 +1,21 @@
 
-		function getFriends(){
-		
-		$.getJSON('/api/friends', function (data) {
-				console.log(data);
-				//var itemBoxSize= ($('#panel').width()-80)/4;
-				$('#friendList').empty();
-				data.friends.forEach(function(friend){
-					$('#friendList').append('<!--follower start--\>'+
-							'<div class="col-md-3">'+
-                              '<section class="panel">'+
-                                  '<div class="follower">'+
-                                      '<div class="panel-body">'+
-                                          '<h4>'+friend.name+'</h4>'+
-                                          '<div class="follow-ava">'+
-                                              '<img src="'+friend.profilePic+'" alt="">'+
-                                          '</div>'+
-                                      '</div>'+
-                                  '</div>'+
-                                  '<footer class="follower-foot">'+
-                                      '<a href="/profile.html?id='+friend.id+'" class="btn btn-shadow btn-info" style="width:70%;margin-left:15%;margin-right:14%;margin-top: 5px;margin-bottom: 10px;">Items</button>'+
-                                  '</footer>'+
-                              '</section>'+                        
-                          '</div>'+
-						  '<!--follower end--\>');
-				});
-                $('#cargandoModal').modal('toggle');
-        })
-	}
-	
-      $(document).ready(function() {
-		  $('#cargandoModal').modal('toggle');
-		  getFriends();
-         
-      });
+angular.module( 'friendsApp', [] )
+.config( [
+  '$compileProvider',
+  function( $compileProvider )
+  {   
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|javascript):/);
+        // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+      }
+      ]);
+
+
+function friendsController($scope) {
+  $('#cargandoModal').modal('toggle');
+  $.getJSON('/api/friends', function (data) {
+    console.log(data);
+    $scope.friends = data.friends;
+    $scope.$apply();
+    $('#cargandoModal').modal('toggle');
+  })
+}
