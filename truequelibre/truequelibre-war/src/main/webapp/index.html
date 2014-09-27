@@ -155,7 +155,7 @@
                     <div class="panel-body">
                       <span ng-class-odd="'arrow'" ng-class-even="'arrow-alt'"></span>
                       <span class="timeline-icon {{ item.color }}"></span>
-                      <span class="timeline-date" ng-bing="getFormattedDate(item.dateCreated)"></span>
+                      <span class="timeline-date" ng-bind="formatDate(item.dateCreated)"></span>
                       <div class="panel-body"> 
                         <div class="task-thumb pro-thumb"> 
                           <img ng-src="{{ item.img }}" > 
