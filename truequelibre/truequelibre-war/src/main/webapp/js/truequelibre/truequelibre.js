@@ -22,7 +22,7 @@ if(getCookie("accessToken")==null){
 		setCookie("userID",response.authResponse.userID);
 		userId=response.authResponse.userID;
 		token=response.authResponse.accessToken;
-      testAPI();
+      initializeBar();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       window.location = "login.html";
@@ -84,14 +84,14 @@ if(getCookie("accessToken")==null){
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
+  function initializeBar() {
     console.log('Welcome!  Fetching your information.... ');
-    debugger;
+    //debugger;
 	
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
       console.log(response);
-      debugger;
+      //debugger;
       document.getElementById('profile_name').innerHTML = response.name;
     });
 	FB.api("/me/picture?width=18&height=20",  function(response) {
