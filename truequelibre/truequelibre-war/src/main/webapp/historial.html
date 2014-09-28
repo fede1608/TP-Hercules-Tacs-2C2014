@@ -220,7 +220,7 @@
                               <div class="pro-thumb" style="margin:20px">
                                 <img ng-src="{{ trade.offeredItem.img }}" alt="" style="width: 80px;height:80px;"> 
                               </div> 
-                              <button id="showTradeLink" class="btn btn-info" ng-click="javascript:shareTradeOnFb({{ trade.id }},false);" style="margin-left: 19%;">
+                              <button id="showTradeLink" class="btn btn-info" ng-click="shareOnFB(trade.id,false);" style="margin-left: 19%;">
                                 <i class="icon-facebook"></i> Compartir
                               </button> 
                               <div class="pro-thumb pull-right" style="margin:20px">
@@ -256,7 +256,7 @@
                             <div class="pro-thumb" style="margin:20px">
                               <img ng-src="{{ trade.offeredItem.img }}" alt="" style="width: 80px;height:80px;"> 
                             </div> 
-                            <button id="showTradeLink" class="btn btn-info" ng-click="javascript:shareTradeOnFb({{ trade.id }},true);" style="margin-left: 19%;">
+                            <button id="showTradeLink" class="btn btn-info" ng-click="shareOnFB(trade.id,true);" style="margin-left: 19%;">
                               <i class="icon-facebook"></i> Compartir
                             </button> 
                             <div class="pro-thumb pull-right" style="margin:20px">
@@ -367,7 +367,7 @@
             <h1 id="showItemTitulo" >Celular Liberado Mini S3 Android 4 Dualsim Wifi Tv Bluetooth</h1>
             <p></p>
             <a href="#">
-              <img id="showItemImagen" src="http://mla-s2-p.mlstatic.com/13227-MLA20074014007_042014-O.jpg" alt="">
+              <img id="showItemImagen" src="https://mla-s2-p.mlstatic.com/13227-MLA20074014007_042014-O.jpg" alt="">
             </a>
           </div>
           <div class="weather-category twt-category">
@@ -412,7 +412,7 @@
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="js/jquery.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script class="include" type="text/javascript" src="js/jquery.dcjqaccordion.2.7.js"></script>
 <script src="js/jquery.scrollTo.min.js"></script>
