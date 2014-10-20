@@ -1,3 +1,14 @@
+angular.module( 'pendingTradesApp', [] )
+.config( [
+    '$compileProvider',
+    function( $compileProvider )
+    {   
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|javascript):/);
+        // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+    }
+]);
+
+
 function getPendingTrades(){
 		
 		$.getJSON('/api/pendingTrades', function (data) {
@@ -209,7 +220,7 @@ function getPendingTrades(){
 								  	            // (string | mandatory) the heading of the notification
 								  	            title: 'En otra oportunidad...',
 								  	            // (string | mandatory) the text inside the notification
-								  	            text: 'Has rechazado el trueque',
+								  	            text: 'Has rechazado/cancelado el trueque',
 								  	            // (string | optional) the image to display on the left
 								  	          
 								  	            // (bool | optional) if you want it to fade out on its own or just sit there
