@@ -273,13 +273,7 @@ function getPendingTrades(){
         $scope.sentTradeRequests = data.sentTradeRequests;
         $scope.receivedTradeRequests = data.receivedTradeRequests;
         $scope.$apply();
-        angular.element($("#tradeList")).scope().$apply(function(scope){
-	        scope.sentTradeRequests = data.sentTradeRequests; 
-	    });
-        
-          angular.element($("#tradeList2")).scope().$apply(function(scope){
-	        scope.receivedTradeRequests = data.receivedTradeRequests;
-	    });
+
         $('#cargandoModal').modal('toggle');
       })
     }
