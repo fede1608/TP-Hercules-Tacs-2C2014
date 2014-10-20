@@ -8,7 +8,7 @@ angular.module( 'pendingTradesApp', [] )
     }
 ]);
 
-
+/*
 function getPendingTrades(){
 		
 		$.getJSON('/api/pendingTrades', function (data) {
@@ -167,7 +167,7 @@ function getPendingTrades(){
                 
                 
         })
-	}
+	}*/
 		function acceptTrade(id)
 		{
 			bootbox.confirm("¿Seguro/a quieres aceptar este trueque?", 
@@ -250,9 +250,36 @@ function getPendingTrades(){
 			window.location.hash = this.hash;
 			$('html,body').scrollTop(scrollmem);
 		  });
-		});
+		});/*
       $(document).ready(function() {
 		  $('#cargandoModal').modal('toggle');
 		  getPendingTrades();
          
-      });
+      });*/
+
+
+/*
+    function setModel() {
+        angular.element($("#tradeList")).scope().$apply(function(scope){
+	        scope.itemBoxSize = itemBoxSize;
+	        scope.items = data.search;
+	    });
+    }*/
+    function pendingTradesController($scope) {
+      $('#cargandoModal').modal('toggle');
+      $.getJSON('/api/pendingTrades', function (data) {
+      
+        console.log(data);
+        $scope.sentTradeRequests = data.sentTradeRequests;
+        $scope.receivedTradeRequests = data.receivedTradeRequests;
+        $scope.$apply();
+        angular.element($("#tradeList")).scope().$apply(function(scope){
+	        scope.sentTradeRequests = data.sentTradeRequests; 
+	    });
+        
+          angular.element($("#tradeList2")).scope().$apply(function(scope){
+	        scope.receivedTradeRequests = data.receivedTradeRequests;
+	    });
+        $('#cargandoModal').modal('toggle');
+      })
+    }
