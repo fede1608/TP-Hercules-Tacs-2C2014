@@ -14,6 +14,11 @@ function friendsController($scope) {
   $('#cargandoModal').modal('toggle');
   $.getJSON('/api/friends', function (data) {
     console.log(data);
+    if(data.status==404){
+      alert(data.error);
+    }else if(data.status==401){
+      document.location.reload();
+    }
     $scope.friends = data.friends;
     $scope.$apply();
     $('#cargandoModal').modal('toggle');

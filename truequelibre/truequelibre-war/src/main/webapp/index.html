@@ -149,11 +149,11 @@
               <p class="t-info">Últimos items agregados</p>
             </div>
             <div class="timeline" id="addedItemList" ng-app="feedApp" ng-controller="feedController">
-              <article ng-class-odd="'timeline-item alt'" ng-class-even="'timeline-item'" " ng-repeat="item in items">
+              <article ng-class-odd="'timeline-item alt'" ng-class-even="'timeline-item'" ng-repeat="item in items">
                 <div class="timeline-desk"> 
                   <div class="panel"> 
                     <div class="panel-body">
-                      <span ng-class-odd="'arrow'" ng-class-even="'arrow-alt'"></span>
+                      <span ng-class-even="'arrow'" ng-class-odd="'arrow-alt'"></span>
                       <span class="timeline-icon {{ item.color }}"></span>
                       <span class="timeline-date" ng-bind="formatDate(item.dateCreated)"></span>
                       <div class="panel-body"> 

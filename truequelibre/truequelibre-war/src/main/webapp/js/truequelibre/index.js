@@ -35,6 +35,11 @@ function feedController($scope) {
     $('#cargandoModal').modal('show');
     $.getJSON('/api/feed', function (data) {
         console.log(data);
+        if(data.status==404){
+            alert(data.error);
+        }else if(data.status==401){
+            document.location.reload();
+        }
         var w = 0;
         data.items.forEach(
             function(item){

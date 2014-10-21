@@ -54,7 +54,7 @@ if(getCookie("accessToken")==null){
     xfbml      : true,  // parse social plugins on this page
     version    : 'v2.1' // use version 2.1
   });
-    
+
   // Now that we've initialized the JavaScript SDK, we call 
   // FB.getLoginStatus().  This function gets the state of the
   // person visiting this page and can return one of three states to
@@ -70,7 +70,7 @@ if(getCookie("accessToken")==null){
   FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
   });
-  
+
 };
 
   // Load the SDK asynchronously
@@ -87,7 +87,7 @@ if(getCookie("accessToken")==null){
   function initializeBar() {
     console.log('Welcome!  Fetching your information.... ');
     //debugger;
-    
+
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
       console.log(response);
@@ -180,24 +180,29 @@ function timeConverter(UNIX_timestamp){
      var time = date + '-' + month + '-' + year; //+ ' ' + hour + ':' + min + ':' + sec ;
      return time;
    }
-   
+
    function getFormattedDate(UNIX_timestamp){
      var date = new Date(UNIX_timestamp*1000);
      var months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
      return date.getDate()+' de '+months[date.getMonth()] +' de '+date.getFullYear()  +' a las '+(date.getHours()<10?('0'+date.getHours()):date.getHours()) + ':' + ((date.getMinutes()<10)?('0'+date.getMinutes()):date.getMinutes());
    }
-   
+
 function shareOnFb(itemId){ //fuente: http://www.walkswithme.net/facebook-share-button-with-custom-parameters
 	$('#cargandoModal').modal('show');
  $.getJSON('/api/users/'+userId+'/items/'+itemId, function (data) {
    console.log(data);
-   var product_name   = 	'¡He agregado un nuevo item en TruequeLibre!';
-   var description	   =	'Entra a mi perfil para ver mi nuevo item! TruequeLibre es una plataforma de intercambio directo de artículos libre de impuestos. La más utilizada en LatinoAmérica!';
-   var share_image	   =	data.img;
-   var share_url	   =	'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId;	
-   var share_capt     =    data.name;
-   $('#cargandoModal').modal('hide');
-   FB.ui({
+   if(data.status==404){
+    alert(data.error);
+  }else if(data.status==401){
+    document.location.reload();
+  }
+  var product_name   = 	'¡He agregado un nuevo item en TruequeLibre!';
+  var description	   =	'Entra a mi perfil para ver mi nuevo item! TruequeLibre es una plataforma de intercambio directo de artículos libre de impuestos. La más utilizada en LatinoAmérica!';
+  var share_image	   =	data.img;
+  var share_url	   =	'https://hercules-tacs.appspot.com/profile.html?id='+userId+'&item='+itemId;	
+  var share_capt     =    data.name;
+  $('#cargandoModal').modal('hide');
+  FB.ui({
     method: 'feed',
     name: product_name,
     link: share_url,
@@ -206,9 +211,9 @@ function shareOnFb(itemId){ //fuente: http://www.walkswithme.net/facebook-share-
     description: description
 
   }, function(response){});
-   
-   
- });
+
+
+});
 }
 
 function shareTradeOnFb(tradeId, tradeSolicitado){ //fuente: http://www.walkswithme.net/facebook-share-button-with-custom-parameters
@@ -242,14 +247,19 @@ function shareTradeOnFb(tradeId, tradeSolicitado){ //fuente: http://www.walkswit
     description: description
 
   }, function(response){});
-  
-  
+
+
 });
 }
 
 function loadNotifications(){
 	$.getJSON('/api/pendingTrades', function (data) {
     console.log(data);
+    if(data.status==404){
+      alert(data.error);
+    }else if(data.status==401){
+      document.location.reload();
+    }
     $('#header_inbox_bar').find( "span.badge" ).html(data.receivedTradeRequests.length);
     $('#header_inbox_bar').find( "ul" ).empty();
     $('#header_inbox_bar').find( "ul" ).append('<div class="notify-arrow notify-arrow-red"></div> \
