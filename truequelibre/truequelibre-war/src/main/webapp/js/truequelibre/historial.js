@@ -24,6 +24,11 @@ function historialController($scope) {
 		$('#cargandoModal').modal('show');
 		$.getJSON('/api/pendingTrades/'+tradeId, function (data) {
 			console.log(data);
+			if(data.status==404){
+				alert(data.error);
+			}else if(data.status==401){
+				document.location.reload();
+			}
 			var otherPerson;
 			var myItem;
 			var otherItem;
@@ -57,12 +62,22 @@ function historialController($scope) {
 }
 $.getJSON('/api/pendingTrades', { state : 1 } , function (data) {
 	console.log(data);
+	if(data.status==404){
+		alert(data.error);
+	}else if(data.status==401){
+		document.location.reload();
+	}
 	$scope.receivedTrades=data.receivedTradeRequests;
 	$scope.sentTrades=data.sentTradeRequests;    
 	$scope.$apply();
 })
 $.getJSON('/api/pendingTrades', { state : 2 } , function (data) {
 	console.log(data);
+	if(data.status==404){
+		alert(data.error);
+	}else if(data.status==401){
+		document.location.reload();
+	}
 	$scope.rejectedReceivedTrades=data.receivedTradeRequests;
 	$scope.rejectedSentTrades=data.sentTradeRequests;
 	$scope.$apply();
@@ -75,6 +90,11 @@ function showItemModal(itemId,uid){
 	$('#cargandoModal').modal('show');
 	$.getJSON('/api/users/'+uid+'/items/'+itemId, function (data) {
 		console.log(data);
+		if(data.status==404){
+			alert(data.error);
+		}else if(data.status==401){
+			document.location.reload();
+		}
 		$('#showItemTitulo').html(data.name);
 		$('#showItemImagen').attr("src",data.img);
 		$('#showItemFecha').html(timeConverter(data.dateCreated));
@@ -89,6 +109,11 @@ $(document).ready(function() {
 		var uid= userId;
 		$.getJSON('/api/users/'+uid, function (data) {
 			console.log(data);
+			if(data.status==404){
+				alert(data.error);
+			}else if(data.status==401){
+				document.location.reload();
+			}
 			document.getElementById('profile_name2').innerHTML = data.name;
 			document.getElementById('profile_photo2').setAttribute('src', data.profilePic);
 		})
