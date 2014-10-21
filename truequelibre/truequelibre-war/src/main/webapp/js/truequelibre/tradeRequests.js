@@ -8,16 +8,6 @@ angular.module( 'pendingTradesApp', [] )
     }
 ]);
 
-angular.module( 'pendingTradesApp2', [] )
-.config( [
-    '$compileProvider',
-    function( $compileProvider )
-    {   
-        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|javascript):/);
-        // Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
-    }
-]);
-
 
 /*
 function getPendingTrades(){
