@@ -8,6 +8,7 @@ angular.module( 'pendingTradesApp', [] )
     }
 ]);
 
+
 /*
 function getPendingTrades(){
 		
