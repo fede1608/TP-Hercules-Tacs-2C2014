@@ -63,11 +63,11 @@ public class DBHandler {
 	public void cancelAndDeclineTrades(long itemId){
 		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
 				.filter("offeredItemId",itemId)
-				.filter("state",0).list();
+				.filter("stateManager.current",0).list();
 		
 		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
 				.filter("wantedItemId",itemId)
-				.filter("stateTL.current",0).list();
+				.filter("stateManager.current",0).list();
 		Iterator<TradeTL> iterator = pendingOfferedTrades.iterator();
 		while(iterator.hasNext()){
 			TradeTL trade= iterator.next();
