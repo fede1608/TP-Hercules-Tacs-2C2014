@@ -67,7 +67,7 @@ public class DBHandler {
 		
 		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class)
 				.filter("wantedItemId",itemId)
-				.filter("state",0).list();
+				.filter("stateTL.current",0).list();
 		Iterator<TradeTL> iterator = pendingOfferedTrades.iterator();
 		while(iterator.hasNext()){
 			TradeTL trade= iterator.next();
@@ -76,7 +76,7 @@ public class DBHandler {
 		iterator = pendingReceivedTrades.iterator();
 		while(iterator.hasNext()){
 			TradeTL trade= iterator.next();
-			trade.decline();;
+			trade.decline();
 		}
 	}
 }

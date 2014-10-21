@@ -238,7 +238,7 @@
                              </div>
                              <div class="row">
                               <div class="col-md-10"></div>
-                              <a href="javascript:rejectTrade('{{trade.id}}')" type="button" class="btn btn-round btn-danger">Cancelar</a>
+                              <a ng-href="javascript:rejectTrade('{{trade.id}}')" type="button" class="btn btn-round btn-danger">Cancelar</a>
                               </div>
                             
                           </section>
@@ -305,7 +305,7 @@
                               <aside class="post-highlight yellow v-align">
                                 <div class="panel-body text-center">
                                   <div class="pro-thumb">
-                                    <img src=' {{ trade.wantedItem.img }}' alt="">
+                                    <img ng-src=' {{ trade.wantedItem.img }}' alt="">
                                   </div>
                                 </div>
                               </aside>
@@ -326,8 +326,8 @@
                             </div>
                             <div class="row">
                               <div class="col-md-10"></div>
-                              <a href="javascript:acceptTrade(\'{{trade.id}}\')" type="button" class="btn btn-round btn-success">Aceptar</a>
-                              <a href="javascript:rejectTrade(\'{{trade.id}}\')" type="button" class="btn btn-round btn-danger">Rechazar</a>
+                              <a ng-href="javascript:acceptTrade('{{trade.id}}')" type="button" class="btn btn-round btn-success">Aceptar</a>
+                              <a ng-href="javascript:rejectTrade('{{trade.id}}')" type="button" class="btn btn-round btn-danger">Rechazar</a>
                             </div>
 
                           </section>

@@ -39,11 +39,11 @@ public class PendingTradesResource extends ServerResource{
 		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsHashMapWithUser(token);
 		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class).order("-date")
 				.filter("offeredItem.owner",user.getId())
-				.filter("state",state).list();
+				.filter("stateManager.current",state).list();
 		
 		List<TradeTL> pendingReceivedTrades = ofy().load().type(TradeTL.class).order("-date")
 				.filter("wantedItem.owner",user.getId())
-				.filter("state",state).list();
+				.filter("stateManager.current",state).list();
 		
 		message.add("receivedTradeRequests", JsonTL.tradesToJsonArray(pendingReceivedTrades,friends));
 		message.add("sentTradeRequests", JsonTL.tradesToJsonArray(pendingOfferedTrades,friends));

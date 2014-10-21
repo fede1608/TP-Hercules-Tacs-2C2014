@@ -146,7 +146,7 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 					}
 					if(ofy().load().type(TradeTL.class).filter("wantedItemId",wantedItem.id)
 							.filter("offeredItemId", offeredItem.id)
-							.filter("state", 0).count()>0){
+							.filter("stateManager.current", 0).count()>0){
 						throw new Exception("No puedes Solicitar 2 veces el mismo trade.");
 					}
 					TradeTL trade = new TradeTL(offeredItem, wantedItem);

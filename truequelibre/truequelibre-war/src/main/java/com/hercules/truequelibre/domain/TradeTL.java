@@ -18,10 +18,11 @@ public class TradeTL {
 	long offeredItemId;//Hack para poder hacer query a los trades por id de item
 	@Index
 	long wantedItemId;//Hack para poder hacer query a los trades por id de item
-	@Index
-	int state; //Pensar mejor solución?   0: pending, 1: accepted, 2: declined, 3: cancelled
+	
 	@Index
 	public long date;
+	
+	private TradeStateTL stateManager;
 	
 	public TradeTL(){
 		
@@ -32,43 +33,39 @@ public class TradeTL {
 		this.wantedItem = wantedItem;
 		this.offeredItemId= offeredItem.id;
 		this.wantedItemId= wantedItem.id;
-		this.state = 0;
+		this.stateManager = new TradeStateTL();
 		this.date =  System.currentTimeMillis() / 1000L;
 	}
 	
-	public int getState(){
-		return this.state;
+	public int getState() {
+		return this.stateManager.getCurrent();
 	}
-/*  pensar toda esta parte bien*/
 	public void accept() {
 	
-		//guarda el estado para que no cancele y decline el trade
-		//cancelar y rechazar trades item ofrecido y solicitado
-		//settear los items como intercambiados
-		this.state = 1;
+		this.stateManager.accept();
+
 		DBHandler.getInstance().save(this);
-		getOfferedItem().exchanged=true;
-		getWantedItem().exchanged=true;
-		DBHandler.getInstance().save(getOfferedItem());
-		DBHandler.getInstance().save(getWantedItem());
+		ItemTL offeredItem2 = getOfferedItem();
+		ItemTL wantedItem2 = getWantedItem();
+
+		offeredItem2.exchanged=true;
+		wantedItem2.exchanged=true;
+		DBHandler.getInstance().save(offeredItem2);
+		DBHandler.getInstance().save(wantedItem2);
 		DBHandler.getInstance().cancelAndDeclineTrades(offeredItemId);
 		DBHandler.getInstance().cancelAndDeclineTrades(wantedItemId);
 	}
 	
 	public void decline() {
 	
-		this.state = 2; 
+		this.stateManager.decline();
+
 		DBHandler.getInstance().save(this);
 	}
 	public void cancel() {
-		this.state = 3;
+		this.stateManager.cancel();
 		DBHandler.getInstance().save(this);
 	}
-	
-/****************************************/
-
-	
-
 
 	public ItemTL getOfferedItem() {
 		return offeredItem;
@@ -82,9 +79,9 @@ public class TradeTL {
 	
 	
 	@Override
-	public String toString() //todo mover a clase Estado
+	public String toString()
 	{
-		String estado = this.state==0 ? "pending" : this.state ==1? "accepted" : this.state == 2? "declined" : "cancelled"; 
+		String estado = this.getState()==0 ? "pending" : this.getState() ==1? "accepted" : this.getState() == 2? "declined" : "cancelled"; 
 		return "wanted: " + this.getWantedItem().id.toString() + " - offered: " + this.getOfferedItem().id.toString() + " state: " 
 				+ estado;
 				
