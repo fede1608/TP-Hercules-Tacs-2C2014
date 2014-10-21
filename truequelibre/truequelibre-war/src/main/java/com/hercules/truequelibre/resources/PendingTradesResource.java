@@ -50,7 +50,7 @@ public class PendingTradesResource extends ServerResource{
 		}catch(FacebookOAuthException e) {
 
 			message = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",JsonTL.UNAUTHORIZED);
 		}
 		return new StringRepresentation(message.toString(), MediaType.APPLICATION_JSON);
 	}

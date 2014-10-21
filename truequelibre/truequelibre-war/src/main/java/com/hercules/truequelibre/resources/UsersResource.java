@@ -49,7 +49,7 @@ public class UsersResource extends ParameterGathererTemplateResource {
 		}catch(FacebookOAuthException e) {
 
 			json = JsonTL
-					.jsonifyError("El token esta desactualizado. Por favor actualícelo.",401);
+					.jsonifyError("El token esta desactualizado. Por favor actualícelo.",JsonTL.UNAUTHORIZED);
 		}
 		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}

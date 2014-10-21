@@ -58,7 +58,7 @@ public class ItemSingleResource extends ParameterGathererTemplateResource {
 		} catch (FacebookOAuthException e) {
 
 			json = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",JsonTL.UNAUTHORIZED);
 		}catch(NumberFormatException e){
 			json=JsonTL.jsonifyError("el codigo del item debe ser un numero");
 		}

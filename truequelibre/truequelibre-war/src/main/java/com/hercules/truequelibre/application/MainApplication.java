@@ -59,48 +59,6 @@ public class MainApplication extends Application {
 		
 		Restlet mainpage = new Restlet() {
 			
-			
-			@Override
-			public void handle(Request request, Response response) {
-				
-
-				StringBuilder stringBuilder = new StringBuilder();
-				
-				stringBuilder.append("<html>");
-				stringBuilder.append("<head><title>Hello Application "
-						+ "Servlet Page</title></head>");
-				stringBuilder.append("<body bgcolor=white>");
-				stringBuilder.append("<table border=\"0\">");
-				stringBuilder.append("<tr>");
-				stringBuilder.append("<td>");
-				stringBuilder.append("<h3>available REST calls</h3>");
-				stringBuilder
-						.append("<ol><form name=\"search\" "
-								+ "action=\"/api/search\""
-								+ "method=\"get\">"
-								+ "<input type=\"text\" name=\"query\">"
-								+ "<input type=\"submit\" value=\"Search\"> </form></a> --> returns search results for input criteria");
-				stringBuilder.append("</ol>");
-				stringBuilder.append("</td>");
-				
-				stringBuilder
-				.append("<ol><form name=\"tradeproposal\" "
-						+ "action=\"REPLACED BY JAVASCRIPT"
-						+ "method=\"post\">"
-						+ "User <input type=\"text\" name=\"userId\">"
-						+ "Item <input type=\"text\" name=\"itemId\">"
-						+ "<input type=\"button\" value=\"Propose trade\"> </form></a> --> Proposes a trade");
-				stringBuilder.append("</ol>");
-		
-				
-				stringBuilder.append("</tr>");
-				stringBuilder.append("</table>");
-				stringBuilder.append("</body>");
-				stringBuilder.append("</html>");
-
-				response.setEntity(new StringRepresentation(stringBuilder
-						.toString(), MediaType.TEXT_HTML));
-			}
 		};
 		router.attach("", mainpage);
 

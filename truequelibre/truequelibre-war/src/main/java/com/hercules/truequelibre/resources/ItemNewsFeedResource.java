@@ -51,7 +51,7 @@ public class ItemNewsFeedResource extends ParameterGathererTemplateResource {
 		}catch (FacebookOAuthException e) {
 
 			json = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",JsonTL.UNAUTHORIZED);
 		}
 		return new StringRepresentation(json.toString(), MediaType.APPLICATION_JSON);
 	}

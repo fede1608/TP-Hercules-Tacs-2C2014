@@ -37,7 +37,7 @@ public class FriendsResource extends ServerResource{
 			String friends = FacebookDataCollector.getInstance().findFacebookFriendsUsingRest(token);
 			message += friends;
 		}catch(FacebookOAuthException e){
-			JsonObject j = JsonTL.jsonifyError("El token esta desactualizado, por favor actualicelo",401);
+			JsonObject j = JsonTL.jsonifyError("El token esta desactualizado, por favor actualicelo", JsonTL.UNAUTHORIZED);
 			message = j.toString();
 		}
 		return new StringRepresentation(message, MediaType.APPLICATION_JSON);

@@ -48,7 +48,7 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 		} catch (FacebookOAuthException e) {
 
 			json = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",JsonTL.UNAUTHORIZED);
 		}
 		return new StringRepresentation(json.toString(),
 				MediaType.APPLICATION_JSON);
@@ -88,7 +88,7 @@ public class ItemListResource extends ParameterGathererTemplateResource {
 		} catch (FacebookOAuthException e) {
 
 			message = JsonTL
-					.jsonifyError("el token esta desactualizado, por favor actualicelo",401);
+					.jsonifyError("el token esta desactualizado, por favor actualicelo",JsonTL.UNAUTHORIZED);
 		}catch (Exception ex){
 			message= JsonTL.jsonifyError(ex.getMessage());
 		}

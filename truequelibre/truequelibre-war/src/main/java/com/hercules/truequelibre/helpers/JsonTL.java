@@ -13,6 +13,10 @@ import com.hercules.truequelibre.domain.TradeTL;
 
 public class JsonTL {
 
+	public static final int OK = 200;
+	public static final int NOT_FOUND = 404;
+	public static final int UNAUTHORIZED = 401;
+
 	public static JsonObject jsonifyItem(ItemTL item){
 		JsonObject json = new JsonObject();
 		if(item==null) return json;//devuelve json vacio si el item pasado es null
@@ -46,7 +50,7 @@ public class JsonTL {
 		return searchItem;
 	}
 	public static JsonObject jsonifyError(String error){
-		return jsonifyError(error,404);
+		return jsonifyError(error,NOT_FOUND);
 	}
 	public static JsonObject jsonifyError(String error, int status){
 		JsonObject json = new JsonObject();
@@ -56,12 +60,12 @@ public class JsonTL {
 	}
 	public static JsonObject getResponse(){
 		JsonObject response = new JsonObject();
-		response.addProperty("status", 200);
+		response.addProperty("status", OK);
 		return response;
 	}
 	public static JsonObject jsonifyInfo(String info){
 		JsonObject json = new JsonObject();
-		json.addProperty("status", 200);
+		json.addProperty("status", OK);
 		json.addProperty("info", info);
 		return json;
 	}
