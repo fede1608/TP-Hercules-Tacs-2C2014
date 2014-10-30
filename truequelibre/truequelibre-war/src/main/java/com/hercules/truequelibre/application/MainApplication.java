@@ -2,14 +2,9 @@ package com.hercules.truequelibre.application;
 
 import org.restlet.Application;
 import org.restlet.Context;
-import org.restlet.Request;
-import org.restlet.Response;
 import org.restlet.Restlet;
-import org.restlet.data.MediaType;
-import org.restlet.representation.StringRepresentation;
 import org.restlet.routing.Router;
 import org.restlet.routing.Template;
-
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
 import com.googlecode.objectify.ObjectifyService;
@@ -47,7 +42,6 @@ public class MainApplication extends Application {
 		router.setRoutingMode(Router.BEST);
 
 		router.attach("/parametersshower", ParametersShowerResource.class);//todo eliminar
-		
 		router.attach("/search", SearchResource.class);
 		router.attach("/users/{userId}",UsersResource.class);
 		router.attach("/users/{userId}/items",ItemListResource.class);
