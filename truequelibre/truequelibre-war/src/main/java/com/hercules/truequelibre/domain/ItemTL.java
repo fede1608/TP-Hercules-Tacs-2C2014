@@ -11,6 +11,9 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.hercules.truequelibre.mlsdk.Meli;
 
+/**
+ * Clase que sirve como entidad en la base de datos para persistir los items de los usuarios
+ */
 @Entity
 public class ItemTL {
 	@Id 
@@ -27,9 +30,14 @@ public class ItemTL {
 	@Index 
 	public long created;
 
-	public ItemTL(){
-		
-	}
+	public ItemTL(){}
+	
+	/**
+	 * Crea un nuevo item para persistir en la base de datos
+	 * @param id : ID que provee MercadoLibre para identificar al item en su dominio
+	 * @param owner : usuario que posee el item
+	 * @throws ItemNotExistsException
+	 */
 	public ItemTL(String id, String owner) throws ItemNotExistsException{
 		this.idRefML = id; 
 		this.owner = owner;
@@ -37,6 +45,10 @@ public class ItemTL {
 		created = System.currentTimeMillis() / 1000L;
 	}
 	
+	/**
+	 * Obtiene la URL de la imagen y nombre del item de MercadoLibre
+	 * @throws ItemNotExistsException
+	 */
 	private void cacheNameImage() throws ItemNotExistsException {
 		try {
 			JsonObject item = new Meli().get("items/" + this.idRefML);
@@ -49,7 +61,13 @@ public class ItemTL {
 		if(this.name == null) throw new ItemNotExistsException(this.idRefML);
 	}
 
+	/**
+	 * Clase para obtener la referencia de un objeto cuando se quiere obtener un item a la base de datos
+	 */
 	public static class Deref {
+		/**
+		 * @param <T> 
+		 */
 	    public static class Func<T> implements Function<Ref<T>, T> {
 	        public static Func<Object> INSTANCE = new Func<Object>();
 
@@ -58,19 +76,36 @@ public class ItemTL {
 	        }
 	    }
 
+	    /**
+	     * 
+	     * @param ref
+	     * @return
+	     */
 	    public static <T> T deref(Ref<T> ref) {
 	        return ref == null ? null : ref.get();
 	    }
 
+	    /**
+	     * 
+	     * @param reflist
+	     * @return
+	     */
 	    @SuppressWarnings({ "unchecked", "rawtypes" })
 	    public static <T> List<T> deref(List<Ref<T>> reflist) {
 	        return Lists.transform(reflist, (Func)Func.INSTANCE);
 	    }
 	}
-
+	
 	public void setUser(String userId) {
 		this.owner = userId;
 	}
+	
+	/**
+	 * Metodo para saber el estado de intecambio del item
+	 * @return 
+	 * <p><b>True</b>: si el item ya fue intercambiado</p>
+	 * <p><b>False</b>: el item esta disponible para ser intercambiado</p>
+	 */
 	public boolean isExchanged(){
 		return exchanged;
 	}

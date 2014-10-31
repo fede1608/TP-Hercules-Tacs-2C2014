@@ -18,7 +18,10 @@ import com.hercules.truequelibre.resources.PendingTradesResource;
 import com.hercules.truequelibre.resources.SingleTradeResource;
 import com.hercules.truequelibre.resources.UsersResource;
 
-
+/**
+ * <p>Clase principal del backend</p> 
+ * <p>Registra las clases a persistir en la base de datos</p>
+ */
 public class MainApplication extends Application {
 
 	//Las clases a persistir deben registrarse en el punto de inicio de la aplicacion
@@ -35,6 +38,10 @@ public class MainApplication extends Application {
 		super(parentContext);
 	}
 
+	/**
+	 * Carga los endpoints de la aplicacion al router, a los cuales el usuario puede acceder desde el browser
+	 * @return Router
+	 */
 	@SuppressWarnings("deprecation")
 	public Restlet createInboundRoot() {
 		Router router = new Router(getContext());
