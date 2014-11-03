@@ -1,17 +1,25 @@
 package com.hercules.truequelibre.tests;
 
+import static org.junit.Assert.*;
+import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
+import com.googlecode.objectify.ObjectifyService;
+import com.hercules.truequelibre.domain.ItemNotExistsException;
+import com.hercules.truequelibre.domain.ItemTL;
+import com.hercules.truequelibre.domain.TradeTL;
+import com.hercules.truequelibre.helpers.DBHandler;
+import com.hercules.truequelibre.mlsdk.Meli;
+
 import org.junit.*;
-import static org.junit.Assert.*;
 
 public class TestGAE {
 	
@@ -20,6 +28,11 @@ public class TestGAE {
 	
 	private final LocalServiceTestHelper memcacheHelper =
 		    new LocalServiceTestHelper(new LocalMemcacheServiceTestConfig());
+	
+	static{
+		ObjectifyService.register(ItemTL.class);
+		ObjectifyService.register(TradeTL.class);
+	}
 
 	@Before
 	public void setUp() {
@@ -73,4 +86,18 @@ public class TestGAE {
 	public void testInsertmemcache2() {
 		testMemcache();
 	}
+	
+//	@Test
+//	public void testInsertarItem() {
+//		ItemTL item;
+//		String idItem = "";			
+//		
+//		try {
+//			item = new ItemTL(idItem,"usuarioPrueba");
+//			DBHandler.getInstance().save(item);
+//			assertTrue(true);
+//		} catch (ItemNotExistsException e) {
+//			assertFalse(true);
+//		}
+//	}
 }

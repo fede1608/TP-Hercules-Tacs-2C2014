@@ -37,25 +37,25 @@ function feedController($scope) {
         console.log(data);
         if(data.status==404){
             alert(data.error);
-        }else if(data.status==401){
-            document.location.reload();
         }
         var w = 0;
-        data.items.forEach(
-            function(item){
-                w = Math.random();
-                item.color="blue";
-                if(w > 0.66){
-                    item.color = "light-green";
-                }
-                else{
-                    if(w > 0.33){
-                        item.color = "purple";
+        if(data.items !=  'undefined'){
+            data.items.forEach(
+                function(item){
+                    w = Math.random();
+                    item.color="blue";
+                    if(w > 0.66){
+                        item.color = "light-green";
                     }
-                }
-            });
-        $scope.items= data.items;
-        $scope.$apply();
+                    else{
+                        if(w > 0.33){
+                            item.color = "purple";
+                        }
+                    }
+                });
+            $scope.items= data.items;
+            $scope.$apply();
+        }
         $('#cargandoModal').modal('hide');
     })
 

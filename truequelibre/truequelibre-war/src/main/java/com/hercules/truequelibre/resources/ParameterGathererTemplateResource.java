@@ -1,6 +1,5 @@
 package com.hercules.truequelibre.resources;
 
-//import com.hercules.truequelibre.FbProperties;
 import org.restlet.Context;
 import org.restlet.Request;
 import org.restlet.Response;

@@ -12,7 +12,6 @@ import com.hercules.truequelibre.resources.FriendsResource;
 import com.hercules.truequelibre.resources.ItemListResource;
 import com.hercules.truequelibre.resources.ItemNewsFeedResource;
 import com.hercules.truequelibre.resources.ItemSingleResource;
-import com.hercules.truequelibre.resources.ParametersShowerResource;
 import com.hercules.truequelibre.resources.SearchResource;
 import com.hercules.truequelibre.resources.PendingTradesResource;
 import com.hercules.truequelibre.resources.SingleTradeResource;
@@ -48,7 +47,6 @@ public class MainApplication extends Application {
 		router.setDefaultMatchingMode(Template.MODE_STARTS_WITH);
 		router.setRoutingMode(Router.BEST);
 
-		router.attach("/parametersshower", ParametersShowerResource.class);//todo eliminar
 		router.attach("/search", SearchResource.class);
 		router.attach("/users/{userId}",UsersResource.class);
 		router.attach("/users/{userId}/items",ItemListResource.class);
