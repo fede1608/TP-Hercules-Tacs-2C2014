@@ -13,21 +13,23 @@ import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.googlecode.objectify.ObjectifyService;
+import com.hercules.truequelibre.domain.InexistentObjectException;
 import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
 import com.hercules.truequelibre.helpers.DBHandler;
-import com.hercules.truequelibre.mlsdk.Meli;
 
 import org.junit.*;
 
 public class TestGAE {
-	
+
 	private final LocalServiceTestHelper datastoreHelper =
 			new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
 	
 	private final LocalServiceTestHelper memcacheHelper =
 		    new LocalServiceTestHelper(new LocalMemcacheServiceTestConfig());
+	
+	private String idMLItem = "MLA528604866";	//id de una video camara samsung TODO reemplazar por una busqueda y obtener el ID del primer resultado
 	
 	static{
 		ObjectifyService.register(ItemTL.class);
@@ -87,17 +89,41 @@ public class TestGAE {
 		testMemcache();
 	}
 	
-//	@Test
-//	public void testInsertarItem() {
-//		ItemTL item;
-//		String idItem = "";			
-//		
-//		try {
-//			item = new ItemTL(idItem,"usuarioPrueba");
-//			DBHandler.getInstance().save(item);
-//			assertTrue(true);
-//		} catch (ItemNotExistsException e) {
-//			assertFalse(true);
-//		}
-//	}
+	public long insertarItem() {
+		ItemTL item;
+		long id = 0;
+		
+		try {
+			item = new ItemTL(idMLItem, "usuarioPrueba");
+			id = DBHandler.getInstance().save(item);
+			assertTrue(true);
+		} catch (ItemNotExistsException e) {
+			assertFalse(true);
+		}
+		return id;
+	}
+	
+	public ItemTL recuperarItem(long id){
+		ItemTL item = null;
+		try{
+			item = DBHandler.getInstance().get(ItemTL.class,id);
+			assertTrue(true);
+		}catch(InexistentObjectException e){
+			assertFalse(true);
+		}
+		return item;
+	}
+	
+	@Test
+	public void testGuardarRecuperarItemTL(){
+		ItemTL item = recuperarItem(insertarItem());
+		assertEquals(idMLItem ,item.idRefML);
+	}
+	
+	@Test
+	public void testGuardarRecuperarItemTL2(){
+		ItemTL item = recuperarItem(insertarItem());
+		assertEquals(idMLItem ,item.idRefML);
+	}
+	
 }

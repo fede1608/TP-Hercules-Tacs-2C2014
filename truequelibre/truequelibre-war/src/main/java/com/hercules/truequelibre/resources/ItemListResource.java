@@ -16,8 +16,8 @@ import com.restfb.types.User;
 import com.google.gson.JsonObject;
 import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
-import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
+import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.JsonTL;
 
 public class ItemListResource extends ParameterGathererTemplateResource {

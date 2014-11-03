@@ -18,8 +18,8 @@ import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
 import com.hercules.truequelibre.domain.UsersDontMatchException;
-import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.FacebookDataCollector;
+import com.hercules.truequelibre.helpers.DBHandler;
 import com.hercules.truequelibre.helpers.JsonTL;
 
 public class ItemSingleResource extends ParameterGathererTemplateResource {

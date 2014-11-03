@@ -1,7 +1,6 @@
 package com.hercules.truequelibre.helpers;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
-import java.lang.reflect.ParameterizedType;
 import java.util.Iterator;
 import java.util.List;
 import com.googlecode.objectify.NotFoundException;
@@ -51,11 +50,8 @@ public class DBHandler {
 	public <T> T get(Class<T> clazz, Long objId) throws InexistentObjectException{
 		
 		T fetched = null;
-		@SuppressWarnings("unchecked")
-		Class<T> objectType = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-
 		try {
-			 fetched = (T) ofy().load().type(objectType).id(objId).safe();
+			 fetched = (T) ofy().load().type(clazz).id(objId).safe();
 		} catch(NotFoundException ex){
 			InexistentObjectException excepcion = (InexistentObjectException) ex;
 			excepcion.setId(objId);
