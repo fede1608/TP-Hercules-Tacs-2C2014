@@ -2,6 +2,9 @@ package com.hercules.truequelibre.domain;
 
 import com.googlecode.objectify.annotation.Index;
 
+/**
+ *Clase que sirve para definir el estado en que se encuentra una solicitud de intercambio
+ */
 @Index
 public class TradeStateTL {
 
@@ -12,31 +15,51 @@ public class TradeStateTL {
 	@Index
 	int current;
 	
+	/**
+	 * Se crea una solicitud en estado pendiente por default
+	 */
 	public TradeStateTL()
 	{
 		this.current = PENDING;
 	}
 	
+	/**
+	 * @return Estado actual de la solicitud de intercambio
+	 */
 	public int getCurrent()
 	{
 		return this.current;
 	}
 	
+	/**
+	 * Cuando el solicitado acepta la propuesta, se cambia el estado de la solicitud de intercambio a aceptado
+	 */
 	public void accept()
 	{
 		this.current = ACCEPTED;
 	}
 	
+	/**
+	 * Cuando el solicitado rechaza la propuesta, se cambia el estado de la solicitud de intercambio a rechazado
+	 */
 	public void decline()
 	{
 		this.current = DECLINED;
 	}
 	
+	/**
+	 * Cuando el solicitante decide cancelarlo, se cambia el estado de la solicitud de intercambio a cancelado
+	 */
 	public void cancel()
 	{
 		this.current = CANCELLED;
 	}
 	
+	/**
+	 * Parsea un string para obtener el estado correspondiente
+	 * @param state
+	 * @return El estado correspondiente al string, si no existiese uno devuelve una excepcion descriptiva
+	 */
 	public int parseStringState(String state)
 	{
 		int intState= 

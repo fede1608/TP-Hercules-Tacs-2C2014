@@ -15,6 +15,10 @@ import com.restfb.types.User;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+/**
+ * Singleton
+ *<p>Obtiene los datos provenientes de Facebook para un usuario</p>
+ */
 public class FacebookDataCollector {
 	static FacebookDataCollector instance = null;
 
@@ -34,7 +38,13 @@ public class FacebookDataCollector {
 			instance = new FacebookDataCollector();
 		}
 	}
-
+	
+	/**
+	 * Busca un usuario y devuelve un valor de verdad si se trata del usuario actual o de un contacto amigo
+	 * @param facebookToken : Token de facebook para autorizacion de la API
+	 * @param requestedUser : Usuario a buscar
+	 * @return <b>True</b> si el usuario es el actual o un amigo
+	 */
 	public boolean informationCanBeShown(String facebookToken,
 			String requestedUser) {
 
@@ -44,6 +54,11 @@ public class FacebookDataCollector {
 
 	}
 
+	/**
+	 * Devuelve un usuario a partir de un token de acceso
+	 * @param accessToken : Token de acceso para la API
+	 * @return el usuario solicitado
+	 */
 	public User findUserWithRest(String accessToken) {
 
 		FacebookClient faceClient = new DefaultFacebookClient(accessToken);

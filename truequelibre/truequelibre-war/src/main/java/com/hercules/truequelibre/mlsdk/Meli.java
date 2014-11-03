@@ -17,6 +17,10 @@ import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+/**
+ * API de MercadoLibre modificada para soportar un clientId con mas cifras
+ * <p>{@code private Long clientId}</p>
+ */
 public class Meli {
 	public static String apiUrl = "https://api.mercadolibre.com";
 	private String accessToken;
@@ -29,6 +33,9 @@ public class Meli {
 		http = Client.create(config);
 	}
 	
+	/**
+	 * El constructor tiene los valores de registro de la aplicacion para permitir la autorizacion
+	 */
 	public Meli() {
 		this.clientId = 7937694478293453L;
 		this.clientSecret = "UUY3czo96JZDtnsFI2iMt0vIzMBukOtB";
@@ -175,64 +182,6 @@ public class Meli {
 		return this.refreshToken != null && !this.refreshToken.isEmpty();
 	}
 
-	// public Response post(String path, FluentStringsMap params, String body)
-	// throws MeliException {
-	// BoundRequestBuilder r = preparePost(path, params, body);
-	//
-	// Response response;
-	// try {
-	// response = r.execute().get();
-	// } catch (Exception e) {
-	// throw new MeliException(e);
-	// }
-	// if (params.containsKey("access_token") && this.hasRefreshToken()
-	// && response.getStatusCode() == 404) {
-	// try {
-	// refreshAccessToken();
-	// } catch (AuthorizationFailure e1) {
-	// return response;
-	// }
-	// params.replace("access_token", this.accessToken);
-	// r = preparePost(path, params, body);
-	//
-	// try {
-	// response = r.execute().get();
-	// } catch (Exception e) {
-	// throw new MeliException(e);
-	// }
-	// }
-	// return response;
-	// }
-	//
-	// public Response put(String path, FluentStringsMap params, String body)
-	// throws MeliException {
-	// BoundRequestBuilder r = preparePut(path, params, body);
-	//
-	// Response response;
-	// try {
-	// response = r.execute().get();
-	// } catch (Exception e) {
-	// throw new MeliException(e);
-	// }
-	// if (params.containsKey("access_token") && this.hasRefreshToken()
-	// && response.getStatusCode() == 404) {
-	// try {
-	// refreshAccessToken();
-	// } catch (AuthorizationFailure e1) {
-	// return response;
-	// }
-	// params.replace("access_token", this.accessToken);
-	// r = preparePut(path, params, body);
-	//
-	// try {
-	// response = r.execute().get();
-	// } catch (Exception e) {
-	// throw new MeliException(e);
-	// }
-	// }
-	// return response;
-	// }
-	//
 	public JsonObject delete(String path, MultivaluedMap<String, String> params)
 			throws MeliException {
 		Builder r = prepareJSON(path, params);
@@ -259,14 +208,6 @@ public class Meli {
 		return new JsonParser().parse(response.getEntity(String.class))
 				.getAsJsonObject();
 	}
-
-	// public BoundRequestBuilder head(String path) {
-	// return null;
-	// }
-	//
-	// public BoundRequestBuilder options(String path) {
-	// return null;
-	// }
 
 	public class AuthorizationFailure extends Exception {
 		private static final long serialVersionUID = 8688100047490895706L;

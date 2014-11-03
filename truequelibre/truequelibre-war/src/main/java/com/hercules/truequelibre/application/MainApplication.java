@@ -20,7 +20,7 @@ import com.hercules.truequelibre.resources.UsersResource;
 
 /**
  * <p>Clase principal del backend</p> 
- * <p>Registra las clases a persistir en la base de datos</p>
+ * <p>Carga los endpoints de la aplicacion y registra las clases a persistir en la base de datos</p>
  */
 public class MainApplication extends Application {
 
