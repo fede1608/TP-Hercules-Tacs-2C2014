@@ -159,7 +159,7 @@ $(document).ready(function() {
 		if(getUrlParameter('id')!=null){
 			uid=getUrlParameter('id');
 			friendId=uid;
-			$('ul.nav-pills').find('li').eq(2).empty();
+			$('ul.nav-pills').find('li').eq(0).empty();
 			$('ul.nav-pills').find('li').eq(1).empty();
 		}else{
 			uid=userId;
