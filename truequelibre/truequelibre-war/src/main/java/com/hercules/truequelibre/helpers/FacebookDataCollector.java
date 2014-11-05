@@ -66,14 +66,32 @@ public class FacebookDataCollector {
 		return faceClient.fetchObject("me", User.class);
 	}
 
+	/**
+	 * Compara un usuario dado y el ID de un usuario solicitado
+	 * @param user : un usuario dado
+	 * @param requestedUser : string que representa el ID del usuario solicitado
+	 * @return <b>True</b> si el ID es del usuario dado
+	 */
 	public boolean isTheUser(User user, String requestedUser) {
 		return user.getId().equals(requestedUser);
 	}
 
+	/**
+	 * Compara un token de un usuario y el ID de un usuario solicitado
+	 * @param token : token de acceso de un usuario
+	 * @param requestedUser : ID del usuario solicitado
+	 * @return <b>True</b> si el token y el ID corresponden al mismo usuario
+	 */
 	public boolean isTheUser(String token, String requestedUser) {
 		return findUserWithRest(token).getId().equals(requestedUser);
 	}
 
+	/**
+	 * Dado el ID de un usuario pregunta si es un contacto amigo del usuario actual
+	 * @param facebookAccessToken : token de acceso de Facebook del usuario actual
+	 * @param friendId : ID de un usuario
+	 * @return <b>True</b> si el usuario es un contacto amigo
+	 */
 	public boolean isAFriend(String facebookAccessToken, String friendId) {
 		FacebookClient facebookClient = new DefaultFacebookClient(
 				facebookAccessToken);
@@ -94,6 +112,8 @@ public class FacebookDataCollector {
 		friends.put(user.getId(), user.getName());
 		return friends;
 	}
+	
+	
 	public User getFriendData(String facebookAccessToken, String friendId) {
 		Connection<User> myFriends = this.getFriends(facebookAccessToken);
 		for (User friend : myFriends.getData()) {
@@ -104,10 +124,20 @@ public class FacebookDataCollector {
 		return null;
 	}
 	
+	/**
+	 * Obtiene la URI de foto perfil de un usuario
+	 * @param userId : ID del usuario
+	 * @return string que representa la URI de la foto perfil
+	 */
 	public String getUserProfilePic( String userId ){
 		return "http://graph.facebook.com/"+userId+"/picture?type=large";
 	}
 	
+	/**
+	 * Obtiene el ID, nombre, apellido, nombre completo, genero y foto perfil de los contactos amigos del usuario actual que utilicen la aplicacion
+	 * @param facebookAccessToken : token de acceso a Facebook del usuario actual
+	 * @return lista de amigos del usuario actual que utilizan la aplicacion
+	 */
 	public Connection<User> getFriends(String facebookAccessToken) {
 		Connection<User> myFriends = null;
 
@@ -121,6 +151,11 @@ public class FacebookDataCollector {
 		return myFriends;
 	}
 
+	/**
+	 * Obtiene la lista de amigos del usuario actual y los convierte en JSON
+	 * @param facebookAccessToken : token de acceso a Facebook del usuario actual
+	 * @return JSON convertido a String
+	 */
 	public String findFacebookFriendsUsingRest(String facebookAccessToken) {
 		JsonArray friends = new JsonArray();
 		User u = FacebookDataCollector.getInstance().findUserWithRest(
@@ -138,7 +173,6 @@ public class FacebookDataCollector {
 			thisFriend.addProperty("profilePic", FacebookDataCollector.getInstance().getUserProfilePic(friend.getId()));
 			friends.add(thisFriend);
 		}
-		// recuperacion de articulos obtenidos en api/search
 		JsonObject json = new JsonObject();
 		json.addProperty("userId", u.getId());
 		json.addProperty("friendsCount", myFriends.getData().size());
@@ -157,6 +191,7 @@ public class FacebookDataCollector {
 		}
 		return friends;
 	}
+	
 	public void sendNotification(String externalUserId, String message, String href) {
 	    AccessToken appAccessToken = new DefaultFacebookClient()
 	            .obtainAppAccessToken(FbProperties.getInstance().appId, FbProperties.getInstance().appSecret);
