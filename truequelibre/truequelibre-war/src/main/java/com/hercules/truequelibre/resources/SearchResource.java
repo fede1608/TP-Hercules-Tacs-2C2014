@@ -41,7 +41,7 @@ public class SearchResource extends ServerResource {
 				MediaType.APPLICATION_JSON);
 	}
 
-	private JsonObject getSearchAsJson(MultivaluedMap<String, String> params) 
+	public JsonObject getSearchAsJson(MultivaluedMap<String, String> params) 
 	{
 		Meli m = new Meli();
 		JsonObject json =  JsonTL.getResponse();

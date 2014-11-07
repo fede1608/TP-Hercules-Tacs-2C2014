@@ -2,6 +2,7 @@ package com.hercules.truequelibre.mlsdk;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
@@ -18,7 +19,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
- * API de MercadoLibre modificada para soportar un clientId con mas cifras
+ * API de MercadoLibre modificada para soportar un clientId con mas cifras y un metodo extra para obtener una foto con formato de alta resolucion
  * <p>{@code private Long clientId}</p>
  */
 public class Meli {
@@ -207,6 +208,24 @@ public class Meli {
 		}
 		return new JsonParser().parse(response.getEntity(String.class))
 				.getAsJsonObject();
+	}
+	
+	/**
+	 * Metodo adicional a la API de MercadoLibre para obtener una foto con formato de alta resolucion
+	 * @param URI de la imagen de un producto
+	 * @return URI de la imagen con formato de alta resolucion
+	 */
+	public static String getImageLarge(String url){
+		// el search solo me da el thumbnail, para obtener la imagen con
+		// resolucion alta hay que cambiar el
+		// formato de imagen thumbnail:
+		// http://mla-s2-p.mlstatic.com/18799-MLA20160634057_092014-I.jpg,
+		//  a formato de imagen alta resolucion:
+		// http://mla-s2-p.mlstatic.com/18799-MLA20160634057_092014-O.jpg
+		if(url.length()>5)
+			return url.substring(0,url.length() - 5).concat("O.jpg");//cambia la I por la O
+		else
+			return "http://static.mlstatic.com/org-img/original/MLA/artsinfoto.gif";// en caso que no tenga una imagen 
 	}
 
 	public class AuthorizationFailure extends Exception {

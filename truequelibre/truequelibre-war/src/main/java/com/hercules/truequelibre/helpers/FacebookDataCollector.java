@@ -106,6 +106,11 @@ public class FacebookDataCollector {
 		return false;
 	}
 	
+	/**
+	 * Obtiene un mapa de ID y nombre de un usuario y tambien el de sus contactos amigos
+	 * @param token : token de acceso del usuario
+	 * @return mapa con el formato {@code <String ID de usuario, String nombre de usuario> }
+	 */
 	public Map<String,String> getFriendsHashMapWithUser(String token){
 		User user=FacebookDataCollector.getInstance().findUserWithRest(token);
 		Map<String,String> friends=FacebookDataCollector.getInstance().getFriendsAsHashMap(token);
@@ -113,7 +118,12 @@ public class FacebookDataCollector {
 		return friends;
 	}
 	
-	
+	/**
+	 * Obtiene los datos de un contacto amigo de un usuario
+	 * @param facebookAccessToken : token de acceso del usuario
+	 * @param friendId : ID del contacto amigo 
+	 * @return Contacto amigo del usuario
+	 */
 	public User getFriendData(String facebookAccessToken, String friendId) {
 		Connection<User> myFriends = this.getFriends(facebookAccessToken);
 		for (User friend : myFriends.getData()) {
@@ -180,6 +190,11 @@ public class FacebookDataCollector {
 		return json.toString();
 	}
 
+	/**
+	 * Obtiene un mapa de ID y nombre de los contactos amigos de un usuario
+	 * @param token : token de acceso del usuario
+	 * @return mapa de los contactos amigos con el formato {@code <String ID de usuario, String nombre de usuario> }
+	 */
 	public Map<String, String> getFriendsAsHashMap(String token) {
 		Map<String,String> friends = new HashMap<String,String>();
 		List<User> friendList=this.getFriends(token).getData();
@@ -192,6 +207,12 @@ public class FacebookDataCollector {
 		return friends;
 	}
 	
+	/**
+	 * Envia una notificacion a un usuario de Facebook
+	 * @param externalUserId : ID del usuario
+	 * @param message : Mensaje a enviar
+	 * @param href : URI relacionada al evento notificado
+	 */
 	public void sendNotification(String externalUserId, String message, String href) {
 	    AccessToken appAccessToken = new DefaultFacebookClient()
 	            .obtainAppAccessToken(FbProperties.getInstance().appId, FbProperties.getInstance().appSecret);
