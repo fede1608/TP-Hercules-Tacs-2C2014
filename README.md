@@ -6,8 +6,10 @@ Repositorio del trabajo práctico del Grupo Hércules para TACS
 Para correr el sistema:
 
 Utilizar "mvn appengine:devserver" en truequelibre/truequelibre-ear/
+
 En Windows: usar RunOnDevserver.bat 
 
+En Linux, en la ruta truequelibre/ se puede usar el comando: bash -x RunOnDevserver.sh
 
 
 ##Trabajo práctico TACS 2014 - 2do Cuatrimestre
