@@ -12,6 +12,8 @@ public class TradeStateTL {
 	private static final int ACCEPTED = 1;
 	private static final int DECLINED = 2;
 	private static final int CANCELLED = 3;
+
+
 	@Index
 	int current;
 	
