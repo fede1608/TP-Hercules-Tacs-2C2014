@@ -60,7 +60,7 @@ function historialController($scope) {
 
 		});
 }
-$.getJSON('/api/pendingTrades', { state : 1 } , function (data) {
+$.getJSON('/api/pendingTrades', { state : 'accepted' } , function (data) {
 	console.log(data);
 	if(data.status==404){
 		alert(data.error);
@@ -71,7 +71,7 @@ $.getJSON('/api/pendingTrades', { state : 1 } , function (data) {
 	$scope.sentTrades=data.sentTradeRequests;    
 	$scope.$apply();
 })
-$.getJSON('/api/pendingTrades', { state : 2 } , function (data) {
+$.getJSON('/api/pendingTrades', { state : 'declined' } , function (data) {
 	console.log(data);
 	if(data.status==404){
 		alert(data.error);
