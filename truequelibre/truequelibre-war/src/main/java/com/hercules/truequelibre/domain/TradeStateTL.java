@@ -57,24 +57,6 @@ public class TradeStateTL {
 		this.current = CANCELLED;
 	}
 	
-	/**
-	 * Parsea un string para obtener el estado correspondiente
-	 * @param state
-	 * @return El estado correspondiente al string, si no existiese uno devuelve una excepcion descriptiva
-	 */
-	public int parseStringState(String state)
-	{
-		int intState= 
-			"accepted".equalsIgnoreCase(state) ? ACCEPTED :
-			"declined".equalsIgnoreCase(state) ? DECLINED :
-			"cancelled".equalsIgnoreCase(state) ? CANCELLED :
-			"pending".equalsIgnoreCase(state) ? PENDING: -1;
-		
-		if( -1 == intState )
-		{
-			throw new IllegalArgumentException("El estado "+ state + " no existe. Los estados posibles son accepted, declined, cancelled y pending.");
-		}
-		return intState;
-	}
+
 	  
 }
