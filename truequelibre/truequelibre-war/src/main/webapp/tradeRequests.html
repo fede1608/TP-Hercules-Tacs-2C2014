@@ -184,7 +184,7 @@
                             <section class="panel" id='{{trade.id}}'>
 
                              <header class="panel-heading">
-                               Solicitud de trueque #{{$index + 1}}
+                               Solicitud de trueque #<span ng-bind="$index + 1"></span><!--{{$index + 1}}-->
                              </header>
                              <div class="col-lg-12">
                                <!--offered product info start-->
@@ -193,7 +193,7 @@
                                    <div class="post-info">
                                      <span class="arrow-pro right"></span>
                                      <div class="panel-body">
-                                       <h1><strong>oferta realizada</strong> <br> has ofrecido un trueque a {{trade.wantedItem.ownerName}}</h1>
+                                       <h1><strong>oferta realizada</strong> <br> has ofrecido un trueque a <span ng-bind="trade.wantedItem.ownerName"></span><!--{{trade.wantedItem.ownerName}}--></h1>
                                        <div class="desk yellow">
                                          <h3>{{trade.offeredItem.name}}</h3>
                                        </div>
@@ -225,9 +225,9 @@
                                      <span class="arrow-pro left"></span>
                                      <div class="panel-body">
                                        <h1><strong>Quieres este ítem</strong> 
-                                        <br> Espera la respuesta de {{trade.wantedItem.ownerName}}.</h1>
+                                        <br> Espera la respuesta de <span ng-bind="trade.wantedItem.ownerName"></span><!--{{trade.wantedItem.ownerName}}-->.</h1>
                                         <div class="desk yellow">
-                                         <h3> {{trade.wantedItem.name}}</h3>			                                      
+                                         <h3> <span ng-bind="trade.wantedItem.name"></span><!--{{trade.wantedItem.name}}--></h3>			                                      
                                        </div>
 
                                      </div>
@@ -272,7 +272,7 @@
                         <section class="panel" id='{{trade.id}}'>
 
                           <header class="panel-heading">
-                            Solicitud de trueque #{{$index + 1}}
+                            Solicitud de trueque #<span ng-bind="$index+1"></span><!--{{$index + 1}}-->
                           </header>
                           <div class="col-lg-12">
                             <!--offered product info start-->
@@ -281,9 +281,9 @@
                                 <div class="post-info">
                                   <span class="arrow-pro right"></span>
                                   <div class="panel-body">
-                                    <h1><strong>Nueva oferta</strong> <br> {{trade.offeredItem.ownerName}} te ha ofrecido un trueque</h1>
+                                    <h1><strong>Nueva oferta</strong> <br> <span ng-bind="trade.offeredItem.ownerName"></span><!--{{trade.offeredItem.ownerName}}--> te ha ofrecido un trueque</h1>
                                     <div class="desk yellow">
-                                      <h3>{{trade.offeredItem.name}}</h3>
+                                      <h3><span ng-bind="trade.offeredItem.name"></span><!--{{trade.offeredItem.name}}--></h3>
                                     </div>
 
                                   </div>
@@ -314,9 +314,9 @@
                                   <span class="arrow-pro left"></span>
                                   <div class="panel-body">
                                     <h1><strong>Quieren este ítem</strong> 
-                                      <br> ¿Qué te parece, {{trade.wantedItem.ownerName}}?</h1>
+                                      <br> ¿Qué te parece, <span ng-bind="trade.wantedItem.ownerName"></span><!--{{trade.wantedItem.ownerName}}-->?</h1>
                                       <div class="desk yellow">
-                                        <h3>{{trade.wantedItem.name}}</h3>			                                      
+                                        <h3><span ng-bind="trade.wantedItem.name"></span><!--{{trade.wantedItem.name}}--></h3>			                                      
                                       </div>
                                     </div>
                                   </div>
