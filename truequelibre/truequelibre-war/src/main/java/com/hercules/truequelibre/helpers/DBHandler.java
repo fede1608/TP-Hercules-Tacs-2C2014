@@ -76,6 +76,10 @@ public class DBHandler {
 		}
 	}
 	
+	/**
+	 * Cancela y rechaza todos las solicitudes de intercambio de un item que hayan quedado pendientes
+	 * @param itemId : ID del item
+	 */
 	public void cancelAndDeclineTrades(long itemId){
 		List<TradeTL> pendingOfferedTrades = ofy().load().type(TradeTL.class)
 				.filter("offeredItemId",itemId)

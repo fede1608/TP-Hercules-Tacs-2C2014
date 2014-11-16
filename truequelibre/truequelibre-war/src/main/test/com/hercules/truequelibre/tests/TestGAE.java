@@ -2,22 +2,22 @@ package com.hercules.truequelibre.tests;
 
 import static org.junit.Assert.*;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
-
+import javax.ws.rs.core.MultivaluedMap;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.tools.development.testing.LocalMemcacheServiceTestConfig;
 import com.googlecode.objectify.ObjectifyService;
 import com.hercules.truequelibre.domain.InexistentObjectException;
 import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
 import com.hercules.truequelibre.domain.TradeTL;
 import com.hercules.truequelibre.helpers.DBHandler;
+import com.hercules.truequelibre.mlsdk.Meli;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.google.gson.*;
 
 import org.junit.*;
 
@@ -25,11 +25,8 @@ public class TestGAE {
 
 	private final LocalServiceTestHelper datastoreHelper =
 			new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
-	
-	private final LocalServiceTestHelper memcacheHelper =
-		    new LocalServiceTestHelper(new LocalMemcacheServiceTestConfig());
-	
-	private String idMLItem = "MLA528604866";	//id de una video camara samsung TODO reemplazar por una busqueda y obtener el ID del primer resultado
+	Meli m = new Meli();
+	String idMLItem = " ";
 	
 	static{
 		ObjectifyService.register(ItemTL.class);
@@ -39,7 +36,6 @@ public class TestGAE {
 	@Before
 	public void setUp() {
 		datastoreHelper.setUp();
-		memcacheHelper.setUp();
 	}
 
 	@After
@@ -58,16 +54,6 @@ public class TestGAE {
 		ds.put(new Entity("prueba"));
 		assertEquals(2, ds.prepare(new Query("prueba")).countEntities(withLimit(10)));
 	}
-	
-	/**
-	 * Test de memcache (cache de memoria)
-	 */
-	private void testMemcache() {
-	    MemcacheService ms = MemcacheServiceFactory.getMemcacheService();
-	    assertFalse(ms.contains("clavePrueba"));
-	    ms.put("clavePrueba", "valorDePrueba");
-	    assertTrue(ms.contains("clavePrueba"));
-	}
 
 	@Test
 	public void testInsertDataStore1() {
@@ -77,16 +63,6 @@ public class TestGAE {
 	@Test
 	public void testInsertDataStore2() {
 		testDatastore();
-	}
-	
-	@Test
-	public void testInsertmemcache1() {
-		testMemcache();
-	}
-
-	@Test
-	public void testInsertmemcache2() {
-		testMemcache();
 	}
 	
 	public long insertarItem() {
@@ -114,14 +90,32 @@ public class TestGAE {
 		return item;
 	}
 	
+	private void getIdMLItem() {
+		MultivaluedMap<String, String> params = new MultivaluedMapImpl();
+		params.add("limit","1");
+		params.add("offset", "0");
+		params.add("q", "ipod");
+		JsonObject j = null;
+		try {
+			j = m.get("sites/MLA/search",params);
+		} catch (Exception e) {
+			assertFalse(true);
+		}
+		JsonArray results = j.getAsJsonArray("results");
+		JsonObject item = results.get(0).getAsJsonObject();
+		idMLItem = item.get("id").getAsString();
+	}
+	
 	@Test
 	public void testGuardarRecuperarItemTL(){
+		getIdMLItem();
 		ItemTL item = recuperarItem(insertarItem());
 		assertEquals(idMLItem ,item.idRefML);
 	}
 	
 	@Test
 	public void testGuardarRecuperarItemTL2(){
+		getIdMLItem();
 		ItemTL item = recuperarItem(insertarItem());
 		assertEquals(idMLItem ,item.idRefML);
 	}
