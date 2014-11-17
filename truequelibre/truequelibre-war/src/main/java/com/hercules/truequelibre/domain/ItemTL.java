@@ -66,29 +66,33 @@ public class ItemTL {
 	 */
 	public static class Deref {
 		/**
+		 * Singleton Class, Funcion de tipo T
 		 * @param <T> 
 		 */
 	    public static class Func<T> implements Function<Ref<T>, T> {
 	        public static Func<Object> INSTANCE = new Func<Object>();
 
+	        /**
+	         * Recibe una referencia a un objeto por parametro y devuelve el resultado de aplicar deref
+	         */
 	        public T apply(Ref<T> ref) {
 	            return deref(ref);
 	        }
 	    }
 
 	    /**
-	     * 
-	     * @param ref
-	     * @return
+	     * Pregunta si es null
+	     * @param ref : referencia a un objeto
+	     * @return si no es nulo, el objeto de la referencia
 	     */
 	    public static <T> T deref(Ref<T> ref) {
 	        return ref == null ? null : ref.get();
 	    }
 
 	    /**
-	     * 
+	     * Transforma una lista de referencias a objetos a una lista de esos objetos que se referencian
 	     * @param reflist
-	     * @return
+	     * @return la lista de objetos
 	     */
 	    @SuppressWarnings({ "unchecked", "rawtypes" })
 	    public static <T> List<T> deref(List<Ref<T>> reflist) {

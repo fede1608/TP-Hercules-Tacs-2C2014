@@ -1,32 +1,17 @@
 package com.hercules.truequelibre.tests;
 
 import static org.junit.Assert.*;
-import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
-
-import javax.ws.rs.core.MultivaluedMap;
-
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyService;
-import com.hercules.truequelibre.domain.InexistentObjectException;
 import com.hercules.truequelibre.domain.ItemNotExistsException;
 import com.hercules.truequelibre.domain.ItemTL;
-import com.hercules.truequelibre.domain.TradeTL;
-import com.hercules.truequelibre.helpers.DBHandler;
-import com.hercules.truequelibre.mlsdk.Meli;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
-import com.google.gson.*;
 import com.hercules.truequelibre.domain.TradeTL;
 
 import org.junit.*;
 
 public class TestTradeTL {
 	
-	private static final int PENDING = 0;
 	private static final int ACCEPTED = 1;
 	private static final int DECLINED = 2;
 	private static final int CANCELLED = 3;
