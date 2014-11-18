@@ -99,7 +99,7 @@ public class TestGAE {
 		try {
 			j = m.get("sites/MLA/search",params);
 		} catch (Exception e) {
-			assertFalse(true);
+			fail();
 		}
 		JsonArray results = j.getAsJsonArray("results");
 		JsonObject item = results.get(0).getAsJsonObject();
