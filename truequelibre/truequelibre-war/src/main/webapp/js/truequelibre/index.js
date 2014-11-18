@@ -35,8 +35,10 @@ function feedController($scope) {
     $('#cargandoModal').modal('show');
     $.getJSON('/api/feed', function (data) {
         console.log(data);
-        if(data.status==404){
-            alert(data.error);
+        if(data.status==401){
+            document.location.reload();
+        }else if(data.status!=200){
+            alert(data.status+" "+data.error);
         }
         var w = 0;
         if(data.items !=  'undefined'){

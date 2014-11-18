@@ -45,6 +45,7 @@ public class ItemNewsFeedResource extends ParameterGathererTemplateResource {
 		
 		json = new JsonObject();
 		JsonArray jsonedItemlist=JsonTL.jsonifyItemList(items,friends);
+		json.addProperty("status",200);
 		json.add("items", jsonedItemlist);
 		json.addProperty("itemCount", jsonedItemlist.size());
 		
