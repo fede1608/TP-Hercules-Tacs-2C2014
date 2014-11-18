@@ -88,8 +88,7 @@ public class JsonTL {
 	 * @return JSON con status OK y mensaje de info
 	 */
 	public static JsonObject jsonifyInfo(String info){
-		JsonObject json = new JsonObject();
-		json.addProperty("status", OK);
+		JsonObject json = getResponse();
 		json.addProperty("info", info);
 		return json;
 	}
