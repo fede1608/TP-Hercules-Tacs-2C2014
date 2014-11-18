@@ -186,10 +186,10 @@ public class JsonTL {
 	}
 
 	/**
-	 * 
-	 * @param trades
-	 * @param friends
-	 * @return
+	 * Devuelve un JSON con la informacion de las solicitudes de intercambio
+	 * @param trades : solicitudes de intercambio
+	 * @param friends : mapa de contactos amigos con formato String, String 
+	 * @return JSON con informacion de las solicitudes de intercambio
 	 */
 	public static JsonElement tradesToJsonArray(
 			List<TradeTL> trades, Map<String, String> friends) {
